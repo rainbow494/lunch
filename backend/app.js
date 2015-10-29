@@ -1,45 +1,57 @@
 ;
 (function () {
+    var Promise = require("bluebird");
     var express = require('express');
-    var MongoClient = require('mongodb').MongoClient,
-    assert = require('assert');
 
-    var findData = function (db, callback) {
-        // Get the documents collection
-        var collection = db.collection('lunch');
-        // Find some documents
-        collection.find({}).toArray(function (err, docs) {
-            assert.equal(err, null);
-            //assert.equal(2, docs.length);
-            console.log("Found the following records");
-            //console.dir(docs);
-            //console.log(docs);
-            callback(docs);
-        });
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+    var Collection = mongodb.Collection;
+
+    Promise.promisifyAll(Collection.prototype);
+    Promise.promisifyAll(MongoClient);
+
+	Collection.prototype._find = Collection.prototype.find;
+    Collection.prototype.find = function () {
+        var cursor = this._find.apply(this, arguments);
+        cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
+        cursor.countAsync = Promise.promisify(cursor.count, cursor);
+        return cursor;
     }
 
-    var data;
-    var url = 'mongodb://localhost:27017/test';
-    // Use connect method to connect to the Server
-    MongoClient.connect(url, function (err, db) {
-        assert.equal(null, err);
-        console.log("Connected correctly to server");
+    _queryData = function (expression) {
+        var _url = 'mongodb://localhost:27017/test';
 
-        findData(db, function (doc) {
-            console.log(doc);
-            data = doc;
-            db.close();
-        });
-        //db.close();
-    });
+        return MongoClient.connectAsync(_url);
+    };
 
-    var app = express()
+    _querySummary = function (db) {
+        var collection = db.collection('lunch');
+        return collection.find({}).toArrayAsync();
+        //return collection.findAsync({})
+    }
 
-    app.get('/test', function (req, res) {
+    //-----------------------------------------------------------------------
+
+    var app = express();
+
+    app.get('/api/test', function (req, res) {
         res.send('Api is working!');
     });
-    app.get('/lunch', function (req, res) {
-        res.send(data);
+
+    app.get('/api/lunch/summary', function (req, res) {
+        _queryData()
+        .then(_querySummary)
+        // .then(function (result) {
+        // return result.toArrayAsync();
+        // })
+        .then(function (result) {
+            console.log(result);
+            res.send(result);
+        })
+        .catch (function (err) {
+            console.log(err);
+        });
+
     })
 
     // app.get('/?', function (req, res) {

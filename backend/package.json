@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.0.2",
     "express": "^4.13.3",
     "mongodb": "^2.0.45"
   }
