@@ -1,0 +1,23 @@
+{
+  "name": "paul-huang-lunch",
+  "homepage": "https://github.com/rainbow494/lunch",
+  "authors": [
+    "rainbow494 <rainbow494@gmail.com>"
+  ],
+  "description": "project for lunch bill",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4",
+    "knockout": "~3.3.0"
+  }
+}
