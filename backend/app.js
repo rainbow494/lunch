@@ -41,11 +41,8 @@
     app.get('/api/lunch/summary', function (req, res) {
         _queryData()
         .then(_querySummary)
-        // .then(function (result) {
-        // return result.toArrayAsync();
-        // })
         .then(function (result) {
-            console.log(result);
+            // Debug //console.log(result);
             res.send(result);
         })
         .catch (function (err) {
@@ -57,6 +54,8 @@
     // app.get('/?', function (req, res) {
     // res.send('Incorrect request!');
     // })
+	
+	app.use(express.static('../webSite'));
 
     var server = app.listen(3000, function () {
 
