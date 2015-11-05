@@ -8,7 +8,7 @@
 		<title>Lunch Account</title>
 		
 		<!-- Bootstrap -->
-		<link href="thirdpart/bootstraps/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,15 +31,10 @@
 								<th>Detail</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody data-bind="foreach: obLunchAccounts">
 							<tr>
-								<td>Yuki</td>
-								<td>132.00</td>
-								<td><button type="button" class="btn btn-primary">Detail</button></td>
-							</tr>
-							<tr>
-								<td>Tony</td>
-								<td>132.00</td>
+								<td data-bind="text: name"></td>
+								<td data-bind="text: account"></td>
 								<td><button type="button" class="btn btn-primary">Detail</button></td>
 							</tr>
 						</tbody>
@@ -48,11 +43,12 @@
 			</div>
 		</div>
 				
+				<div data-bind="text: obLunchAccounts"></div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="thirdpart/jquery/2.1.4/jquery.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="thirdpart/bootstraps/js/bootstrap.min.js"></script>
-		<script src="thirdpart/knockout/knockout.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="bower_components/knockout/dist/knockout.js"></script>
 		<script src="project/js/main.js"></script>
 		
 		<!-- <span data-bind="text: test"></span> -->

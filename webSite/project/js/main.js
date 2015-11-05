@@ -1,7 +1,7 @@
 ;
 (function () {
 	
-    var obLunchAccounts = ko.observable();
+    var obLunchAccounts = ko.observableArray();
 	
 	myViewModel = {
 		obLunchAccounts
