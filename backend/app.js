@@ -42,8 +42,7 @@
         _queryData()
         .then(_querySummary)
         .then(function (result) {
-            // Debug //console.log(result);
-            res.send(result);
+            res.json(result);
         })
         .catch (function (err) {
             console.log(err);

@@ -20,10 +20,8 @@
 			}
 		})
         .done(function (data) {
-            // if (console && console.log) {
-            // console.log("Sample of data:", data.slice(0, 100));
-            // }
-            obLunchAccounts(data);
+			var result = $.parseJSON(data);
+            obLunchAccounts(result);
 		});
 	}
 	

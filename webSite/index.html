@@ -33,17 +33,16 @@
 						</thead>
 						<tbody data-bind="foreach: obLunchAccounts">
 							<tr>
-								<td data-bind="text: name"></td>
-								<td data-bind="text: account"></td>
+								<td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
+								<td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
 								<td><button type="button" class="btn btn-primary">Detail</button></td>
 							</tr>
 						</tbody>
 					</table>
+					
 				</div>
 			</div>
 		</div>
-				
-				<div data-bind="text: obLunchAccounts"></div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -52,8 +51,7 @@
 		<script src="project/js/main.js"></script>
 		
 		<!-- <span data-bind="text: test"></span> -->
-				
-		<span data-bind="text: obLunchAccounts"></span>
+		
 		<script>
 			ko.applyBindings(myViewModel);
 		</script>
