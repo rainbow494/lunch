@@ -26,7 +26,7 @@
 
     _querySummary = function (db) {
         var collection = db.collection('lunch');
-        return collection.find({}).toArrayAsync();
+        return collection.find({},{name:1, account:1}).toArrayAsync();
         //return collection.findAsync({})
     }
 
