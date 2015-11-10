@@ -1,0 +1,38 @@
+.HolyGrail {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+header,
+footer {
+    flex: 0.2;
+    background-color:#293134;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+header h1{
+    color:white;
+    margin:0;
+}
+
+.HolyGrail-body {
+    display: flex;
+    flex: 1;
+}
+
+.HolyGrail-content {
+    flex: 1;
+}
+
+.HolyGrail-nav, .HolyGrail-ads {
+    /* 两个边栏的宽度设为12em */
+    flex: 0 0 12em;
+}
+
+.HolyGrail-nav {
+    /* 导航放到最左边 */
+    order: -1;
+}

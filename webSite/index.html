@@ -15,46 +15,52 @@
 		<!--[if lt IE 9]>
 			<script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-	</head>
+        <![endif]-->
+        
+        <link href="project/style/main.css" rel="stylesheet">
+    </head>
 	<body>
-		
-		<div class="container">
-			<div class="row">
-				<h1>Lunch Account</h1>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Account</th>
-								<th>Detail</th>
-							</tr>
-						</thead>
-						<tbody data-bind="foreach: obLunchAccounts">
-							<tr>
-								<td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
-								<td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
-								<td><button type="button" class="btn btn-primary">Detail</button></td>
-							</tr>
-						</tbody>
-					</table>
-					
-				</div>
-			</div>
-		</div>
+		<a href="https://github.com/rainbow494/lunch"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/left-red@2x.png" alt="Fork me on GitHub"></a>
+        <body class="HolyGrail">
+            <header>
+                <h1>Lunch Account</h1>
+            </header>
+            <div class="HolyGrail-body">
+                <div class="container">   
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Account</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: obLunchAccounts">
+                                    <tr>
+                                        <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
+                                        <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
+                                        <td><button type="button" class="btn btn-primary">Detail</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>...</footer>            
+            <!-- <span data-bind="text: test"></span> -->
+        </body>
+        
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="bower_components/knockout/dist/knockout.js"></script>
 		<script src="project/js/main.js"></script>
-		
-		<!-- <span data-bind="text: test"></span> -->
-		
-		<script>
-			ko.applyBindings(myViewModel);
-		</script>
-		
-	</body>
-</html>
+        <script>
+            ko.applyBindings(myViewModel);
+        </script>
+    </html>        
