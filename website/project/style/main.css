@@ -6,11 +6,18 @@
 
 header,
 footer {
-    flex: 0.2;
     background-color:#293134;
     justify-content: center;
     align-items: center;
     display: inline-flex;
+}
+
+header{
+    flex:0.4;
+}
+
+footer {
+    flex: 0.2;
 }
 
 header h1{
