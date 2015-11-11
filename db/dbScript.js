@@ -7,9 +7,9 @@ db.lunch.insert({name:'chen', account: 0});
 db.lunch.insert({name:'paul', account: 0});
 
 
-db.lunch.update({name:'yuki'},{$set: {account: 100}});
-db.lunch.update({name:'nick'},{$set: {account: 100}});
-db.lunch.update({name:'tony'},{$set: {account: 100}});
-db.lunch.update({name:'weipu'},{$set: {account: 100}});
-db.lunch.update({name:'chen'},{$set: {account: 100}});
-db.lunch.update({name:'paul'},{$set: {account: 100}});
+db.lunch.update({name:'yuki'},{$set: {account: 53}});
+db.lunch.update({name:'nick'},{$set: {account: -244.5}});
+db.lunch.update({name:'tony'},{$set: {account: -34.5}});
+db.lunch.update({name:'weipu'},{$set: {account: -49.5}});
+db.lunch.update({name:'chen'},{$set: {account: 29}});
+db.lunch.update({name:'paul'},{$set: {account: 0}});
