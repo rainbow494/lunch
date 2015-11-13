@@ -26,6 +26,8 @@ header h1{
 }
 
 .HolyGrail-body {
+    
+    margin-top:20px;
     display: flex;
     flex: 1;
 }

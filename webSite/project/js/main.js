@@ -26,4 +26,6 @@
 	}
 	
 	loadPage();
+    
+    ko.applyBindings(myViewModel);
 })();

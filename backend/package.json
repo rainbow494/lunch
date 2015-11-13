@@ -12,5 +12,8 @@
     "bluebird": "^3.0.2",
     "express": "^4.13.3",
     "mongodb": "^2.0.45"
+  },
+  "devDependencies": {
+    "body-parser": "^1.14.1"
   }
 }
