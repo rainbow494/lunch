@@ -1,37 +1,49 @@
 ;
-(function () {
-	
-    var obName = ko.observable('paul');
-    var obAccount = ko.observable(100);
-    var obResult = ko.observable();
-	
-    var updataAccountClick = function () {
-        
-        updataAccount();
+require.config({
+    baseUrl : 'bower_components',
+    paths : {
+        jquery : 'jquery/dist/jquery',
+        knockout : 'knockout/dist/knockout',
+        api : '../project/js/api'
     }
-	
-    var updataAccount = function () {
-        var url = 'http://localhost:3000/api/lunch/updateAccount';
-        $.ajax({
-            type: 'POST',
-            url : url,
-            data: {name: obName(), account: obAccount()},
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            }
+});
+
+require(['jquery', 'knockout', 'api'], function ($, ko, api) {
+
+    var obLunchAccounts = ko.observableArray();
+    var obAccount = ko.observable();
+
+    var obResult = ko.observable();
+
+    var updataAccountClick = function () {
+
+        var deferreds = []
+        obLunchAccounts().forEach(function (item) {
+            deferreds.push(api.updataAccount(item.name, item.account));
         })
-        .done(function (data) {
-			var result = $.parseJSON(data);
+        $.when.apply($, deferreds).done(function (data) {
+            var result = $.parseJSON(data[0]);
             obResult(result);
+            loadPage();
         });
     }
-    
+
+    var loadPage = function () {
+        api.getSummary()
+        .done(function (data) {
+            var result = $.parseJSON(data);
+            obLunchAccounts(result);
+        });
+    }
+
+    loadPage();
+
     editViewModel = {
-		obName:obName,
-        obAccount:obAccount,
-        obResult:obResult,
-        updataAccountClick:updataAccountClick
+        obAccount : obAccount,
+        obResult : obResult,
+        updataAccountClick : updataAccountClick,
+        obLunchAccounts : obLunchAccounts
     };
-    
+
     ko.applyBindings(editViewModel);
-})();
+});
