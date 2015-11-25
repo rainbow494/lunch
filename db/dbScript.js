@@ -13,3 +13,10 @@ db.lunch.update({name:'tony'},{$set: {account: -34.5}});
 db.lunch.update({name:'weipu'},{$set: {account: -49.5}});
 db.lunch.update({name:'chen'},{$set: {account: 29}});
 db.lunch.update({name:'paul'},{$set: {account: 0}});
+
+db.lunch.update({name:'yuki'},{$set: {mail: '86158131@qq.com'}});
+db.lunch.update({name:'nick'},{$set: {mail: '372486150@qq.com'}});
+db.lunch.update({name:'tony'},{$set: {mail: '340414647@qq.com'}});
+db.lunch.update({name:'weipu'},{$set: {mail: '94178875@qq.com'}});
+db.lunch.update({name:'chen'},{$set: {mail: 'chenhao.gao@hotmail.com'}});
+db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});

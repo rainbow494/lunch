@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.0.2",
+    "cron": "^1.0.9",
     "express": "^4.13.3",
     "mailgun-js": "^0.7.7",
     "mongodb": "^2.0.45"
