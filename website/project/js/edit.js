@@ -15,13 +15,16 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
 
     var obResult = ko.observable();
 
-    var updataAccountClick = function () {
+    var updateAccountClick = function () {
 
         var deferreds = []
         obLunchAccounts().forEach(function (item) {
-            deferreds.push(api.updataAccount(item.name, item.account));
+            deferreds.push(api.updateAccount(item.name, item.account));
         })
-        $.when.apply($, deferreds).done(function (data) {
+
+        // 利用apply数组化参数
+        $.when.apply($, deferreds)
+        .done(function (data) {
             var result = $.parseJSON(data[0]);
             obResult(result);
             loadPage();
@@ -41,7 +44,7 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
     editViewModel = {
         obAccount : obAccount,
         obResult : obResult,
-        updataAccountClick : updataAccountClick,
+        updateAccountClick : updateAccountClick,
         obLunchAccounts : obLunchAccounts
     };
 

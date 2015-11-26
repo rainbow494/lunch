@@ -60,10 +60,14 @@
                 });
         }
 
+        //----------------------------------------
+        // 利用apply数组化参数？？？？
+        // NodeJs中 Templete的实现？or 策略模式的实现？
         // To do : abstractor code
         this.querySummary = function () {
-            return _getDb().then(
-                return _querySummaryExecutor())
+            return _getDb().then(function (db) {
+                return _querySummaryExecutor(db);
+            })
             .catch (function (err) {
                 console.log(err);
             });
@@ -88,6 +92,7 @@
                 console.log(err);
             });
         }
+        //----------------------------------------
     }
 
     exports.mongdbExecutor = function (db) {

@@ -18,10 +18,10 @@ define(['jquery'], function ($) {
         });
     }
 
-    var updataAccount = function (name, account) {
+    var updateAccount = function (name, account) {
         return $.ajax({
             type : 'POST',
-            url : apiUrl + 'updateAccount',
+            url : apiUrl + 'updateAccount1',
             data : {
                 name : name,
                 account : account
@@ -32,13 +32,13 @@ define(['jquery'], function ($) {
         })
         .fail(function (err) {
             console.warn(err);
-            return $.Deferred().fail(err);
+            return $.Deferred().reject(err);
         });
     }
 
     api.getSummary = getSummary;
 
-    api.updataAccount = updataAccount;
+    api.updateAccount = updateAccount;
 
     return api;
 });
