@@ -32,7 +32,7 @@ define(['jquery'], function ($) {
         })
         .fail(function (err) {
             console.warn(err);
-            return deferred.fail(err);
+            return $.Deferred().fail(err);
         });
     }
 

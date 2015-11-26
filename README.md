@@ -3,16 +3,35 @@
 ----
 
 ## Plan Feature
-- Display account of each guys.
-- Display account stated of each guys.
-- Send mail to each guys when account blow the warning line.
+- Display accounts summary.
+- Display account stated of each user.
+- Edit account stated of each user.
+- Send report to each guy when account below the warning line(less then 10).
+- Send report to every one on Friday afternoon.
 
 ----
 
-## Architecture?
-- Bootstarp
-- Jquery
-- Nodejs
-- MongoDB
-- Gulp
-- AWS
+## Scaffolding
+
+- Front End
+    - Bootstarp
+    - Jquery
+    - KnockoutJS
+    
+- BackEnd
+    - Nodejs
+        - bluebird
+        - cron
+        - mailgun
+
+- WebApi
+    - mailgun
+
+- DataBase
+    - MongoDB
+
+- Building
+    - Gulp
+
+- Deployment
+    - AWS-EC2-Ubuntu

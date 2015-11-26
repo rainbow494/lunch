@@ -4,9 +4,10 @@
     var Promise = require("bluebird");
     var express = require('express');
     var bodyParser = require('body-parser');
-
-    var dbHelper = require('./mongodbExecutor.js').mongdbExecutor;
-    //-----------------------------------------------------------------------
+    
+    //var dbConnection = 'mongodb://localhost:27017/test';
+    //var dbHelper = require('./mongodbExecutor.js').mongdbExecutor(dbConnection);
+    var dbHelper = require('./mongodbExecutor.js').mongdbExecutor();
 
     var app = express();
     app.use(bodyParser.urlencoded({
@@ -18,26 +19,16 @@
     });
 
     app.get('/api/lunch/summary', function (req, res) {
-        dbHelper.queryData()
-        .then(dbHelper.querySummary)
+        dbHelper.querySummary()
         .then(function (result) {
             res.json(result);
         })
-        .catch (function (err) {
-            console.log(err);
-        });
     })
 
-    app.get('/api/lunch/updateAccount', function (req, res) {
-        dbHelper.queryData()
-        .then(function (db) {
-            return dbHelper.updateAccount(db, req.body.name, req.body.account);
-        })
+    app.post('/api/lunch/updateAccount', function (req, res) {
+        dbHelper.updateAccount(req.body.name, req.body.account)
         .then(function (result) {
             res.json(result);
-        })
-        .catch (function (err) {
-            console.log(err);
         });
     })
 
@@ -47,21 +38,15 @@
         var query = url_parts.query;
         var accountName = query.name || 'paul';
 
-        dbHelper.queryData()
-        .then(function (db) {
-            return dbHelper.queryAccountByName(db, accountName);
-        })
+        dbHelper.queryAccountByName(accountName)
         .then(function (result) {
             res.json(result);
-        })
-        .catch (function (err) {
-            console.log(err);
         });
     })
 
-    // app.get('/?', function (req, res) {
-    // res.send('Incorrect request!');
-    // })
+    app.get('/api/?', function (req, res) {
+        res.send('Incorrect request!');
+    })
 
     app.use(express.static('../webSite'));
 

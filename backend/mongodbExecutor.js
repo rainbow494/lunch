@@ -1,51 +1,56 @@
 ;
 (function () {
-    var Promise = require("bluebird");
-    var mongodb = require('mongodb');
 
-    var MongoClient = mongodb.MongoClient;
-    var Collection = mongodb.Collection;
+    var _defaultDbConnection = 'mongodb://localhost:27017/test';
+    var _lunchCollection = 'lunch';
 
-    Promise.promisifyAll(Collection.prototype);
-    Promise.promisifyAll(MongoClient);
+    function MongdbExecutor(dbConnection) {
 
-    Collection.prototype._find = Collection.prototype.find;
-    Collection.prototype.find = function () {
-        var cursor = this._find.apply(this, arguments);
-        cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
-        cursor.countAsync = Promise.promisify(cursor.count, cursor);
-        return cursor;
-    }
+        var _dbConnection = dbConnection || _defaultDbConnection;
 
-    function MongdbExecutor() {
-        this.queryData = function (arguments) {
-            var _url = 'mongodb://localhost:27017/test';
+        var Promise = require("bluebird");
+        var mongodb = require('mongodb');
 
-            return MongoClient.connectAsync(_url);
+        var MongoClient = mongodb.MongoClient;
+        var Collection = mongodb.Collection;
+
+        Promise.promisifyAll(Collection.prototype);
+        Promise.promisifyAll(MongoClient);
+
+        Collection.prototype._find = Collection.prototype.find;
+        Collection.prototype.find = function () {
+            var cursor = this._find.apply(this, arguments);
+            cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
+            cursor.countAsync = Promise.promisify(cursor.count, cursor);
+            return cursor;
+        }
+
+        _getDb = function () {
+            return MongoClient.connectAsync(_dbConnection);
         };
 
-        this.querySummary = function (db) {
-            var collection = db.collection('lunch');
+        _querySummaryExecutor = function (db) {
+            var collection = db.collection(_lunchCollection);
             return collection.find({}, {
                 name : 1,
                 account : 1,
-                mail:1,
+                mail : 1,
             }).toArrayAsync();
         }
 
-        this.queryAccountByName = function (db, name) {
-            var collection = db.collection('lunch');
+        _queryAccountByNameExecutor = function (db, name) {
+            var collection = db.collection(_lunchCollection);
             return collection.find({
                 name : name
             }, {
                 name : 1,
                 account : 1,
-                mail:1,
-                }).toArrayAsync();
+                mail : 1,
+            }).toArrayAsync();
         }
 
-        this.updateAccount = function (db, name, account) {
-            var collection = db.collection('lunch')
+        _updateAccountExecutor = function (db, name, account) {
+            var collection = db.collection(_lunchCollection)
                 return collection.updateOneAsync({
                     name : name
                 }, {
@@ -54,7 +59,38 @@
                     }
                 });
         }
+
+        // To do : abstractor code
+        this.querySummary = function () {
+            return _getDb().then(
+                return _querySummaryExecutor())
+            .catch (function (err) {
+                console.log(err);
+            });
+        }
+
+        // To do : abstractor code
+        this.queryAccountByName = function (name) {
+            return _getDb().then(function (db) {
+                return _queryAccountByNameExecutor(db, name);
+            })
+            .catch (function (err) {
+                console.log(err);
+            });
+        }
+
+        // To do : abstractor code
+        this.updateAccount = function (name, account) {
+            return _getDb().then(function (db) {
+                return _updateAccountExecutor(db, name, account);
+            })
+            .catch (function (err) {
+                console.log(err);
+            });
+        }
     }
 
-    exports.mongdbExecutor = new MongdbExecutor();
+    exports.mongdbExecutor = function (db) {
+        return new MongdbExecutor(db);
+    }
 })();
