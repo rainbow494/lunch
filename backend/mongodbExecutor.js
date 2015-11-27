@@ -1,15 +1,15 @@
 ;
 (function () {
 
+    var Promise = require("bluebird"),
+    mongodb = require('mongodb');
+
     var _defaultDbConnection = 'mongodb://localhost:27017/test';
     var _lunchCollection = 'lunch';
 
     function MongdbExecutor(dbConnection) {
 
         var _dbConnection = dbConnection || _defaultDbConnection;
-
-        var Promise = require("bluebird");
-        var mongodb = require('mongodb');
 
         var MongoClient = mongodb.MongoClient;
         var Collection = mongodb.Collection;
