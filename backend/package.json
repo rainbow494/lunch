@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+    "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "body-parser": "^1.14.1"
+  },
+  "scripts": {
+    "test": "./node_modules/jshint/bin/jshint hello.js"
   }
 }
