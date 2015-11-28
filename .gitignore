@@ -1,3 +1,4 @@
+/node_modules
 /backend/node_modules
 /webSite/bower_components
 /gulp/node_modules
