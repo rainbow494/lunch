@@ -31,10 +31,13 @@
 - DataBase
     - MongoDB
 
-- Building
-    - Gulp
-
-- Deployment
-    - AWS-EC2-Ubuntu
-
 - Test???????
+
+- CI
+    - Building
+        - gulp
+    - travis-ci
+    - AWS CodeDeploy
+
+- Deployment Environment
+    - AWS-EC2-Ubuntu
