@@ -4,4 +4,4 @@ node_js:
 sudo: required
 before_script:
   - npm install -g gulp
-script: "./gulp/gulp"
+script: "./gulp/gulp-default.cmd"
