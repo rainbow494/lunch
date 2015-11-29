@@ -10,8 +10,5 @@
   "license": "ISC",
   "dependencies": {
     "jshint": "^2.9.1-rc1"
-  },
-  "scripts": {
-    "test": "./node_modules/jshint/bin/jshint test_travis.js"
   }
 }

@@ -1,4 +1,3 @@
-;
 (function () {
 
     var Promise = require("bluebird"),
@@ -23,7 +22,7 @@
             cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
             cursor.countAsync = Promise.promisify(cursor.count, cursor);
             return cursor;
-        }
+        };
 
         _getDb = function () {
             return MongoClient.connectAsync(_dbConnection);
@@ -36,7 +35,7 @@
                 account : 1,
                 mail : 1,
             }).toArrayAsync();
-        }
+        };
 
         _queryAccountByNameExecutor = function (db, name) {
             var collection = db.collection(_lunchCollection);
@@ -47,10 +46,10 @@
                 account : 1,
                 mail : 1,
             }).toArrayAsync();
-        }
+        };
 
         _updateAccountExecutor = function (db, name, account) {
-            var collection = db.collection(_lunchCollection)
+            var collection = db.collection(_lunchCollection);
                 return collection.updateOneAsync({
                     name : name
                 }, {
@@ -58,7 +57,7 @@
                         account : account
                     }
                 });
-        }
+        };
 
         //----------------------------------------
         // 利用apply数组化参数？？？？
@@ -71,7 +70,7 @@
             .catch (function (err) {
                 console.log(err);
             });
-        }
+        };
 
         // To do : abstractor code
         this.queryAccountByName = function (name) {
@@ -81,7 +80,7 @@
             .catch (function (err) {
                 console.log(err);
             });
-        }
+        };
 
         // To do : abstractor code
         this.updateAccount = function (name, account) {
@@ -91,11 +90,11 @@
             .catch (function (err) {
                 console.log(err);
             });
-        }
+        };
         //----------------------------------------
     }
 
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);
-    }
+    };
 })();

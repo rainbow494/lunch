@@ -1,4 +1,3 @@
-;
 (function () {
     var url = require('url');
     var Promise = require("bluebird");
@@ -22,15 +21,15 @@
         dbHelper.querySummary()
         .then(function (result) {
             res.json(result);
-        })
-    })
+        });
+    });
 
     app.post('/api/lunch/updateAccount', function (req, res) {
         dbHelper.updateAccount(req.body.name, req.body.account)
         .then(function (result) {
             res.json(result);
         });
-    })
+    });
 
     app.get('/api/lunch/queryAccountByName', function (req, res) {
 
@@ -42,11 +41,11 @@
         .then(function (result) {
             res.json(result);
         });
-    })
+    });
 
     app.get('/api/?', function (req, res) {
         res.send('Incorrect request!');
-    })
+    });
 
     app.use(express.static('../webSite'));
 
@@ -56,5 +55,5 @@
             var port = server.address().port;
 
             console.log('App listening at http://%s:%s', host, port);
-        })
-})()
+        });
+})();

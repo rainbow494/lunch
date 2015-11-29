@@ -1,4 +1,3 @@
-;
 (function () {
     var http = require('http'),
     url = require('url'),
@@ -10,11 +9,11 @@
     var app = express(),
     jsonParser = bodyParser.json();
     
-    app.use(bodyParser.json())
+    app.use(bodyParser.json());
     app.get('/api/test', jsonParser, function (req, res) {
         console.log('test');
         res.send('test success');
-    })
+    });
 
     app.get('/api/sendReportImmediately', jsonParser, function (req, res) {
         var url_parts = url.parse(req.url, true);
@@ -33,4 +32,4 @@
             var port = server.address().port;
             console.log('Mail Service listining at http://%s:%s', host, port);
         });
-})()
+})();

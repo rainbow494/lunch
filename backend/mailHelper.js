@@ -1,7 +1,6 @@
 //Todo 1: init mailgun when mail helper init and use mailgun
 //Todo 2: call send mail function by promise way
 //Todo 3: display send mail response correct.
-;
 (function () {
     //"use strict";
 
@@ -12,7 +11,7 @@
     var defaultMailApiConfig = {
         apiKey : 'key-ea2e3ab5ee11c200168588fc18acf3a3',
         domain : '1234qwerasdf.com'
-    }
+    };
 
     function MailHelper(option) {
         // var _mailApiConfig = option || defaultMailApiConfig;
@@ -32,16 +31,16 @@
     };
 
     function _getMailBody(accountInfo) {
-        var accountInfo = accountInfo[0];
+        var _accountInfo = accountInfo[0];
 
         var data = defaultSender;
 
-        data.to = accountInfo.mail;
+        data.to = _accountInfo.mail;
 
         var replyMessage = [];
-        replyMessage.push('Hi ' + accountInfo.name + ',');
+        replyMessage.push('Hi ' + _accountInfo.name + ',');
         replyMessage.push(" ");
-        replyMessage.push("At the end of this week, your account is " + accountInfo.account + ".");
+        replyMessage.push("At the end of this week, your account is " + _accountInfo.account + ".");
         replyMessage.push("More detail can get from here ---- " + data.detailLink);
         replyMessage.push(" ");
         replyMessage.push("Regards, Lunch Team");
@@ -75,7 +74,7 @@
         //var mailgun = this.mailgun;
         return dbHelper.queryAccountByName(accountName)
         .then(_getMailBody)
-        .then(_sendmail)
+        .then(_sendmail);
         // .then(function (mailbody) {
         // //return _sendmail(mailbody, mailgun);
         // return _sendmail(mailbody);
@@ -88,11 +87,11 @@
         .then(function (result) {
             result.forEach(function (account) {
                 sendReport(account.name);
-            })
-        })
-    }
+            });
+        });
+    };
 
     module.exports.mailHelper = function (option) {
         return new MailHelper(option);
-    }
+    };
 })();

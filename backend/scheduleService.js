@@ -1,6 +1,5 @@
-;
 (function () {
-    CronJob = require('cron').CronJob,
+    var CronJob = require('cron').CronJob,
     mailHelper = require('./mailHelper.js').mailHelper();
 
     var weeklyReportScheduleJob = new CronJob({
@@ -21,4 +20,4 @@
     // } catch (ex) {
     // console.log("cron pattern not valid");
     // }
-})()
+})();
