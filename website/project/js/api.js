@@ -21,7 +21,7 @@ define(['jquery'], function ($) {
     var updateAccount = function (name, account) {
         return $.ajax({
             type : 'POST',
-            url : apiUrl + 'updateAccount1',
+            url : apiUrl + 'updateAccount',
             data : {
                 name : name,
                 account : account
