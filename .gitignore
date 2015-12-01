@@ -1,5 +1,4 @@
 /node_modules
-/backend/node_modules
-/webSite/bower_components
-/gulp_tool/node_modules
+*/node_modules
+*/bower_components
 /dist

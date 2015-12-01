@@ -49,6 +49,8 @@
         return Promise.resolve(data);
     }
 
+    MailHelper.prototype._getMailBody = _getMailBody;
+
     function _sendmail(mailbody, mailgun) {
         //Todo: Call send method by promise pattern
         //Promise.promisifyAll(mailgun.messages().send);
