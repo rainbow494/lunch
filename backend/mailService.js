@@ -1,9 +1,7 @@
 (function () {
-    var http = require('http'),
-    url = require('url'),
+    var url = require('url'),
     express = require('express'),
     bodyParser = require('body-parser'),
-    CronJob = require('cron').CronJob,
     mailHelper = require('./mailHelper.js').mailHelper();
     
     var app = express(),
@@ -20,11 +18,15 @@
         var query = url_parts.query;
         var accountName = query.name || 'paul';
 
-        mailHelper.sendReport(accountName);
+        mailHelper.sendReport(accountName).then(function(){
+                res.send('Have sent mail to:' + accountName);
+            });
     });
 
     app.get('/api/sendWeeklyReportsImmediately', jsonParser, function (req, res) {
-        mailHelper.sendWeeklyReports();
+        mailHelper.sendWeeklyReports().then(function(){
+                res.send('Weekly report sent');
+            });
     });
 
     var server = app.listen(12333, function () {
