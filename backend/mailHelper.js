@@ -2,8 +2,6 @@
 //Todo 2: call send mail function by promise way
 //Todo 3: display send mail response correct.
 (function() {
-    //"use strict";
-
     var Promise = require("bluebird"),
         mailgunGen = require('mailgun-js'),
         dbHelper = require('./mongodbExecutor.js').mongdbExecutor();
@@ -13,7 +11,8 @@
         domain: '1234qwerasdf.com'
     };
 
-    function MailHelper(option) {
+    //function MailHelper(option) {
+    function MailHelper() {
         // var _mailApiConfig = option || defaultMailApiConfig;
 
         // this.mailgun = mailgunGen({

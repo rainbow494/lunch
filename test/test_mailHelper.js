@@ -14,9 +14,9 @@ describe('backend:', function() {
 				account: 3,
 				mail: 'test@mail.com'
 			};
-			return mailHelper._getMailBody([accountinfo]).then(function(data){
+			return mailHelper._getMailBody([accountinfo]).then(function(data) {
 				var mailTo = data.to;
-				mailTo.should.equal('test@mail.com');	
+				return mailTo.should.equal('test@mail.com');
 			})
 		});
 	});

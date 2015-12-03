@@ -14,10 +14,8 @@
   "dependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
-    "jasmine": "^2.3.2",
-    "jasmine-core": "^2.3.4",
-    "karma": "^0.13.15",
-    "karma-jasmine": "^0.3.6",
+    "mocha": "^2.3.4",
     "should": "^7.1.1"
-  }
+  },
+  "devDependencies": {}
 }
