@@ -17,6 +17,13 @@
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "should": "^7.1.1",
-    "bluebird": "^3.0.2"
+    "bluebird": "^3.0.2",
+    "cron": "^1.0.9",
+    "express": "^4.13.3",
+    "mailgun-js": "^0.7.7",
+    "mongodb": "^2.0.45"
+  },
+  "devDependencies": {
+    "body-parser": "^1.14.1"
   }
 }
