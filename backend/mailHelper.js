@@ -2,7 +2,7 @@
 //Todo 2: call send mail function by promise way
 //Todo 3: display send mail response correct.
 (function() {
-    var Promise = require("bluebird"),
+    var Promise = require('bluebird'),
         mailgunGen = require('mailgun-js'),
         dbHelper = require('./mongodbExecutor.js').mongdbExecutor();
 
@@ -39,11 +39,11 @@
 
         var replyMessage = [];
         replyMessage.push('Hi ' + _accountInfo.name + ',');
-        replyMessage.push(" ");
-        replyMessage.push("At the end of this week, your account is " + _accountInfo.account + ".");
-        replyMessage.push("More detail can get from here ---- " + data.detailLink);
-        replyMessage.push(" ");
-        replyMessage.push("Regards, Lunch Team");
+        replyMessage.push(' ');
+        replyMessage.push('At the end of this week, your account is ' + _accountInfo.account + '.');
+        replyMessage.push('More detail can get from here ---- ' + data.detailLink);
+        replyMessage.push(' ');
+        replyMessage.push('Regards, Lunch Team');
         data.text = replyMessage.join('\n\r');
 
         return Promise.resolve(data);
