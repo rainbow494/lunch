@@ -5,4 +5,4 @@ sudo: required
 before_script:
   - npm install -g gulp
   - npm install -g mocha
-script: gulp
+script: gulp_tool/gulp

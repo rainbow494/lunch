@@ -24,11 +24,11 @@
             return cursor;
         };
 
-        _getDb = function () {
+        var _getDb = function () {
             return MongoClient.connectAsync(_dbConnection);
         };
 
-        _querySummaryExecutor = function (db) {
+        var _querySummaryExecutor = function (db) {
             var collection = db.collection(_lunchCollection);
             return collection.find({}, {
                 name : 1,
@@ -37,7 +37,7 @@
             }).toArrayAsync();
         };
 
-        _queryAccountByNameExecutor = function (db, name) {
+        var _queryAccountByNameExecutor = function (db, name) {
             var collection = db.collection(_lunchCollection);
             return collection.find({
                 name : name
@@ -48,7 +48,7 @@
             }).toArrayAsync();
         };
 
-        _updateAccountExecutor = function (db, name, account) {
+        var _updateAccountExecutor = function (db, name, account) {
             var collection = db.collection(_lunchCollection);
                 return collection.updateOneAsync({
                     name : name
