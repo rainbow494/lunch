@@ -1,5 +1,4 @@
 # Transfinder Shanghai Team Lunch Project
-?test git update-index --skip-worktree in local?
 ----
 
 ## Plan Feature
