@@ -1,3 +1,4 @@
+TRAVIS_BUILD_DIR: gulp_tool
 language: node_js
 node_js:
   - "0.12"
@@ -5,5 +6,4 @@ sudo: required
 before_script:
   - npm install -g gulp
   - npm install -g mocha
-script: gulp
-TRAVIS_BUILD_DIR: gulp_tool
+script: gulp_tool/gulp
