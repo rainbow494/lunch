@@ -8,6 +8,6 @@ before_script:
   - npm install -g gulp
   - npm install -g mocha
 script: 
-    - cd gulp_tool
+    - cd cd rainbow494/lunch/gulp_tool
     - npm install
     - gulp
