@@ -1,5 +1,5 @@
 env:
-    - TRAVIS_BUILD_DIR = gulp_tool
+    - TRAVIS_BUILD_DIR = rainbow494/lunch/gulp_tool
 language: node_js
 node_js:
   - "0.12"
@@ -8,6 +8,6 @@ before_script:
   - npm install -g gulp
   - npm install -g mocha
 script: 
-    - cd cd rainbow494/lunch/gulp_tool
+    - cd rainbow494/lunch/gulp_tool
     - npm install
     - gulp
