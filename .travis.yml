@@ -7,7 +7,3 @@ sudo: required
 before_script:
   - npm install -g gulp
   - npm install -g mocha
-script: 
-    - cd rainbow494/lunch/gulp_tool
-    - npm install
-    - gulp
