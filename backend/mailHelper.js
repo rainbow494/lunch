@@ -26,6 +26,7 @@
         to: 'rainbow494@gmail.com',
         subject: 'lunch team',
         text: '',
+        html: '',
         detailLink: 'http://52.192.219.42/:3000/index.html'
     };
 
@@ -46,8 +47,9 @@
         replyMessage.push(' ');
         replyMessage.push('Regards, Lunch Team');
         
+        // data.text = replyMessage.join('\n\r');
         var markdown = require('markdown').markdown;
-        data.text = markdown.toHTML(replyMessage.join('\n\r'));
+        data.html = markdown.toHTML(replyMessage.join('\n\r'));
 
         return Promise.resolve(data);
     }
