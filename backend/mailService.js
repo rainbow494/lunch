@@ -20,13 +20,13 @@
 
         mailHelper.sendReport(accountName).then(function(){
                 res.send('Have sent mail to:' + accountName);
-    });
+        });
     });
 
     app.get('/api/sendWeeklyReportsImmediately', jsonParser, function(req, res) {
         mailHelper.sendWeeklyReports().then(function(){
                 res.send('Weekly report sent');
-    });
+        });
     });
 
     var server = app.listen(12333, function() {

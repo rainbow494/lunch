@@ -38,18 +38,20 @@
         if (_accountInfo.mail)
             data.to = _accountInfo.mail;
 
-        var replyMessage = [];
-        replyMessage.push('Hi ' + _accountInfo.name + ',');
-        replyMessage.push(' ');
-        replyMessage.push('At the end of this week, your account is *' + _accountInfo.account + '*.');
-        replyMessage.push('More detail can get from the following link : ');
-        replyMessage.push('>'+ data.detailLink);
-        replyMessage.push(' ');
-        replyMessage.push('Regards, Lunch Team');
-        
-        // data.text = replyMessage.join('\n\r');
+        var mailbody = 'Hi ' + _accountInfo.name + ',' + '\n '
+                             + '\n '
+                             + 'The following is **Weekly Report** of your lunch account' + '\n '
+                             + '\n '
+                             + 'Name ||Acount ' + '\n '
+                             + '-----------||-------------' + '\n '
+                             + _accountInfo.name + '||' + _accountInfo.account + '\n '
+                             + '\n '
+                             + 'You can get more detail from [here] ' + '('+ data.detailLink + ')'+ '\n '
+                             + 'Regards,'  + '\n\r'
+                             + 'Lunch Team' + '\n';
+                          
         var markdown = require('markdown').markdown;
-        data.html = markdown.toHTML(replyMessage.join('\n\r'));
+        data.html = markdown.toHTML(mailbody, 'Maruku');
 
         return Promise.resolve(data);
     }

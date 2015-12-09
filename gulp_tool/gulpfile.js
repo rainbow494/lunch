@@ -5,14 +5,14 @@ var jshint = require('gulp-jshint');
 path = {
     backendPath : '../backend',
     website : '../website',
-    distPath: '../dist',
-}
+    distPath: '../dist'
+};
 
 gulp.task('lint', function(){
-    gulp.src(['**', '!node_modules/**'],{cwd:path.backendPath})
+    gulp.src(['*.js', '!node_modules/**'],{cwd:path.backendPath})
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
-})
+});
 
 gulp.task('clean', function() {
 	del.sync(['**'], {cwd:path.distPath});

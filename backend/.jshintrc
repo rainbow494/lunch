@@ -24,7 +24,7 @@
     "evil": true,
     "forin": false,
     "immed": true,
-    "laxbreak": false,
+    "laxbreak": true,
     "newcap": true,
     "noarg": true,
     "noempty": false,
