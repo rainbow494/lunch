@@ -27,7 +27,7 @@
         subject: 'lunch team',
         text: '',
         html: '',
-        detailLink: 'http://52.192.219.42/:3000/index.html'
+        detailLink: 'http://52.192.219.42:3000/index.html'
     };
 
     function _getMailBody(accountInfo) {
