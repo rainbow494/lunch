@@ -1,0 +1,2 @@
+gulp lint
+pause

@@ -1,28 +1,26 @@
-var fs = require('fs');
-var markdown = require( 'markdown' ).markdown;
+(function () {
+    var fs = require('fs');
+    var Handlebars = require('handlebars');
+    var juice = require('juice');
+    var moment = require('moment');
 
-var _accountInfo = {
-    name:'paul',
-    account: '100.00'
-};
+    var mailTemplate = fs.readFileSync('weeklyReportTemplate.html').toString();
+    var mailStyle = fs.readFileSync('mailStyles.css').toString();
 
-var data = {
-    detailLink:'http://ez.com'
-};
+    function MailTmpToHtml() {}
 
-var mailbody = 'Hi ' + _accountInfo.name + ',' + '\n '
-             + '\n '
-             + 'The following is **Weekly Report** of your lunch account' + '\n '
-             + '\n '
-             + 'Name ||Acount ' + '\n '
-             + '-----------||-------------' + '\n '
-             + _accountInfo.name + '||' + _accountInfo.account + '\n '
-             + '\n '
-             + 'You can get more detail from [here] ' + '('+ data.detailLink + ')'+ '\n '
-             + 'Regards,'  + '\n\r'
-             + 'Lunch Team' + '\n';
-                          
-var markdown = require('markdown').markdown;
-data.html = markdown.toHTML(mailbody, 'Maruku');
-//data.html = markdown.toHTML(mailbody, 'Maruku');
-fs.writeFileSync('tempTest.html', data.html);
+    MailTmpToHtml.prototype.CreateMailBody = function (data) {
+        data.date = moment().locale('zh-cn').format('LL');
+
+        var hbsMailTemplate = Handlebars.compile(mailTemplate);
+        var mailBodyWithOutCSS = hbsMailTemplate(data);
+
+        var mailBody = juice.inlineContent(mailBodyWithOutCSS, mailStyle);
+
+        return mailBody;
+    };
+
+    exports.mailTmpToHtml = function () {
+        return new MailTmpToHtml();
+    };
+})();
