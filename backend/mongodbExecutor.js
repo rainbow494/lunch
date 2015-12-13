@@ -3,7 +3,7 @@
     var Promise = require("bluebird"),
     mongodb = require('mongodb');
 
-    var _defaultDbConnection = 'mongodb://localhost:27017/test';
+    var _defaultDbConnection = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
     var _lunchCollection = 'lunch';
 
     function MongdbExecutor(dbConnection) {

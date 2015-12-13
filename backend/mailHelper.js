@@ -8,8 +8,8 @@
     mailTmpToHtml = require('./mailTmpToHtml.js').mailTmpToHtml();
 
     var defaultMailApiConfig = {
-        apiKey : 'key-ea2e3ab5ee11c200168588fc18acf3a3',
-        domain : '1234qwerasdf.com'
+        apiKey : '<mailgun.api_key>',
+        domain : '<mailgun.domain>'
     };
 
     //function MailHelper(option) {
@@ -25,13 +25,13 @@
     var defaultSender = {
         from : 'rainbow494@qq.com',
         to : 'rainbow494@gmail.com',
-        subject : 'lunch team',
+        subject : '午饭小组',
         text : '',
         html : ''
     };
 
     var config = {
-        detailLink : 'http://52.192.219.42:3000/index.html'
+        detailLink : 'http://<aws.hostname>:<aws.webserver.port>/index.html'
     };
 
     function _getMailBody(accountInfo) {

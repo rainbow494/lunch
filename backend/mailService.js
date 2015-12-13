@@ -29,7 +29,7 @@
         });
     });
 
-    var server = app.listen(12333, function() {
+    var server = app.listen('<aws.mailserver.port>', function() {
         var host = server.address().address;
         var port = server.address().port;
         console.log('Mail Service listining at http://%s:%s', host, port);

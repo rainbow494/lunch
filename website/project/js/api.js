@@ -1,22 +1,21 @@
-;
 require.config({
     baseUrl : 'bower_components/jquery/dist'
 });
 
 define(['jquery'], function ($) {
     var api = {};
-    var apiUrl = 'http://localhost:3000/api/lunch/';
+    var apiUrl = 'http://<aws.hostname>:<aws.webserver.port>/api/lunch/';
 
     var getSummary = function () {
         return $.ajax({
             url : apiUrl + 'summary',
             beforeSend : function (xhr) {
-                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
         }).fail(function (err) {
             console.warn(err);
         });
-    }
+    };
 
     var updateAccount = function (name, account) {
         return $.ajax({
@@ -27,14 +26,14 @@ define(['jquery'], function ($) {
                 account : account
             },
             beforeSend : function (xhr) {
-                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
         })
         .fail(function (err) {
             console.warn(err);
             return $.Deferred().reject(err);
         });
-    }
+    };
 
     api.getSummary = getSummary;
 
