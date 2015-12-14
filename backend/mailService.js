@@ -1,37 +1,43 @@
-(function() {
-    var url = require('url'),
-        express = require('express'),
-        bodyParser = require('body-parser'),
-        mailHelper = require('./mailHelper.js').mailHelper();
-
+(function () {
+    var url = require('url');
+    var express = require('express');
+    var bodyParser = require('body-parser');
+    var mailHelper = require('./mailHelper.js').mailHelper();
     var app = express(),
-        jsonParser = bodyParser.json();
+    //var domainMiddleware = require('domain-middleware');
+    
+    jsonParser = bodyParser.json();
 
     app.use(bodyParser.json());
-    app.get('/api/test', jsonParser, function(req, res) {
+    app.get('/api/test', jsonParser, function (req, res) {
+        //throw new Error('test error');
         console.log('test');
         res.send('test success');
     });
 
-    app.get('/api/sendReportImmediately', jsonParser, function(req, res) {
+    app.get('/api/sendReportImmediately', jsonParser, function (req, res) {
         var url_parts = url.parse(req.url, true);
         var query = url_parts.query;
         var accountName = query.name || 'paul';
 
-        mailHelper.sendReport(accountName).then(function(){
-                res.send('Have sent mail to:' + accountName);
+        mailHelper.sendReport(accountName).then(function () {
+            res.send('Have sent mail to:' + accountName);
         });
     });
 
-    app.get('/api/sendWeeklyReportsImmediately', jsonParser, function(req, res) {
-        mailHelper.sendWeeklyReports().then(function(){
-                res.send('Weekly report sent');
+    app.get('/api/sendWeeklyReportsImmediately', jsonParser, function (req, res) {
+        mailHelper.sendWeeklyReports().then(function () {
+            res.send('Weekly report sent');
         });
     });
 
-    var server = app.listen('<aws.mailserver.port>', function() {
-        var host = server.address().address;
-        var port = server.address().port;
-        console.log('Mail Service listining at http://%s:%s', host, port);
-    });
+    var server = app.listen('<aws.mailserver.port>', function () {
+            var host = server.address().address;
+            var port = server.address().port;
+            console.log('Mail Service listining at http://%s:%s', host, port);
+        });
+
+    // process.on('uncaughtException', function (err) {
+        // console.log('new error');
+    // });
 })();
