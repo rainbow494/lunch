@@ -10,8 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "del": "^2.0.2",
-    "gulp": "^3.9.0",
-    "gulp-replace": "^0.5.4"
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-replace": "^0.5.4",
+    "yargs": "^3.31.0"
   },
   "devDependencies": {
     "jshint": "^2.8.0",

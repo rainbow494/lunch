@@ -2,17 +2,27 @@ var gulp = require('gulp');
 var del = require('del');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
+var argv = require('yargs').argv;
 var secrets = require('../encrpty/secrets.json');
-
-/////////////////////////////////////////////
-//secrets.aws.hostname = 'localhost';
-/////////////////////////////////////////////
 
 path = {
     backendPath : '../backend',
     website : '../website',
-    distPath : '../dist'
+    distPath : '../dist',
+    debug_distPath : '../debug-dist'
 };
+
+
+function setDebugEnv(){
+     secrets.aws.hostname = 'localhost';
+     path.distPath = path.debug_distPath;
+}
+
+if(argv.debug)
+{
+     setDebugEnv();
+}
+/////////////////////////////////////////////////////////////////
 
 gulp.task('lint', function () {
     gulp.src(['*.js', '!node_modules/**'], {
@@ -22,22 +32,20 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('default'));
 });
 
-/////////////////////////////////////////////
-// gulp.task('clean', function () {
-    // del.sync(['**',
-            // '!backend',
-            // '!backend/node_module',
-            // '!backend/node_modules/**',
-            // '!website',
-            // '!website/bower_components',
-            // '!website/bower_components/**'], {
-        // cwd : path.distPath
-    // });
-// });
-/////////////////////////////////////////////
+gulp.task('clean-debug', function (done) {
+    return del(['**',
+            '!backend',
+            '!backend/node_module',
+            '!backend/node_modules/**',
+            '!website',
+            '!website/bower_components',
+            '!website/bower_components/**'], {
+        cwd : path.distPath
+    });
+});
 
 gulp.task('clean', function () {
-    del.sync(['**'], {cwd : path.distPath});
+    return del(['**'], {cwd : path.distPath});
 });
 
 gulp.task('backend', function () {
@@ -68,4 +76,10 @@ gulp.task('website', function () {
     .pipe(gulp.dest(path.distPath + '/webSite'));
 });
 
-gulp.task('default', ['clean', 'backend', 'website'], function () {});
+gulp.task('default', 
+    gulp.series('clean','backend','website')
+);
+
+gulp.task('debug',
+    gulp.series('clean-debug','backend','website')
+);
