@@ -12,15 +12,13 @@ path = {
     debug_distPath : '../debug-dist'
 };
 
-
-function setDebugEnv(){
-     secrets.aws.hostname = 'localhost';
-     path.distPath = path.debug_distPath;
+function setDebugEnv() {
+    secrets.aws.hostname = 'localhost';
+    path.distPath = path.debug_distPath;
 }
 
-if(argv.debug)
-{
-     setDebugEnv();
+if (argv.debug) {
+    setDebugEnv();
 }
 /////////////////////////////////////////////////////////////////
 
@@ -45,7 +43,9 @@ gulp.task('clean-debug', function (done) {
 });
 
 gulp.task('clean', function () {
-    return del(['**'], {cwd : path.distPath});
+    return del(['**'], {
+        cwd : path.distPath
+    });
 });
 
 gulp.task('backend', function () {
@@ -76,10 +76,28 @@ gulp.task('website', function () {
     .pipe(gulp.dest(path.distPath + '/webSite'));
 });
 
-gulp.task('default', 
-    gulp.series('clean','backend','website')
-);
+gulp.task('default',
+    gulp.series('clean', 'backend', 'website'));
 
 gulp.task('debug',
-    gulp.series('clean-debug','backend','website')
-);
+    gulp.series('clean-debug', 'backend', 'website'));
+
+gulp.task('debug-watch', function () {
+    setDebugEnv();
+    
+    var watcher_backend = gulp.watch(['*.js', '!node_modules/**'], {
+            cwd : path.backendPath
+        }, gulp.series('backend'));
+        
+    watcher_backend.on('change', function (event) {
+        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    });
+
+    var watcher_website = gulp.watch(['**', '!bower_components/**'], {
+            cwd : path.website
+        }, gulp.series('website'));
+        
+    watcher_website.on('change', function (event) {
+        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    });
+})

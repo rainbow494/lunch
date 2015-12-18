@@ -25,7 +25,15 @@
         };
 
         var _getDb = function () {
-            return MongoClient.connectAsync(_dbConnection);
+            try
+            {
+                return MongoClient.connectAsync(_dbConnection);
+            }
+            catch(ex)
+            {
+                var deferred = Promise.pending(); 
+                return deferred.reject(err);
+            }
         };
 
         var _querySummaryExecutor = function (db) {
@@ -97,4 +105,9 @@
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);
     };
+    
+    process.on('uncaughtException', function (err) {
+        console.log("hello exception");
+        //res.status(500).send('Something broke!');
+    });
 })();
