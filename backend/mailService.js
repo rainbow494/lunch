@@ -1,40 +1,36 @@
 (function () {
-    var url = require('url');
     var express = require('express');
-    var bodyParser = require('body-parser');
     var mailHelper = require('./mailHelper.js').mailHelper();
-    var app = express(),
-    //var domainMiddleware = require('domain-middleware');
 
-    jsonParser = bodyParser.json();
-
-    app.use(bodyParser.json());
-
-    app.get('/api/test', jsonParser, function (req, res) {
-        // throw new Excepton('a');
-        console.log('test');
-        res.send('test success\n\r /api/sendReportImmediately');
+    var app = express();
+    
+    app.get('/api/test/', function (req, res) {
+       res.send(' test success\n\r /api/sendReportImmediately');
     });
 
-    app.get('/api/sendReportImmediately', jsonParser, function (req, res) {
-        var url_parts = url.parse(req.url, true);
-        var query = url_parts.query;
-        var accountName = query.name || 'paul';
+    app.get('/api/sendReportImmediately:name?', function (req, res, next) {
+        var accountName = req.params.name || 'paul';
 
         mailHelper.sendReport(accountName).then(function () {
-            res.send('Have sent mail to:' + accountName);
-        });
+            res.send('succeed to send mail to ' + accountName );
+        })
+        .catch (next);
     });
 
-    app.get('/api/sendWeeklyReportsImmediately', jsonParser, function (req, res) {
+    app.get('/api/sendWeeklyReportsImmediately', function (req, res, next) {
         mailHelper.sendWeeklyReports().then(function () {
             res.send('Weekly report sent');
-        });
+        })
+        .catch (next);
     });
 
-    app.use(function (err, req, res, next) {
+    app.get('/*', function (req, res) {
+        res.send('Incorrect request!');
+    });
+
+    app.use(function (err, req, res, next) { // jshint ignore:line
         console.log(err.stack);
-        res.status(500).send('Something broke!');
+        res.status(500).send('mail server is broken! Please check the log');
     });
 
     var server = app.listen('<aws.mailserver.port>', function () {
@@ -44,6 +40,6 @@
         });
 
     process.on('uncaughtException', function (err) {
-        console.log("hello exception");
+        console.log('server is broken by unhandle exception : ' + err);
     });
 })();

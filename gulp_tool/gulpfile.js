@@ -5,7 +5,7 @@ var jshint = require('gulp-jshint');
 var argv = require('yargs').argv;
 var secrets = require('../encrpty/secrets.json');
 
-path = {
+var path = {
     backendPath : '../backend',
     website : '../website',
     distPath : '../dist',
@@ -23,14 +23,14 @@ if (argv.debug) {
 /////////////////////////////////////////////////////////////////
 
 gulp.task('lint', function () {
-    gulp.src(['*.js', '!node_modules/**'], {
+    return gulp.src(['*.js', '!node_modules/**'], {
         cwd : path.backendPath
     })
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('clean-debug', function (done) {
+gulp.task('clean-debug', function () {
     return del(['**',
             '!backend',
             '!backend/node_module',
@@ -89,15 +89,15 @@ gulp.task('debug-watch', function () {
             cwd : path.backendPath
         }, gulp.series('backend'));
         
-    watcher_backend.on('change', function (event) {
-        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    watcher_backend.on('change', function () {
+        console.log('File ' + arguments[0] + ' was updated, running tasks...');
     });
 
     var watcher_website = gulp.watch(['**', '!bower_components/**'], {
             cwd : path.website
         }, gulp.series('website'));
         
-    watcher_website.on('change', function (event) {
-        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    watcher_website.on('change', function () {
+        console.log('File ' + arguments[0] + ' was updated, running tasks...');
     });
-})
+});

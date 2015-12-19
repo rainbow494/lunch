@@ -3,12 +3,12 @@
     var Promise = require("bluebird"),
     mongodb = require('mongodb');
 
-    var _defaultDbConnection = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
+    var _defaultDbConnectionString = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
     var _lunchCollection = 'lunch';
 
-    function MongdbExecutor(dbConnection) {
+    function MongdbExecutor(dbConnectionString) {
 
-        var _dbConnection = dbConnection || _defaultDbConnection;
+        var _dbConnectionString = dbConnectionString || _defaultDbConnectionString;
 
         var MongoClient = mongodb.MongoClient;
         var Collection = mongodb.Collection;
@@ -24,16 +24,14 @@
             return cursor;
         };
 
+        //MongoClient.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
         var _getDb = function () {
-            try
-            {
-                return MongoClient.connectAsync(_dbConnection);
-            }
-            catch(ex)
-            {
-                var deferred = Promise.pending(); 
-                return deferred.reject(err);
-            }
+            return MongoClient.connectAsync(_dbConnectionString)
+            .catch (function (err) {
+                console.log("failed to _getDb");
+                return Promise.reject(err);
+            });
         };
 
         var _querySummaryExecutor = function (db) {
@@ -57,57 +55,73 @@
         };
 
         var _updateAccountExecutor = function (db, name, account) {
+            account = account && !isNaN(account) ? account : 0;
             var collection = db.collection(_lunchCollection);
-                return collection.updateOneAsync({
-                    name : name
-                }, {
-                    $set : {
-                        account : account
+            return collection.updateOneAsync({
+                name : name
+            }, {
+                $set : {
+                    account : account
+                }
+            });
+        };
+
+        this.querySummary = function () {
+            var mongo = inherit(mongoStore);
+            mongo.dbExecutor = _querySummaryExecutor;
+            return mongo.process();
+        };
+
+        this.queryAccountByName = function (name) {
+            var mongo = inherit(mongoStore);
+            mongo.dbExecutor = _queryAccountByNameExecutor;
+            return mongo.process(name);
+        };
+
+        this.updateAccount = function (name, account) {
+            var mongo = inherit(mongoStore);
+            mongo.dbExecutor = _updateAccountExecutor;
+            return mongo.process(name, account);
+        };
+
+        var mongoStore = {
+            dbExecutor : function () {
+                return Promise.reject("not init executor!");
+            },
+            process : function () {
+                var self = this;
+                self.db = null;
+                
+                var mainArguments = Array.prototype.slice.call(arguments);
+                return _getDb().then(function (db) {
+                    self.db = db;
+                    mainArguments.splice(0, 0, db);
+                    return self.dbExecutor.apply(null, mainArguments);
+                })
+                .catch (function (err) {
+                    console.log("failed to executor mongoDB");
+                    return Promise.reject(err);
+                })
+                .finally (function () {
+                    if (self.db) {
+                        self.db.close();
                     }
                 });
+            }
         };
 
-        //----------------------------------------
-        // 利用apply数组化参数？？？？
-        // NodeJs中 Templete的实现？or 策略模式的实现？
-        // To do : abstractor code
-        this.querySummary = function () {
-            return _getDb().then(function (db) {
-                return _querySummaryExecutor(db);
-            })
-            .catch (function (err) {
-                console.log(err);
-            });
-        };
-
-        // To do : abstractor code
-        this.queryAccountByName = function (name) {
-            return _getDb().then(function (db) {
-                return _queryAccountByNameExecutor(db, name);
-            })
-            .catch (function (err) {
-                console.log(err);
-            });
-        };
-
-        // To do : abstractor code
-        this.updateAccount = function (name, account) {
-            return _getDb().then(function (db) {
-                return _updateAccountExecutor(db, name, account);
-            })
-            .catch (function (err) {
-                console.log(err);
-            });
-        };
-        //----------------------------------------
+        function inherit(proto) {
+            var F = function () {};
+            F.prototype = proto;
+            return new F();
+        }
     }
 
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);
     };
-    
+
     process.on('uncaughtException', function (err) {
-        console.log("hello exception");
-        //res.status(500).send('Something broke!');
+        console.log("server is broken by unhandle exception : " + err);
     });
 })();
