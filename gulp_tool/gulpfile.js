@@ -35,10 +35,10 @@ gulp.task('clean-debug', function () {
             '!backend',
             '!backend/node_module',
             '!backend/node_modules/**',
-            '!website',
-            '!website/bower_components',
-            '!website/bower_components/**'], {
-        cwd : path.distPath
+            '!webSite',
+            '!webSite/bower_components',
+            '!webSite/bower_components/**'], {
+        cwd : path.debug_distPath
     });
 });
 
