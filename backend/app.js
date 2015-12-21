@@ -44,14 +44,14 @@
         .catch (next);
     });
 
-    app.get('/?', function (req, res) {
-        res.send('Incorrect request!');
+    app.use(express.static('../webSite', {
+            index : 'index.html'
+        }));
+
+    app.use(function (req, res) {
+        res.send('404: Page not Found', 404);
     });
 
-    app.use(express.static('../webSite', {
-      index: 'index.html'
-    }));
-    
     app.use(function (err, req, res, next) { // jshint ignore:line
         console.log('error hanlde');
         console.log(err.stack);
