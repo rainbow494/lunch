@@ -1,4 +1,3 @@
-;
 require.config({
     baseUrl : 'bower_components',
     paths : {
@@ -17,10 +16,10 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
 
     var updateAccountClick = function () {
 
-        var deferreds = []
+        var deferreds = [];
         obLunchAccounts().forEach(function (item) {
             deferreds.push(api.updateAccount(item.name, item.account));
-        })
+        });
 
         // 利用apply数组化参数
         $.when.apply($, deferreds)
@@ -29,7 +28,7 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
             obResult(result);
             loadPage();
         });
-    }
+    };
 
     var loadPage = function () {
         api.getSummary()
@@ -37,11 +36,11 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
             var result = $.parseJSON(data);
             obLunchAccounts(result);
         });
-    }
+    };
 
     loadPage();
 
-    editViewModel = {
+    var editViewModel = {
         obAccount : obAccount,
         obResult : obResult,
         updateAccountClick : updateAccountClick,

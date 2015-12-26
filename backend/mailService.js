@@ -9,7 +9,7 @@
     });
 
     app.get('/api/sendReportImmediately:name?', function (req, res, next) {
-        var accountName = req.params.name || 'paul';
+        var accountName = req.query.name || 'paul'; // req.params.b for a/:b
 
         mailHelper.sendReport(accountName).then(function () {
             res.send('succeed to send mail to ' + accountName );

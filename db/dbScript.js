@@ -24,8 +24,8 @@ db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
 
 //Todo : add index of table
 
-//db.yuki_detail.remove({});
-
+//db.detail.remove({});
+//db.counters.remove({});
 // Create Detail Collection
 db.counters.ensureIndex({_id:1}, {unique:true});
 db.counters.insert({_id: 'detail_seq', seq: 0});
@@ -42,11 +42,22 @@ function getNextSequence(name) {
    return ret.seq;
 };
 //tzoffset = (new Date()).getTimezoneOffset() * 60000;
-//db.yuki_detail.insert({_id: getNextSequence('yuki_detail_seq'), amount: '0', update:(new Date(Date.now() - tzoffset)).toISOString().slice(0,-1).split('T')[0] });
+//db.detail.insert({_id: getNextSequence('yuki_detail_seq'), amount: '0', update:(new Date(Date.now() - tzoffset)).toISOString().slice(0,-1).split('T')[0] });
 db.detail.insert({_id: getNextSequence('detail_seq'), name:'yuki', amount: -10, date:new Date('2015-12-01')});
 db.detail.insert({_id: getNextSequence('detail_seq'), name:'yuki', amount: -15, date:new Date('2015-12-02')});
-db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-01')});
 
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-17')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-18')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-19')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -30, date:new Date('2015-12-20')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -19, date:new Date('2015-12-21')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -32, date:new Date('2015-12-22')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -22, date:new Date('2015-12-23')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -15, date:new Date('2015-12-24')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-26')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: 200, date:new Date('2015-12-26')});
+
+//db.tmp.remove({});
 db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
 
 // Normal solution : left join, need add if statement to handle unmatched rows.

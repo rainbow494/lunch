@@ -1,5 +1,4 @@
 (function () {
-    var url = require('url');
     var express = require('express');
     var bodyParser = require('body-parser');
 
@@ -32,12 +31,28 @@
         .catch (next);
     });
 
-    app.get('/api/lunch/queryAccountByName', function (req, res, next) {
-        var url_parts = url.parse(req.url, true);
-        var query = url_parts.query;
-        var accountName = query.name || 'paul';
+    app.get('/api/lunch/queryAccountByName:name?', function (req, res, next) {
+        var accountName = req.query.name || 'paul';
 
         dbHelper.queryAccountByName(accountName)
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch (next);
+    });
+
+    app.get('/api/detail/queryDetailByName:name?', function (req, res, next) {
+        var accountName = req.query.name || 'paul';
+
+        dbHelper.queryDetailByName(accountName)
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch (next);
+    });
+
+    app.post('/api/lunch/updateDetail', function (req, res, next) {
+        dbHelper.updateDetail(req.body.id, req.body.amount)
         .then(function (result) {
             res.json(result);
         })

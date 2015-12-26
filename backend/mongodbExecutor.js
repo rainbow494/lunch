@@ -5,6 +5,7 @@
 
 	var _defaultDbConnectionString = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
 	var _lunchCollection = 'lunch';
+	var _detailCollection = 'detail';
 
 	var MongoClient = mongodb.MongoClient;
 	var Collection = mongodb.Collection;
@@ -48,6 +49,18 @@
 			var mongo = inherit(mongoStore);
 			mongo.dbExecutor = _updateAccountExecutor;
 			return mongo.process(name, account);
+		};
+
+		this.queryDetailByName = function (name) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _queryDetailExecutor;
+			return mongo.process(name);
+		};
+
+		this.updateDetail = function (id, amount) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _updateDetailExecutor;
+			return mongo.process(id, amount);
 		};
 
 		var mongoStore = {
@@ -104,7 +117,7 @@
 	}
 
 	function _updateAccountExecutor(db, name, account) {
-		account = account && !isNaN(account) ? account : 0;
+		account = account && !isNaN(account) ? parseInt(account) : 0;
 		var collection = db.collection(_lunchCollection);
 		return collection.updateOneAsync({
 			name : name
@@ -112,6 +125,31 @@
 			$set : {
 				account : account
 			}
+		});
+	}
+
+	function _queryDetailExecutor(db, name) {
+		var collection = db.collection(_detailCollection);
+		return collection.find({name:name}).toArrayAsync();
+	}
+
+	function _updateDetailExecutor(db, id, amount) {
+		amount = amount && !isNaN(amount) ? parseInt(amount) : 0;
+		var detailCollection = db.collection(_detailCollection);
+		var lunchCollection = db.collection(_lunchCollection);
+		return detailCollection.updateOneAsync({
+			_id : parseInt(id)
+		}, {
+			$set : {
+				amount : amount
+			}
+		})
+		.then(function(){
+			return lunchCollection.updateOneAsync({
+				name : 'yuki'
+			}, {
+				$inc:{account:amount}
+			});
 		});
 	}
 
