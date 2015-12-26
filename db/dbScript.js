@@ -28,7 +28,7 @@ db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
 
 // Create Detail Collection
 db.counters.ensureIndex({_id:1}, {unique:true});
-db.counters.insert({_id: 'yuki_detail_seq', seq: 0});
+db.counters.insert({_id: 'detail_seq', seq: 0});
 
 function getNextSequence(name) {
    var ret = db.counters.findAndModify(
@@ -43,21 +43,33 @@ function getNextSequence(name) {
 };
 //tzoffset = (new Date()).getTimezoneOffset() * 60000;
 //db.yuki_detail.insert({_id: getNextSequence('yuki_detail_seq'), amount: '0', update:(new Date(Date.now() - tzoffset)).toISOString().slice(0,-1).split('T')[0] });
-db.detail.insert({_id: getNextSequence('yuki_detail_seq'), name:'yuki', amount: -10, date:new Date('2015-12-01')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'yuki', amount: -10, date:new Date('2015-12-01')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'yuki', amount: -15, date:new Date('2015-12-02')});
+db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-01')});
 
 db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
 
-db.lunch.find().forEach(function (userAccount) {
-    var tmp = db.tmp.find({ _id: userAccount.name }, { totalAmount: 1 });
-        userAccount.account = tmp.totalAmount;
-        db.lunch.save(userAccount);
-});
+// Normal solution : left join, need add if statement to handle unmatched rows.
+// db.lunch.find().forEach(function (userAccount) {
+    // //print(tojson(userAccount));
+    // //print(userAccount.name);
+    // var ret = db.tmp.findOne({ _id: userAccount.name }, { totalAmount: 1 });
+    
+    // if (ret)
+    // {
+        // print(tojson(ret));
+        // userAccount.account = ret.totalAmount;
+        // db.lunch.save(userAccount);
+    // }
+// });
 
-
-db.tmp.find().forEach(function(tmp){
+// Better solution : right join, without unmatched rows.
+db.tmp.find().forEach(function(ret){
+        //print(tojson(ret));
        db.lunch.findAndModify({
-            query:{name:tmp._id},
-            update:{account:tmp.totalAmount}
+            query:{name:ret._id},
+            update:{$set :{account:ret.totalAmount}}
        });
 });
+
 /* jshint ignore:end */
