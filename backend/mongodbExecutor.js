@@ -1,127 +1,125 @@
 (function () {
 
-    var Promise = require("bluebird"),
-    mongodb = require('mongodb');
+	var Promise = require('bluebird');
+	var mongodb = require('mongodb');
 
-    var _defaultDbConnectionString = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
-    var _lunchCollection = 'lunch';
+	var _defaultDbConnectionString = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
+	var _lunchCollection = 'lunch';
 
-    function MongdbExecutor(dbConnectionString) {
+	var MongoClient = mongodb.MongoClient;
+	var Collection = mongodb.Collection;
 
-        var _dbConnectionString = dbConnectionString || _defaultDbConnectionString;
+	Promise.promisifyAll(Collection.prototype);
+	Promise.promisifyAll(MongoClient);
 
-        var MongoClient = mongodb.MongoClient;
-        var Collection = mongodb.Collection;
+	Collection.prototype._find = Collection.prototype.find;
+	Collection.prototype.find = function () {
+		var cursor = this._find.apply(this, arguments);
+		cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
+		cursor.countAsync = Promise.promisify(cursor.count, cursor);
+		return cursor;
+	};
 
-        Promise.promisifyAll(Collection.prototype);
-        Promise.promisifyAll(MongoClient);
+	var MongdbExecutor = function (dbConnectionString) {
 
-        Collection.prototype._find = Collection.prototype.find;
-        Collection.prototype.find = function () {
-            var cursor = this._find.apply(this, arguments);
-            cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
-            cursor.countAsync = Promise.promisify(cursor.count, cursor);
-            return cursor;
-        };
+		var _dbConnectionString = dbConnectionString || _defaultDbConnectionString;
 
-        //MongoClient.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+		function _getDb() {
+			return MongoClient.connectAsync(_dbConnectionString)
+			.catch (function (err) {
+				console.log('failed to _getDb');
+				return Promise.reject(err);
+			});
+		}
 
-        var _getDb = function () {
-            return MongoClient.connectAsync(_dbConnectionString)
-            .catch (function (err) {
-                console.log("failed to _getDb");
-                return Promise.reject(err);
-            });
-        };
+		this.querySummary = function () {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _querySummaryExecutor;
+			return mongo.process();
+		};
 
-        var _querySummaryExecutor = function (db) {
-            var collection = db.collection(_lunchCollection);
-            return collection.find({}, {
-                name : 1,
-                account : 1,
-                mail : 1,
-            }).toArrayAsync();
-        };
+		this.queryAccountByName = function (name) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _queryAccountByNameExecutor;
+			return mongo.process(name);
+		};
 
-        var _queryAccountByNameExecutor = function (db, name) {
-            var collection = db.collection(_lunchCollection);
-            return collection.find({
-                name : name
-            }, {
-                name : 1,
-                account : 1,
-                mail : 1,
-            }).toArrayAsync();
-        };
+		this.updateAccount = function (name, account) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _updateAccountExecutor;
+			return mongo.process(name, account);
+		};
 
-        var _updateAccountExecutor = function (db, name, account) {
-            account = account && !isNaN(account) ? account : 0;
-            var collection = db.collection(_lunchCollection);
-            return collection.updateOneAsync({
-                name : name
-            }, {
-                $set : {
-                    account : account
-                }
-            });
-        };
+		var mongoStore = {
+			dbExecutor : function () {
+				return Promise.reject('not init executor!');
+			},
+			process : function () {
+				var self = this;
+				self.db = null;
 
-        this.querySummary = function () {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _querySummaryExecutor;
-            return mongo.process();
-        };
+				var mainArguments = Array.prototype.slice.call(arguments);
+				return _getDb().then(function (db) {
+					self.db = db;
+					mainArguments.splice(0, 0, db);
+					return self.dbExecutor.apply(null, mainArguments);
+				})
+				.catch (function (err) {
+					console.log('failed to executor mongoDB');
+					return Promise.reject(err);
+				})
+				.finally (function () {
+					if (self.db) {
+						self.db.close();
+					}
+				});
+			}
+		};
 
-        this.queryAccountByName = function (name) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _queryAccountByNameExecutor;
-            return mongo.process(name);
-        };
+		function inherit(proto) {
+			var F = function () {};
+			F.prototype = proto;
+			return new F();
+		}
+	};
 
-        this.updateAccount = function (name, account) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _updateAccountExecutor;
-            return mongo.process(name, account);
-        };
+	function _querySummaryExecutor(db) {
+		var collection = db.collection(_lunchCollection);
+		return collection.find({}, {
+			name : 1,
+			account : 1,
+			mail : 1,
+		}).toArrayAsync();
+	}
 
-        var mongoStore = {
-            dbExecutor : function () {
-                return Promise.reject("not init executor!");
-            },
-            process : function () {
-                var self = this;
-                self.db = null;
-                
-                var mainArguments = Array.prototype.slice.call(arguments);
-                return _getDb().then(function (db) {
-                    self.db = db;
-                    mainArguments.splice(0, 0, db);
-                    return self.dbExecutor.apply(null, mainArguments);
-                })
-                .catch (function (err) {
-                    console.log("failed to executor mongoDB");
-                    return Promise.reject(err);
-                })
-                .finally (function () {
-                    if (self.db) {
-                        self.db.close();
-                    }
-                });
-            }
-        };
+	function _queryAccountByNameExecutor(db, name) {
+		var collection = db.collection(_lunchCollection);
+		return collection.find({
+			name : name
+		}, {
+			name : 1,
+			account : 1,
+			mail : 1,
+		}).toArrayAsync();
+	}
 
-        function inherit(proto) {
-            var F = function () {};
-            F.prototype = proto;
-            return new F();
-        }
-    }
+	function _updateAccountExecutor(db, name, account) {
+		account = account && !isNaN(account) ? account : 0;
+		var collection = db.collection(_lunchCollection);
+		return collection.updateOneAsync({
+			name : name
+		}, {
+			$set : {
+				account : account
+			}
+		});
+	}
 
-    exports.mongdbExecutor = function (db) {
-        return new MongdbExecutor(db);
-    };
+	exports.mongdbExecutor = function (db) {
+		return new MongdbExecutor(db);
+	};
 
-    process.on('uncaughtException', function (err) {
-        console.log("server is broken by unhandle exception : " + err);
-    });
+	process.on('uncaughtException', function (err) {
+		console.log('server is broken by unhandle exception : ' + err);
+	});
 })();
