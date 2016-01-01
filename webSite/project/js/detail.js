@@ -11,10 +11,9 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
     var obLunchDetail = ko.observableArray();
     var obAccountName = ko.observable('paul');
     var updateDetailGen = function(id, amount){
-
         return function(){
-            console.log(id);
-            console.log(amount);
+            //console.log(id);
+            //console.log(amount);
             api.updateDetail(id, amount)
             .done(loadPage);
         };

@@ -52,7 +52,16 @@
     });
 
     app.post('/api/lunch/updateDetail', function (req, res, next) {
-        dbHelper.updateDetail(req.body.id, req.body.amount)
+        dbHelper.queryDetailAmountExecutor(req.body.id)
+        .then(function () {
+            var detailObj = arguments[0];
+            var inc = parseInt(req.body.amount) - detailObj.amount;
+            return dbHelper.updateAccountByIncExecutor(detailObj.name, inc);
+        })
+        .then(function () {
+            console.log(JSON.stringify(arguments));
+            return dbHelper.updateDetail(req.body.id, req.body.amount);
+        })
         .then(function (result) {
             res.json(result);
         })

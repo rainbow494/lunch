@@ -62,6 +62,19 @@
 			mongo.dbExecutor = _updateDetailExecutor;
 			return mongo.process(id, amount);
 		};
+        
+        this.updateAccountByIncExecutor = function (name, amount) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _updateAccountByIncExecutor;
+			return mongo.process(name, amount);
+		};
+        
+        this.queryDetailAmountExecutor = function (id) {
+			var mongo = inherit(mongoStore);
+			mongo.dbExecutor = _queryDetailAmountExecutor;
+			return mongo.process(id);
+		};
+        
 
 		var mongoStore = {
 			dbExecutor : function () {
@@ -136,22 +149,32 @@
 	function _updateDetailExecutor(db, id, amount) {
 		amount = amount && !isNaN(amount) ? parseInt(amount) : 0;
 		var detailCollection = db.collection(_detailCollection);
-		var lunchCollection = db.collection(_lunchCollection);
 		return detailCollection.updateOneAsync({
 			_id : parseInt(id)
 		}, {
 			$set : {
 				amount : amount
 			}
-		})
-		.then(function(){
-			return lunchCollection.updateOneAsync({
-				name : 'yuki'
-			}, {
-				$inc:{account:amount}
-			});
 		});
 	}
+    
+    function _queryDetailAmountExecutor(db, id) {
+		var collection = db.collection(_detailCollection);
+		return collection.findOneAsync({_id:parseInt(id)},{amount:1, name:1});
+	}
+    
+    function _updateAccountByIncExecutor(db, name, inc)
+    {
+        inc = inc && !isNaN(inc) ? parseInt(inc) : 0;
+		var lunchCollection = db.collection(_lunchCollection);
+        return lunchCollection.updateOneAsync({
+			name : name
+		}, {
+			$inc : {
+				account : inc
+			}
+		});
+    }
 
 	exports.mongdbExecutor = function (db) {
 		return new MongdbExecutor(db);
