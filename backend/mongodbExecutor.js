@@ -81,6 +81,18 @@
             return mongo.process(id);
         };
 
+        this.updateDetailAndAccount = function (id, amount) {
+            var mongo = inherit(mongoStore);
+            mongo.dbExecutor = _updateDetailAndAccountExecutor;
+            return mongo.process(id, amount);
+        };
+
+        this.insertDetailAndUpdateAccount = function (name, date, amount) {
+            var mongo = inherit(mongoStore);
+            mongo.dbExecutor = _insertDetailAndUpdateAccountExecutor;
+            return mongo.process(name, date, amount);
+        };
+
         var mongoStore = {
             dbExecutor : function () {
                 return Promise.reject('not init executor!');
@@ -155,9 +167,7 @@
 
     function _insertDetailExecutor(db, name, date, amount) {
         var detailCollection = db.collection(_detailCollection);
-        db.evalAsync = Promise.promisify(db.eval);
-        // return detailCollection.insertAsync({_id: db.eval("getNextSequence('detail_seq')"), name:name, amount: amount, date:new Date(date)});
-        return db.evalAsync("getNextSequence('detail_seq')")
+        return _queryAndIncDetailSeq(db)
         .then(
             function () {
             var newSeq = arguments[0];
@@ -169,12 +179,16 @@
             });
         });
     }
+    
+    function _queryAndIncDetailSeq(db) {
+        db.evalAsync = Promise.promisify(db.eval);
+        return db.evalAsync("getNextSequence('detail_seq')");
+    }
 
     function _updateDetailExecutor(db, id, amount) {
-        amount = amount && !isNaN(amount) ? parseInt(amount) : 0;
         var detailCollection = db.collection(_detailCollection);
         return detailCollection.updateOneAsync({
-            _id : parseInt(id)
+            _id : id
         }, {
             $set : {
                 amount : amount
@@ -185,7 +199,7 @@
     function _queryDetailAmountExecutor(db, id) {
         var collection = db.collection(_detailCollection);
         return collection.findOneAsync({
-            _id : parseInt(id)
+            _id : id
         }, {
             amount : 1,
             name : 1
@@ -193,7 +207,6 @@
     }
 
     function _updateAccountByIncExecutor(db, name, inc) {
-        inc = inc && !isNaN(inc) ? parseInt(inc) : 0;
         var lunchCollection = db.collection(_lunchCollection);
         return lunchCollection.updateOneAsync({
             name : name
@@ -201,6 +214,36 @@
             $inc : {
                 account : inc
             }
+        });
+    }
+
+    // function _queryLastDetailExecutor(db, name) {
+        // var detailCollection = db.collection(_detailCollection);
+        // return detailCollection.find({
+            // name : name
+        // }).sort({
+            // _id : -1
+        // })
+        // .limit(1).toArrayAsync();
+    // }
+
+    function _updateDetailAndAccountExecutor(db, id, amount) {
+        return _queryDetailAmountExecutor(db, id)
+        .then(function () {
+            var detail = arguments[0];
+            var name = detail.name;
+            var inc = amount - detail.amount;
+            return _updateAccountByIncExecutor(db, name, inc);
+        })
+        .then(function () {
+            return _updateDetailExecutor(db, id, amount);
+        });
+    }
+
+    function _insertDetailAndUpdateAccountExecutor(db, name, date, amount) {
+        return _insertDetailExecutor(db, name, date, amount)
+        .then(function () {
+            return _updateAccountByIncExecutor(db, name, amount);
         });
     }
 

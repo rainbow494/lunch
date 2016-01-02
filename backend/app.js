@@ -51,17 +51,28 @@
         .catch (next);
     });
 
+    // app.post('/api/lunch/updateDetail', function (req, res, next) {
+        // dbHelper.queryDetailAmountExecutor(req.body.id)
+        // .then(function () {
+            // var detailObj = arguments[0];
+            // var inc = parseInt(req.body.amount) - detailObj.amount;
+            // return dbHelper.updateAccountByIncExecutor(detailObj.name, inc);
+        // })
+        // .then(function () {
+            // console.log(JSON.stringify(arguments));
+            // return dbHelper.updateDetail(req.body.id, req.body.amount);
+        // })
+        // .then(function (result) {
+            // res.json(result);
+        // })
+        // .catch (next);
+    // });
+    
     app.post('/api/lunch/updateDetail', function (req, res, next) {
-        dbHelper.queryDetailAmountExecutor(req.body.id)
-        .then(function () {
-            var detailObj = arguments[0];
-            var inc = parseInt(req.body.amount) - detailObj.amount;
-            return dbHelper.updateAccountByIncExecutor(detailObj.name, inc);
-        })
-        .then(function () {
-            console.log(JSON.stringify(arguments));
-            return dbHelper.updateDetail(req.body.id, req.body.amount);
-        })
+        var id = parseInt(req.body.id);
+        var amount = parseInt(req.body.amount || 0);
+        
+        dbHelper.updateDetailAndAccount(id, amount)
         .then(function (result) {
             res.json(result);
         })
@@ -73,7 +84,7 @@
         var date = req.body.date;
         var amount = parseInt(req.body.amount || 0);
         
-        dbHelper.insertDetail(name, date, amount)
+        dbHelper.insertDetailAndUpdateAccount(name, date, amount)
         .then(function (result) {
             res.json(result);
         })
