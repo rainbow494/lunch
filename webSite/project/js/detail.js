@@ -3,20 +3,29 @@ require.config({
     paths : {
         jquery : 'jquery/dist/jquery',
         knockout : 'knockout/dist/knockout',
+        moment : 'momentjs/moment',
         api : '../project/js/api'
     }
 });
 
-require(['jquery', 'knockout', 'api'], function ($, ko, api) {
+require(['jquery', 'knockout', 'moment', 'api'], function ($, ko, moment, api) {
     var obLunchDetail = ko.observableArray();
     var obAccountName = ko.observable('paul');
-    var updateDetailGen = function(id, amount){
+    var obInsertDate = ko.observable(moment().format("YYYY-MM-DD"));
+    var obInsertAmount = ko.observable(0);
+    var updateDetailClickGen = function(id, amount){
         return function(){
             //console.log(id);
             //console.log(amount);
             api.updateDetail(id, amount)
             .done(loadPage);
         };
+    };
+    
+    var insertDetailClick = function()
+    {
+        api.insertDetail(obAccountName(), obInsertDate(), obInsertAmount())
+        .done(loadPage);
     };
 
     var loadPage = function () {
@@ -31,7 +40,10 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
     var myViewModel = {
         obLunchDetail:obLunchDetail,
         obAccountName:obAccountName,
-        updateDetailGen:updateDetailGen
+        obInsertDate:obInsertDate,
+        obInsertAmount:obInsertAmount,
+        insertDetailClick:insertDetailClick,
+        updateDetailClickGen:updateDetailClickGen
     };
 
     loadPage();

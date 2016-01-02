@@ -63,11 +63,31 @@ define(['jquery'], function ($) {
             return $.Deferred().reject(err);
         });
     };
+    
+    var insertDetail = function (name, date, amount) {
+        return $.ajax({
+            type : 'POST',
+            url : apiUrl + 'lunch/insertDetail',
+            data : {
+                name : name,
+                date : date,
+                amount : amount
+            },
+            beforeSend : function (xhr) {
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        })
+        .fail(function (err) {
+            console.warn(err);
+            return $.Deferred().reject(err);
+        });
+    };
 
     api.getSummary = getSummary;
     api.updateAccount = updateAccount;
     api.getDetail = getDetail;
     api.updateDetail = updateDetail;
-
+    api.insertDetail = insertDetail;
+    
     return api;
 });

@@ -30,17 +30,24 @@ db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
 db.counters.ensureIndex({_id:1}, {unique:true});
 db.counters.insert({_id: 'detail_seq', seq: 0});
 
-function getNextSequence(name) {
-   var ret = db.counters.findAndModify(
-          {
-            query: { _id: name },
-            update: { $inc: { seq: 1 } },
-            new: true
-          }
-   );
+db.system.js.save(
+    {
+        _id:"getNextSequence",
+        value:function (name) {
+            var ret = db.counters.findAndModify(
+                  {
+                    query: { _id: name },
+                    update: { $inc: { seq: 1 } },
+                    new: true
+                  }
+           );
+           return ret.seq;
+        }
+    }
+);
 
-   return ret.seq;
-};
+db.loadServerScripts();
+
 //tzoffset = (new Date()).getTimezoneOffset() * 60000;
 //db.detail.insert({_id: getNextSequence('yuki_detail_seq'), amount: '0', update:(new Date(Date.now() - tzoffset)).toISOString().slice(0,-1).split('T')[0] });
 db.detail.insert({_id: getNextSequence('detail_seq'), name:'yuki', amount: -10, date:new Date('2015-12-01')});

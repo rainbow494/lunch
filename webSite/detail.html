@@ -36,11 +36,27 @@
 							</td>
 							<td>
 								<!-- <button class="btn btn-primary" data-bind="click: $parent.updateDetailGen(id, amount)">Update</button> -->
-								<button class="btn btn-primary" data-bind="click: $parent.updateDetailGen($data._id, $data.amount)">Update</button>
+								<button class="btn btn-primary" data-bind="click: $parent.updateDetailClickGen($data._id, $data.amount)">Update</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+                <tbody>
+						<tr>
+							<td style="vertical-align:middle">
+                                <input type="string" data-bind="textInput:obInsertDate()" class="form-control">
+                            </td>
+							<td style="vertical-align:middle">
+                                <input type="number" data-bind="textInput:obInsertAmount" class="form-control">
+                            </td>
+                            <td>
+                            </td>
+							<td>
+								<button class="btn btn-primary" data-bind="click: insertDetailClick">Insert</button>
+							</td>
+						</tr>
+					</tbody>
+            </table>
 			</div>
 		</div>
 		<h3>Last Month <small>(Recharge : 100.00)</small> <small>(Payment : 150.00)</small></h3>

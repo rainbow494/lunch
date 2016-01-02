@@ -67,6 +67,18 @@
         })
         .catch (next);
     });
+    
+    app.post('/api/lunch/insertDetail', function (req, res, next) {
+        var name = req.body.name;
+        var date = req.body.date;
+        var amount = parseInt(req.body.amount || 0);
+        
+        dbHelper.insertDetail(name, date, amount)
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch (next);
+    });
 
     app.use(express.static('../webSite', {
             index : 'index.html'
