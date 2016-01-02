@@ -18,7 +18,7 @@ require(['jquery', 'knockout', 'api'], function ($, ko, api) {
 
         var deferreds = [];
         obLunchAccounts().forEach(function (item) {
-            deferreds.push(api.updateAccount(item.name, item.account));
+            deferreds.push(api.updateAccountByAmount(item.name, item.account));
         });
 
         // 利用apply数组化参数

@@ -16,19 +16,22 @@
     });
 
     app.get('/api/lunch/summary', function (req, res, next) {
-        dbHelper.querySummary()
+        dbHelper.queryAccountAll()
         .then(function (result) {
             res.json(result);
         })
         .catch (next);
     });
 
-    app.post('/api/lunch/updateAccount', function (req, res, next) {
-        dbHelper.updateAccount(req.body.name, req.body.account)
-        .then(function (result) {
-            res.json(result);
-        })
-        .catch (next);
+    app.post('/api/lunch/updateAccountByAmount', function (req, res, next) { // jshint ignore:line
+        // var name = req.body.name;
+        // var amount = parseInt(req.body.account || 0);
+        // dbHelper.updateAccountByAmount(name, amount)
+        // .then(function (result) {
+        // res.json(result);
+        // })
+        // .catch (next);
+        res.json("this api is deprecated!");
     });
 
     app.get('/api/lunch/queryAccountByName:name?', function (req, res, next) {
@@ -41,10 +44,10 @@
         .catch (next);
     });
 
-    app.get('/api/detail/queryDetailByName:name?', function (req, res, next) {
+    app.get('/api/detail/queryDetailsByName:name?', function (req, res, next) {
         var accountName = req.query.name || 'paul';
 
-        dbHelper.queryDetailByName(accountName)
+        dbHelper.queryDetailsByName(accountName)
         .then(function (result) {
             res.json(result);
         })
@@ -52,38 +55,38 @@
     });
 
     // app.post('/api/lunch/updateDetail', function (req, res, next) {
-        // dbHelper.queryDetailAmountExecutor(req.body.id)
-        // .then(function () {
-            // var detailObj = arguments[0];
-            // var inc = parseInt(req.body.amount) - detailObj.amount;
-            // return dbHelper.updateAccountByIncExecutor(detailObj.name, inc);
-        // })
-        // .then(function () {
-            // console.log(JSON.stringify(arguments));
-            // return dbHelper.updateDetail(req.body.id, req.body.amount);
-        // })
-        // .then(function (result) {
-            // res.json(result);
-        // })
-        // .catch (next);
+    // dbHelper.queryDetailAmountExecutor(req.body.id)
+    // .then(function () {
+    // var detailObj = arguments[0];
+    // var inc = parseInt(req.body.amount) - detailObj.amount;
+    // return dbHelper.updateAccountByIncExecutor(detailObj.name, inc);
+    // })
+    // .then(function () {
+    // console.log(JSON.stringify(arguments));
+    // return dbHelper.updateDetail(req.body.id, req.body.amount);
+    // })
+    // .then(function (result) {
+    // res.json(result);
+    // })
+    // .catch (next);
     // });
-    
+
     app.post('/api/lunch/updateDetail', function (req, res, next) {
         var id = parseInt(req.body.id);
         var amount = parseInt(req.body.amount || 0);
-        
+
         dbHelper.updateDetailAndAccount(id, amount)
         .then(function (result) {
             res.json(result);
         })
         .catch (next);
     });
-    
+
     app.post('/api/lunch/insertDetail', function (req, res, next) {
         var name = req.body.name;
         var date = req.body.date;
         var amount = parseInt(req.body.amount || 0);
-        
+
         dbHelper.insertDetailAndUpdateAccount(name, date, amount)
         .then(function (result) {
             res.json(result);

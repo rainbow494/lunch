@@ -19,7 +19,7 @@ define(['jquery'], function ($) {
     
     var getDetail = function (accountName) {
         return $.ajax({
-            url : apiUrl + 'detail/queryDetailByName?name=' + accountName,
+            url : apiUrl + 'detail/queryDetailsByName?name=' + accountName,
             beforeSend : function (xhr) { 
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
@@ -28,10 +28,10 @@ define(['jquery'], function ($) {
         });
     };
 
-    var updateAccount = function (name, account) {
+    var updateAccountByAmount = function (name, account) {
         return $.ajax({
             type : 'POST',
-            url : apiUrl + 'lunch/updateAccount',
+            url : apiUrl + 'lunch/updateAccountByAmount',
             data : {
                 name : name,
                 account : account
@@ -84,7 +84,7 @@ define(['jquery'], function ($) {
     };
 
     api.getSummary = getSummary;
-    api.updateAccount = updateAccount;
+    api.updateAccountByAmount = updateAccountByAmount;
     api.getDetail = getDetail;
     api.updateDetail = updateDetail;
     api.insertDetail = insertDetail;

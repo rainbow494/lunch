@@ -1,5 +1,7 @@
 (function () {
 
+// todo: promise db.eval
+
     var Promise = require('bluebird');
     var mongodb = require('mongodb');
 
@@ -24,73 +26,56 @@
     var MongdbExecutor = function (dbConnectionString) {
 
         var _dbConnectionString = dbConnectionString || _defaultDbConnectionString;
+        var mongo;
 
-        function _getDb() {
-            return MongoClient.connectAsync(_dbConnectionString)
-            .catch (function (err) {
-                console.log('failed to _getDb');
-                return Promise.reject(err);
-            });
-        }
-
-        this.querySummary = function () {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _querySummaryExecutor;
-            return mongo.process();
+        this.queryAccountAll = function () {
+            mongo.dbExecutor = _queryAccountAll;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.queryAccountByName = function (name) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _queryAccountByNameExecutor;
-            return mongo.process(name);
+        this.queryAccountByName = function () {
+            mongo.dbExecutor = _queryAccountByName;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.updateAccount = function (name, account) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _updateAccountExecutor;
-            return mongo.process(name, account);
+        this.updateAccountByAmount = function () {
+            mongo.dbExecutor = _updateAccountByAmount;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.queryDetailByName = function (name) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _queryDetailExecutor;
-            return mongo.process(name);
+        this.queryDetailsByName = function () {
+            mongo.dbExecutor = _queryDetailsByName;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.updateDetail = function (id, amount) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _updateDetailExecutor;
-            return mongo.process(id, amount);
+        this.updateDetail = function () {
+            mongo.dbExecutor = _updateDetail;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.insertDetail = function (name, date, amount) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _insertDetailExecutor;
-            return mongo.process(name, date, amount);
+        this.insertDetail = function () {
+            mongo.dbExecutor = _insertDetail;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.updateAccountByIncExecutor = function (name, amount) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _updateAccountByIncExecutor;
-            return mongo.process(name, amount);
+        this.updateAccountByIncExecutor = function () {
+            mongo.dbExecutor = _updateAccountByInc;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.queryDetailAmountExecutor = function (id) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _queryDetailAmountExecutor;
-            return mongo.process(id);
+        this.queryDetailAmountExecutor = function () {
+            mongo.dbExecutor = _queryDetailById;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.updateDetailAndAccount = function (id, amount) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _updateDetailAndAccountExecutor;
-            return mongo.process(id, amount);
+        this.updateDetailAndAccount = function () {
+            mongo.dbExecutor = _updateDetailAndAccount;
+            return mongo.process.apply(mongo, arguments);
         };
 
-        this.insertDetailAndUpdateAccount = function (name, date, amount) {
-            var mongo = inherit(mongoStore);
-            mongo.dbExecutor = _insertDetailAndUpdateAccountExecutor;
-            return mongo.process(name, date, amount);
+        this.insertDetailAndUpdateAccount = function () {
+            mongo.dbExecutor = _insertDetailAndUpdateAccount;
+            return mongo.process.apply(mongo, arguments);
         };
 
         var mongoStore = {
@@ -102,7 +87,7 @@
                 self.db = null;
 
                 var mainArguments = Array.prototype.slice.call(arguments);
-                return _getDb().then(function (db) {
+                return _getDb(_dbConnectionString).then(function (db) {
                     self.db = db;
                     mainArguments.splice(0, 0, db);
                     return self.dbExecutor.apply(null, mainArguments);
@@ -119,6 +104,8 @@
             }
         };
 
+        mongo = inherit(mongoStore);
+
         function inherit(proto) {
             var F = function () {};
             F.prototype = proto;
@@ -126,7 +113,16 @@
         }
     };
 
-    function _querySummaryExecutor(db) {
+    function _getDb(connectionString) {
+        return MongoClient.connectAsync(connectionString)
+        .catch (function (err) {
+            console.log('failed to _getDb');
+            return Promise.reject(err);
+        });
+    }
+
+    // Lunch Collection
+    function _queryAccountAll(db) {
         var collection = db.collection(_lunchCollection);
         return collection.find({}, {
             name : 1,
@@ -135,7 +131,7 @@
         }).toArrayAsync();
     }
 
-    function _queryAccountByNameExecutor(db, name) {
+    function _queryAccountByName(db, name) {
         var collection = db.collection(_lunchCollection);
         return collection.find({
             name : name
@@ -146,26 +142,30 @@
         }).toArrayAsync();
     }
 
-    function _updateAccountExecutor(db, name, account) {
-        account = account && !isNaN(account) ? parseInt(account) : 0;
+    function _updateAccountByAmount(db, name, amount) {
         var collection = db.collection(_lunchCollection);
         return collection.updateOneAsync({
             name : name
         }, {
             $set : {
-                account : account
+                account : amount
             }
         });
     }
-
-    function _queryDetailExecutor(db, name) {
-        var collection = db.collection(_detailCollection);
-        return collection.find({
+    
+    function _updateAccountByInc(db, name, inc) {
+        var lunchCollection = db.collection(_lunchCollection);
+        return lunchCollection.updateOneAsync({
             name : name
-        }).toArrayAsync();
+        }, {
+            $inc : {
+                account : inc
+            }
+        });
     }
-
-    function _insertDetailExecutor(db, name, date, amount) {
+    
+    // Detail Collection
+    function _insertDetail(db, name, date, amount) {
         var detailCollection = db.collection(_detailCollection);
         return _queryAndIncDetailSeq(db)
         .then(
@@ -178,14 +178,28 @@
                 date : new Date(date)
             });
         });
-    }
-    
+    }    
+
     function _queryAndIncDetailSeq(db) {
         db.evalAsync = Promise.promisify(db.eval);
         return db.evalAsync("getNextSequence('detail_seq')");
     }
 
-    function _updateDetailExecutor(db, id, amount) {
+    function _queryDetailById(db, id) {
+        var collection = db.collection(_detailCollection);
+        return collection.findOneAsync({
+            _id : id
+        });
+    }
+    
+    function _queryDetailsByName(db, name) {
+        var collection = db.collection(_detailCollection);
+        return collection.find({
+            name : name
+        }).toArrayAsync();
+    }
+
+    function _updateDetail(db, id, amount) {
         var detailCollection = db.collection(_detailCollection);
         return detailCollection.updateOneAsync({
             _id : id
@@ -194,59 +208,38 @@
                 amount : amount
             }
         });
-    }
+    }    
 
-    function _queryDetailAmountExecutor(db, id) {
-        var collection = db.collection(_detailCollection);
-        return collection.findOneAsync({
-            _id : id
-        }, {
-            amount : 1,
-            name : 1
+    function _insertDetailAndUpdateAccount(db, name, date, amount) {
+        return _insertDetail(db, name, date, amount)
+        .then(function () {
+            return _updateAccountByInc(db, name, amount);
         });
     }
-
-    function _updateAccountByIncExecutor(db, name, inc) {
-        var lunchCollection = db.collection(_lunchCollection);
-        return lunchCollection.updateOneAsync({
-            name : name
-        }, {
-            $inc : {
-                account : inc
-            }
-        });
-    }
-
-    // function _queryLastDetailExecutor(db, name) {
-        // var detailCollection = db.collection(_detailCollection);
-        // return detailCollection.find({
-            // name : name
-        // }).sort({
-            // _id : -1
-        // })
-        // .limit(1).toArrayAsync();
-    // }
-
-    function _updateDetailAndAccountExecutor(db, id, amount) {
-        return _queryDetailAmountExecutor(db, id)
+    
+    function _updateDetailAndAccount(db, id, amount) {
+        return _queryDetailById(db, id)
         .then(function () {
             var detail = arguments[0];
             var name = detail.name;
             var inc = amount - detail.amount;
-            return _updateAccountByIncExecutor(db, name, inc);
+            return _updateAccountByInc(db, name, inc);
         })
         .then(function () {
-            return _updateDetailExecutor(db, id, amount);
+            return _updateDetail(db, id, amount);
         });
     }
-
-    function _insertDetailAndUpdateAccountExecutor(db, name, date, amount) {
-        return _insertDetailExecutor(db, name, date, amount)
-        .then(function () {
-            return _updateAccountByIncExecutor(db, name, amount);
-        });
-    }
-
+    
+    // function _queryLastDetailExecutor(db, name) {
+    // var detailCollection = db.collection(_detailCollection);
+    // return detailCollection.find({
+    // name : name
+    // }).sort({
+    // _id : -1
+    // })
+    // .limit(1).toArrayAsync();
+    // }
+    
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);
     };
