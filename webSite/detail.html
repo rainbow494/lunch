@@ -1,65 +1,73 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title>Lunch Account</title>
-
-	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="project/style/main.css" rel="stylesheet">
-
-	<script data-main="project/js/detail" src="bower_components/requirejs/require.js" defer async="true"></script>
-
-</head>
-<body>
-	<div class="container">
-		<h1><span class="text-capitalize"><!--ko text:obAccountName--><!--/ko--></span>'s Account</h1>
-		<div class="row">
-			<div class="table-responsive">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Data</th>
-							<th>#</th>
-							<th></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody data-bind="foreach: obLunchDetail">
-						<tr>
-							<td style="vertical-align:middle" data-bind="text:date"></td>
-							<td style="vertical-align:middle" data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
-							<td style="vertical-align:middle">
-								<input type="number" data-bind="textInput:amount" class="form-control">
-							</td>
-							<td>
-								<!-- <button class="btn btn-primary" data-bind="click: $parent.updateDetailGen(id, amount)">Update</button> -->
-								<button class="btn btn-primary" data-bind="click: $parent.updateDetailClickGen($data._id, $data.amount)">Update</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-                <tbody>
-						<tr>
-							<td style="vertical-align:middle">
-                                <input type="string" data-bind="textInput:obInsertDate()" class="form-control">
-                            </td>
-							<td style="vertical-align:middle">
-                                <input type="number" data-bind="textInput:obInsertAmount" class="form-control">
-                            </td>
-                            <td>
-                            </td>
-							<td>
-								<button class="btn btn-primary" data-bind="click: insertDetailClick">Insert</button>
-							</td>
-						</tr>
-					</tbody>
-            </table>
-			</div>
-		</div>
-		<h3>Last Month <small>(Recharge : 100.00)</small> <small>(Payment : 150.00)</small></h3>
-	</div>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Lunch Account</title>
+        
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="project/style/main.css" rel="stylesheet">
+        
+        <script data-main="project/js/detail" src="bower_components/requirejs/require.js" defer async="true"></script>
+        
+    </head>
+    <body>
+        <div class="container">
+            <h1><span class="text-capitalize"><!--ko text:obAccountName--><!--/ko--></span>'s Account</h1>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>#</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: obLunchDetail">
+                            <tr>
+                                <td style="vertical-align:middle" class="col-md-3" data-bind="text:$parent.formatDate(date)"></td>
+                                <td style="vertical-align:middle" class="col-md-3" data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
+                                <td style="vertical-align:middle" class="col-md-3" >
+                                    <input type="number" data-bind="textInput:amount" class="form-control">
+                                </td>
+                                <td class="col-md-3">
+                                    <button class="btn btn-primary" data-bind="click: $parent.updateDetailClickGen($data._id, $data.amount)">Update</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>#</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align:middle" class="col-md-3">
+                                    <input type="string" data-bind="textInput:obInsertDate()" class="form-control">
+                                </td>
+                                <td style="vertical-align:middle" class="col-md-3">
+                                    <input type="number" data-bind="textInput:obInsertAmount" class="form-control">
+                                </td>
+                                <td class="col-md-3">
+                                </td>
+                                <td class="col-md-3">
+                                    <button class="btn btn-primary" data-bind="click: insertDetailClick">Insert</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </table>
+            </div>
+        </div>
+		<h3>Last Month <small>(Recharge : --.--)</small> <small>(Payment : --.--)</small></h3>
+    </div>
 </body>
 </html>		

@@ -1,7 +1,5 @@
 (function () {
 
-// todo: promise db.eval
-
     var Promise = require('bluebird');
     var mongodb = require('mongodb');
 
@@ -14,6 +12,7 @@
 
     Promise.promisifyAll(Collection.prototype);
     Promise.promisifyAll(MongoClient);
+    // todo: promiseify db.eval here
 
     Collection.prototype._find = Collection.prototype.find;
     Collection.prototype.find = function () {
@@ -28,54 +27,38 @@
         var _dbConnectionString = dbConnectionString || _defaultDbConnectionString;
         var mongo;
 
-        this.queryAccountAll = function () {
-            mongo.dbExecutor = _queryAccountAll;
-            return mongo.process.apply(mongo, arguments);
+        this.account = {
+            queryAll : function () {
+                mongo.dbExecutor = _queryAccountAll;
+                return mongo.process.apply(mongo, arguments);
+            },
+            queryByName : function () {
+                mongo.dbExecutor = _queryAccountByName;
+                return mongo.process.apply(mongo, arguments);
+            },
+            updateByAmount : function () {
+                mongo.dbExecutor = _updateAccountByAmount;
+                return mongo.process.apply(mongo, arguments);
+            }
         };
 
-        this.queryAccountByName = function () {
-            mongo.dbExecutor = _queryAccountByName;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.updateAccountByAmount = function () {
-            mongo.dbExecutor = _updateAccountByAmount;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.queryDetailsByName = function () {
-            mongo.dbExecutor = _queryDetailsByName;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.updateDetail = function () {
-            mongo.dbExecutor = _updateDetail;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.insertDetail = function () {
-            mongo.dbExecutor = _insertDetail;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.updateAccountByIncExecutor = function () {
-            mongo.dbExecutor = _updateAccountByInc;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.queryDetailAmountExecutor = function () {
-            mongo.dbExecutor = _queryDetailById;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.updateDetailAndAccount = function () {
-            mongo.dbExecutor = _updateDetailAndAccount;
-            return mongo.process.apply(mongo, arguments);
-        };
-
-        this.insertDetailAndUpdateAccount = function () {
-            mongo.dbExecutor = _insertDetailAndUpdateAccount;
-            return mongo.process.apply(mongo, arguments);
+        this.detail = {
+            queryByName : function () {
+                mongo.dbExecutor = _queryDetailsByName;
+                return mongo.process.apply(mongo, arguments);
+            },
+            queryByNameAndDate : function () {
+                mongo.dbExecutor = _queryDetailsByNameAndDate;
+                return mongo.process.apply(mongo, arguments);
+            },            
+            insert : function () {
+                mongo.dbExecutor = _insertDetailAndUpdateAccount;
+                return mongo.process.apply(mongo, arguments);
+            },
+            update : function () {
+                mongo.dbExecutor = _updateDetailAndAccount;
+                return mongo.process.apply(mongo, arguments);
+            }
         };
 
         var mongoStore = {
@@ -152,7 +135,7 @@
             }
         });
     }
-    
+
     function _updateAccountByInc(db, name, inc) {
         var lunchCollection = db.collection(_lunchCollection);
         return lunchCollection.updateOneAsync({
@@ -163,7 +146,7 @@
             }
         });
     }
-    
+
     // Detail Collection
     function _insertDetail(db, name, date, amount) {
         var detailCollection = db.collection(_detailCollection);
@@ -178,7 +161,7 @@
                 date : new Date(date)
             });
         });
-    }    
+    }
 
     function _queryAndIncDetailSeq(db) {
         db.evalAsync = Promise.promisify(db.eval);
@@ -191,11 +174,27 @@
             _id : id
         });
     }
-    
+
     function _queryDetailsByName(db, name) {
         var collection = db.collection(_detailCollection);
         return collection.find({
             name : name
+        }).toArrayAsync();
+    }
+
+    function _queryDetailsByNameAndDate(db, name, startDate, endDate) {
+        var collection = db.collection(_detailCollection);
+        endDate = endDate || startDate;
+        
+        return collection.find({
+            name : name,
+            date : {
+                $gte : new Date(startDate),
+                $lte : new Date(endDate)
+            }
+        }).sort({
+            date : 1,
+            _id : 1
         }).toArrayAsync();
     }
 
@@ -208,7 +207,7 @@
                 amount : amount
             }
         });
-    }    
+    }
 
     function _insertDetailAndUpdateAccount(db, name, date, amount) {
         return _insertDetail(db, name, date, amount)
@@ -216,7 +215,7 @@
             return _updateAccountByInc(db, name, amount);
         });
     }
-    
+
     function _updateDetailAndAccount(db, id, amount) {
         return _queryDetailById(db, id)
         .then(function () {
@@ -229,7 +228,7 @@
             return _updateDetail(db, id, amount);
         });
     }
-    
+
     // function _queryLastDetailExecutor(db, name) {
     // var detailCollection = db.collection(_detailCollection);
     // return detailCollection.find({
@@ -239,7 +238,7 @@
     // })
     // .limit(1).toArrayAsync();
     // }
-    
+
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);
     };

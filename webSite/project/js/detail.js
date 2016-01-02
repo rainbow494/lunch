@@ -13,10 +13,14 @@ require(['jquery', 'knockout', 'moment', 'api'], function ($, ko, moment, api) {
     var obAccountName = ko.observable('paul');
     var obInsertDate = ko.observable(moment().format("YYYY-MM-DD"));
     var obInsertAmount = ko.observable(0);
+    
+    var formatDate = function(date)
+    {
+        return date.split('T')[0];
+    };
+    
     var updateDetailClickGen = function(id, amount){
         return function(){
-            //console.log(id);
-            //console.log(amount);
             api.updateDetail(id, amount)
             .done(loadPage);
         };
@@ -43,7 +47,8 @@ require(['jquery', 'knockout', 'moment', 'api'], function ($, ko, moment, api) {
         obInsertDate:obInsertDate,
         obInsertAmount:obInsertAmount,
         insertDetailClick:insertDetailClick,
-        updateDetailClickGen:updateDetailClickGen
+        updateDetailClickGen:updateDetailClickGen,
+        formatDate:formatDate
     };
 
     loadPage();
