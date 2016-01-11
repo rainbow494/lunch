@@ -20,29 +20,44 @@
         <div class="HolyGrail-body">
             <div class="container">
                 <div class="row">
-                    <form class="form-inline">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Account</th>
-                                        <th>Edit</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: obLunchAccounts">
-                                    <tr>
-                                        <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
-                                        <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
-                                        <td style="vertical-align:middle">
-                                            <input type="number" data-bind="textInput:account" class="form-control">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button data-bind="click:updateAccountClick" type="submit" class="btn btn-primary">Update</button>
-                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Account</th>
+                                    <th>Edit</th>
+                                    <th></th>
+                                    <th>Insert Date</th>
+                                    <th>Insert Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: obLunchAccounts">
+                                <tr>
+                                    <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
+                                    <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
+                                    <td style="vertical-align:middle">
+                                        <input type="number" data-bind="textInput:account" class="form-control">
+                                    </td>
+                                    <td>
+                                        <form method="get" action="/detail.html" >
+                                            <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
+                                        </form>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <input type="string" data-bind="textInput:insertDate" class="form-control">
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <input type="number" data-bind="textInput:insertAmount" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" data-bind="click: $parent.insertDetailClickGen(name, insertDate, insertAmount)">Insert</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button data-bind="click:updateAccountClick" type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </div>

@@ -77,7 +77,7 @@
 
     function sendReport(accountName) {
         //var mailgun = this.mailgun;
-        return dbHelper.queryAccountByName(accountName)
+        return dbHelper.account.queryByName(accountName)
         .then(_getMailBody)
         .then(_sendmail);
         // .then(function (mailbody) {
@@ -88,7 +88,7 @@
     MailHelper.prototype.sendReport = sendReport;
 
     MailHelper.prototype.sendWeeklyReports = function () {
-        return dbHelper.querySummary()
+        return dbHelper.account.queryAll()
         .then(function (result) {
             result.forEach(function (account) {
                 sendReport(account.name);

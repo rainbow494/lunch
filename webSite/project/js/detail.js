@@ -3,15 +3,15 @@ require.config({
     paths : {
         jquery : 'jquery/dist/jquery',
         knockout : 'knockout/dist/knockout',
-        moment : 'momentjs/moment',
-        api : '../project/js/api'
+        util : '../project/js/util',
+        api : '../project/js/api',
     }
 });
 
-require(['jquery', 'knockout', 'moment', 'api'], function ($, ko, moment, api) {
+require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
     var obLunchDetail = ko.observableArray();
     var obAccountName = ko.observable('paul');
-    var obInsertDate = ko.observable(moment().format("YYYY-MM-DD"));
+    var obInsertDate = ko.observable(util.getToday());
     var obInsertAmount = ko.observable(0);
     
     var formatDate = function(date)

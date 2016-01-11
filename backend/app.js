@@ -34,14 +34,14 @@
     });
 
     app.post('/api/lunch/updateAccountByAmount', function (req, res, next) { // jshint ignore:line
-        // var name = req.body.name;
-        // var amount = parseInt(req.body.account || 0);
-        // dbHelper.account.updateByAmount(name, amount)
-        // .then(function (result) {
-        // res.json(result);
-        // })
-        // .catch (next);
-        res.json("this api is deprecated!");
+        var name = req.body.name;
+        var amount = parseFloat(req.body.account || 0);
+        dbHelper.account.updateByAmount(name, amount)
+        .then(function (result) {
+        res.json(result);
+        })
+        .catch (next);
+        //res.json("this api is deprecated!");
     });
 
     app.get('/api/detail/queryDetailsByName', function (req, res, next) {
@@ -69,7 +69,7 @@
     app.post('/api/lunch/insertDetail', function (req, res, next) {
         var name = req.body.name;
         var date = req.body.date;
-        var amount = parseInt(req.body.amount || 0);
+        var amount = parseFloat(req.body.amount || 0);
 
         dbHelper.detail.insert(name, date, amount)
         .then(function (result) {
@@ -80,7 +80,7 @@
 
     app.post('/api/lunch/updateDetail', function (req, res, next) {
         var id = parseInt(req.body.id);
-        var amount = parseInt(req.body.amount || 0);
+        var amount = parseFloat(req.body.amount || 0);
 
         dbHelper.detail.update(id, amount)
         .then(function (result) {
