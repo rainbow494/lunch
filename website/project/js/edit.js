@@ -13,14 +13,7 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
     var obLunchAccounts = ko.observableArray();
     var obResult = ko.observable();
 
-    var insertDetailClickGen = function (name, date, amount) {
-        return function () {
-            if (amount !== 0)
-                api.insertDetail(name, date, amount).done(loadPage);
-        };
-    };
-
-    var updateAccountClick = function () {
+    var updateAllAccountsClick = function () {
         var deferreds = [];
         obLunchAccounts().forEach(function (item) {
             deferreds.push(api.updateAccountByAmount(item.name, item.account));
@@ -33,6 +26,30 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
             obResult(result);
             loadPage();
         });
+    };
+
+    var insertAllDetailsClick = function () {
+        var deferreds = [];
+        obLunchAccounts().forEach(function (item) {
+            if (item.insertAmount !== 0)
+            deferreds.push(api.insertDetail(item.name, item.insertDate, item.insertAmount));
+        });
+
+        // 利用apply数组化参数
+        $.when.apply($, deferreds)
+        .done(function (data) {// jshint ignore:line
+            //var result = $.parseJSON(data);
+            //console.log(result);
+            //obResult(result);
+            loadPage();
+        });
+    };
+
+    var insertDetailClickGen = function (name, date, amount) {
+        return function () {
+            if (amount !== 0)
+                api.insertDetail(name, date, amount).done(loadPage);
+        };
     };
 
     var loadPage = function () {
@@ -52,7 +69,8 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
 
     var editViewModel = {
         obResult : obResult,
-        updateAccountClick : updateAccountClick,
+        updateAllAccountsClick : updateAllAccountsClick,
+        insertAllDetailsClick : insertAllDetailsClick,
         insertDetailClickGen : insertDetailClickGen,
         obLunchAccounts : obLunchAccounts
     };
