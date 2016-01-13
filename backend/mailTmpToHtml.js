@@ -2,15 +2,21 @@
     var fs = require('fs');
     var Handlebars = require('handlebars');
     var juice = require('juice');
-    var moment = require('moment');
 
     var mailTemplate = fs.readFileSync('weeklyReportTemplate.html').toString();
     var mailStyle = fs.readFileSync('mailStyles.css').toString();
 
+	var defaultMailBodyData = {
+			'date' : '2015-01-01',
+            'name' : '',
+            'account' :0,
+            'details' : [],
+			'expense':0,
+            'detailLink' : '',
+        };
     function MailTmpToHtml() {}
 
     MailTmpToHtml.prototype.CreateMailBody = function (data) {
-        data.date = moment().locale('zh-cn').format('LL');
 
         var hbsMailTemplate = Handlebars.compile(mailTemplate);
         var mailBodyWithOutCSS = hbsMailTemplate(data);

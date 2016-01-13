@@ -1,7 +1,9 @@
 (function () {
     var express = require('express');
     var bodyParser = require('body-parser');
-
+	//var moment = require('moment');
+	
+	var util = require('./util');
     //var dbConnection = 'mongodb://localhost:27017/test';
     //var dbHelper = require('./mongodbExecutor.js').mongdbExecutor(dbConnection);
     var dbHelper = require('./mongodbExecutor.js').mongdbExecutor();
@@ -46,18 +48,13 @@
 
     app.get('/api/detail/queryDetailsByName', function (req, res, next) {
         var accountName = req.query.name || 'paul';
-
-        dbHelper.detail.queryByName(accountName)
-        .then(function (result) {
-            res.json(result);
-        })
-        .catch (next);
+		res.redirect('/api/detail/queryDetailsByNameAndDate?name=' + accountName);
     });
 
-    app.get('/api/detail/queryDetailsByNameAndDate:name?', function (req, res, next) {
+    app.get('/api/detail/queryDetailsByNameAndDate', function (req, res, next) {
         var accountName = req.query.name || 'paul';
-        var startDate = req.query.startDate;
-        var endDate = req.query.endDate;
+        var startDate = req.query.startdate || util.getDefaultStartDate();
+        var endDate = req.query.enddate || util.getToday();
 
         dbHelper.detail.queryByNameAndDate(accountName, startDate, endDate)
         .then(function (result) {

@@ -4,6 +4,8 @@
 (function () {
     var Promise = require('bluebird'),
     mailgunGen = require('mailgun-js'),
+    moment = require('moment'),
+    util = require('./util'),
     dbHelper = require('./mongodbExecutor.js').mongdbExecutor(),
     mailTmpToHtml = require('./mailTmpToHtml.js').mailTmpToHtml();
 
@@ -34,26 +36,60 @@
         detailLink : 'http://<aws.hostname>:<aws.webserver.port>/index.html'
     };
 
-    function _getMailBody(accountInfo) {
-        var _accountInfo = accountInfo[0];
+    MailHelper.prototype._getMailBody = _getMailBody;
+	MailHelper.prototype._getExpense = _getExpense;// For TEst
+	// MailHelper.prototype._getDisplayDetails = _getDisplayDetails;// For TEst
+
+    MailHelper.prototype.sendWeeklyReport = sendWeeklyReport;
+
+    MailHelper.prototype.sendWeeklyReports = sendWeeklyReports;
+
+    function _getMailBody(account, details) {
 
         var data = defaultSender;
 
-        if (_accountInfo.mail)
-            data.to = _accountInfo.mail;
+        if (account.mail)
+            data.to = account.mail;
 
         var mailBodyData = {
-            'name' : _accountInfo.name,
-            'account' : _accountInfo.account,
-            'detailLink' : config.detailLink
+			'date' : util.getZhDate(),
+            'name' : account.name,
+            'account' : account.account,
+            'details' : _getDisplayDetails(details),
+			'expense': _getExpense(details),
+            'detailLink' : config.detailLink,
         };
+		//console.log(JSON.stringify(mailBodyData));
         var mailbody = mailTmpToHtml.CreateMailBody(mailBodyData);
         data.html = mailbody;
 
         return Promise.resolve(data);
     }
 
-    MailHelper.prototype._getMailBody = _getMailBody;
+    function _getDisplayDetails(details) {
+        var displayDetails = [];
+        displayDetails = details.map(function (detail) {
+                var displayDate = util.convertDBDateToDate(detail.date);
+                var weekDay = util.getWeekdayOfDate(displayDate);
+                return {
+                    'displayDate' : displayDate,
+                    'weekDay' : weekDay,
+                    'amount' : detail.amount
+                }
+            });
+        return displayDetails;
+    };
+	
+	function _getExpense(details) {
+        var expense = 0;
+		if (details.length > 0)
+			details.map(function (detail) {
+				if(detail.amount < 0)
+					expense += detail.amount;
+            });
+			
+        return expense;
+    };
 
     function _sendmail(mailbody, mailgun) {
         //Todo: Call send method by promise pattern
@@ -75,23 +111,30 @@
         });
     }
 
-    function sendReport(accountName) {
-        //var mailgun = this.mailgun;
-        return dbHelper.account.queryByName(accountName)
-        .then(_getMailBody)
-        .then(_sendmail);
-        // .then(function (mailbody) {
-        // //return _sendmail(mailbody, mailgun);
-        // return _sendmail(mailbody);
-        // });
-    }
-    MailHelper.prototype.sendReport = sendReport;
+    function sendWeeklyReport(accountName) {
 
-    MailHelper.prototype.sendWeeklyReports = function () {
+        var account = {};
+        var details = [];
+        var startDate = util.getWeekStart();
+        var endDate = util.getWeekEnd();
+
+        return dbHelper.account.queryByName(accountName)
+        .then(function (result) {
+            account = result[0];
+            return dbHelper.detail.queryByNameAndDate(account.name, startDate, endDate);
+        })
+        .then(function (result) {
+            details = result;
+            return _getMailBody(account, details);
+        })
+        .then(_sendmail);
+    }
+
+    function sendWeeklyReports() {
         return dbHelper.account.queryAll()
         .then(function (result) {
             result.forEach(function (account) {
-                sendReport(account.name);
+                sendWeeklyReport(account.name);
             });
         });
     };

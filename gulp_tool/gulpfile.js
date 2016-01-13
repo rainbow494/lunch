@@ -85,7 +85,7 @@ gulp.task('debug',
 gulp.task('debug-watch', function () {
     setDebugEnv();
     
-    var watcher_backend = gulp.watch(['*.js', '!node_modules/**'], {
+    var watcher_backend = gulp.watch(['*.js','*.html', '!node_modules/**'], {
             cwd : path.backendPath
         }, gulp.series('backend'));
         

@@ -1,5 +1,6 @@
 var fs = require('fs');
-var mailTmpToHtml =  require('./mailTmpToHtml.js').mailTmpToHtml();
+var mailHelper = require('./mailHelper').mailHelper();
+var mailTmpToHtml = require('./mailTmpToHtml').mailTmpToHtml();
 
 var _accountInfo = {
     name : 'paul',
@@ -10,9 +11,23 @@ var config = {
     detailLink : 'http://lunchteam/index.html'
 };
 
+var details = [{
+        'displayDate' : '2015-01-13',
+        'weekDay' : '周一',
+        'amount' : -1
+    }, {
+        'displayDate' : '2015-01-14',
+        'weekDay' : '周二',
+        'amount' : 100
+    }
+];
+
 var data = {
+    'date' : '2015-01-13',
     'name' : capitalizeFirstLetter(_accountInfo.name),
     'account' : _accountInfo.account,
+    'details' : details,
+	'expense':mailHelper._getExpense(details),
     'detailLink' : config.detailLink
 };
 

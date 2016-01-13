@@ -43,10 +43,10 @@
         };
 
         this.detail = {
-            queryByName : function () {
-                mongo.dbExecutor = _queryDetailsByName;
-                return mongo.process.apply(mongo, arguments);
-            },
+            // queryByName : function () {
+                // mongo.dbExecutor = _queryDetailsByName;
+                // return mongo.process.apply(mongo, arguments);
+            // },
             queryByNameAndDate : function () {
                 mongo.dbExecutor = _queryDetailsByNameAndDate;
                 return mongo.process.apply(mongo, arguments);
@@ -175,16 +175,15 @@
         });
     }
 
-    function _queryDetailsByName(db, name) {
-        var collection = db.collection(_detailCollection);
-        return collection.find({
-            name : name
-        }).toArrayAsync();
-    }
+    // function _queryDetailsByName(db, name) {
+        // var collection = db.collection(_detailCollection);
+        // return collection.find({
+            // name : name
+        // }).toArrayAsync();
+    // }
 
     function _queryDetailsByNameAndDate(db, name, startDate, endDate) {
         var collection = db.collection(_detailCollection);
-        endDate = endDate || startDate;
         
         return collection.find({
             name : name,
