@@ -36,14 +36,6 @@
         detailLink: 'http://<aws.hostname>:<aws.webserver.port>/index.html'
     };
 
-    MailHelper.prototype._getMailBody = _getMailBody;
-    MailHelper.prototype._getExpense = _getExpense; // For test
-    // MailHelper.prototype._getDisplayDetails = _getDisplayDetails;// For test
-
-    MailHelper.prototype.sendWeeklyReport = sendWeeklyReport;
-
-    MailHelper.prototype.sendWeeklyReports = sendWeeklyReports;
-
     function _getMailBody(account, details) {
         var data = defaultSender;
 
@@ -58,15 +50,13 @@
             'expense': _getExpense(details),
             'detailLink': config.detailLink,
         };
-        //console.log(JSON.stringify(mailBodyData));
+
         var mailbody = mailTmpToHtml.CreateMailBody(mailBodyData);
         data.html = mailbody;
 
-        console.log("5:-----" + data.to);
         return Promise.resolve(data);
+        //return data;
     }
-
-    //Promise.promisify(_getMailBody);
 
     function _getDisplayDetails(details) {
         var displayDetails = [];
@@ -97,70 +87,83 @@
         //Todo: Call send method by promise pattern
         //Promise.promisifyAll(mailgun.messages().send);
 
-        //var mailbody = mailbody;
         mailgun = mailgunGen({
             apiKey: defaultMailApiConfig.apiKey,
             domain: defaultMailApiConfig.domain
         });
 
-        console.log("2:" + mailbody.to);
+        // Todo 3: display send mail response correct.
+        mailgun.messages().send(mailbody, function (error, result) {
+            if (error) {
+                console.log('Error : ' + error);
+            }
+            if (result) {
+                console.log('Resp : ' + result[0]);
+            }
+        });
 
-        //Todo 3: display send mail response correct.
-        // mailgun.messages().send(mailbody, function (error, result) {
-        //     if (error) {
-        //         console.log('Error : ' + error);
-        //     }
-        //     if (result) {
-        //         console.log('Resp : ' + result[0]);
-        //     }
-        // });
+        //console.log("---------------------------------------------");
+        //console.log(mailbody.html);
+        //console.log("---------------------------------------------");
+        return Promise.resolve(true);
     }
 
+    // Not support batch handle mail?
     function sendWeeklyReport(accountName) {
         var account = {};
         var startDate = util.getWeekStart();
         var endDate = util.getWeekEnd();
 
         return dbHelper.account.queryByName(accountName)
-            .then(function(p1Result) {
-                account = p1Result[0];
+            .then(function(result) {
+                account = result[0];
+                //console.log("1: name:%s, mail:%s, length:%s", account.name, account.mail, result.length);
                 return dbHelper.detail.queryByNameAndDate(account.name, startDate, endDate);
             })
             .then(function(details) {
-                return _getMailBody(account, details).then(_sendmail);
+                return _getMailBody(account, details);
+            })
+            .then(function(mailbody) {
+                return _sendmail(mailbody);
             });
+            
     }
 
-    function sendWeeklyReport2(account) {
-
+    function _sendWeeklyReportBatch(account) {
         var startDate = util.getWeekStart();
         var endDate = util.getWeekEnd();
 
         return dbHelper.detail.queryByNameAndDate(account.name, startDate, endDate)
             .then(function(details) {
-                return _getMailBody(account, details).then(_sendmail);
+                return _getMailBody(account, details);
+            })
+            .then(function(mailbody) {
+                return _sendmail(mailbody);
             });
-        // .then(function(mailbody) {
-        //     console.log("2:" + mailbody.to);
-        //     var a = JSON.parse(JSON.stringify(mailbody));
-        //     return _sendmail(a);
-        // });
     }
 
     function sendWeeklyReports() {
         return dbHelper.account.queryAll()
             .then(function(result) {
                 return Promise.all(
-                     result.map(function(account) {
-                         return sendWeeklyReport2(account);
-                     })
+                    result.map(function(account) {
+                        //return sendWeeklyReport(account.name);
+                        return _sendWeeklyReportBatch(account);
+                    })
                 );
             })
             .then(function() {
-                console.log(111);
-                return Promise.resolve(111);
+                return Promise.resolve("Sent reports complate");
             });
     }
+
+
+    MailHelper.prototype._getMailBody = _getMailBody; // For test
+    MailHelper.prototype._getExpense = _getExpense; // For test
+    // MailHelper.prototype._getDisplayDetails = _getDisplayDetails;// For test
+
+    MailHelper.prototype.sendWeeklyReport = sendWeeklyReport;
+    MailHelper.prototype.sendWeeklyReports = sendWeeklyReports;
 
     module.exports.mailHelper = function(option) {
         return new MailHelper(option);

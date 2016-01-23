@@ -83,7 +83,6 @@
                     if (self.db) {
                         //self.db.close();                        
                     }
-                    //return Promise.resolve(arguments);
                 });
             }
         };
