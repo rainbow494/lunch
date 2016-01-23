@@ -12,7 +12,7 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
     var obLunchDetail = ko.observableArray();
     var obAccountName = ko.observable('paul');
     var obInsertDate = ko.observable(util.getToday());
-    var obInsertAmount = ko.observable(0);
+    var obInsertAmount = ko.observable(-1);
     
     var formatDate = function(date)
     {

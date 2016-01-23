@@ -79,11 +79,12 @@
                     console.log('failed to executor mongoDB');
                     return Promise.reject(err);
                 })
-                    .finally (function () {
-                            if (self.db) {
-                                self.db.close();
-                            }
-                        });
+                .finally (function () {
+                    if (self.db) {
+                        //self.db.close();                        
+                    }
+                    //return Promise.resolve(arguments);
+                });
             }
         };
 
@@ -172,6 +173,9 @@
         var collection = db.collection(_detailCollection);
         return collection.findOneAsync({
             _id : id
+        }).sort({
+            date : 1,
+            _id : 1
         });
     }
 
@@ -183,8 +187,7 @@
     // }
 
     function _queryDetailsByNameAndDate(db, name, startDate, endDate) {
-        var collection = db.collection(_detailCollection);
-        
+        var collection = db.collection(_detailCollection);        
         return collection.find({
             name : name,
             date : {
