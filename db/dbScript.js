@@ -64,6 +64,11 @@ db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -15, 
 db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: -12, date:new Date('2015-12-26')});
 db.detail.insert({_id: getNextSequence('detail_seq'), name:'nick', amount: 200, date:new Date('2015-12-26')});
 
+//db.detail.remove({ amount: 0 })
+//db.detail.update({'_id':14},{$set: {date:new Date('2016-01-18')}});
+//db.detail.insert({_id: getNextSequence('detail_seq'), name:'tony', amount: -23.5, date:new Date('2016-01-20')});
+//db.detail.find({"name":"tony"})
+
 //db.tmp.remove({});
 db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
 
