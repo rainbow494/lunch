@@ -165,16 +165,13 @@
 
     function _queryAndIncDetailSeq(db) {
         db.evalAsync = Promise.promisify(db.eval);
-        return db.evalAsync("getNextSequence('detail_seq')");
+        return db.evalAsync('getNextSequence("detail_seq")');
     }
 
     function _queryDetailById(db, id) {
         var collection = db.collection(_detailCollection);
         return collection.findOneAsync({
             _id : id
-        }).sort({
-            date : 1,
-            _id : 1
         });
     }
 
