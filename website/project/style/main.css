@@ -4,32 +4,47 @@
     flex-direction: column;
 }
 
+header {
+    max-height: 10vh;
+}
+
 header,
 footer {
     background-color:#293134;
     justify-content: center;
     align-items: center;
     display: inline-flex;
+    flex: 1;
+    color:white;
 }
 
-header{
-    flex:0.2;
+footer p{
+    font-style: italic;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
 }
 
-footer {
-    flex: 0.2;
+footer p,
+footer a,
+footer a:active,
+footer a:hover,
+footer a:focus{
+    color:white;
+    text-decoration: none;
+    outline:none;
 }
 
-header h1{
+header h3{
     color:white;
     margin:0;
 }
 
 .HolyGrail-body {
-    
-    margin-top:20px;
+    padding-top:20px;
     display: flex;
     flex: 1;
+    max-height: 80vh;
+    overflow: auto;
 }
 
 .HolyGrail-content {
@@ -37,11 +52,17 @@ header h1{
 }
 
 .HolyGrail-nav, .HolyGrail-ads {
-    /* 两个边栏的宽度设为12em */
     flex: 0 0 12em;
 }
 
 .HolyGrail-nav {
-    /* 导航放到最左边 */
     order: -1;
+}
+
+.github-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    height: 15vh;
 }

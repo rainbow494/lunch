@@ -3,61 +3,57 @@ require.config({
     paths : {
         jquery : 'jquery/dist/jquery',
         knockout : 'knockout/dist/knockout',
+        'knockout-amd-helpers': 'knockout-amd-helpers/build/knockout-amd-helpers',
+        'text': 'text/text',
         util : '../project/js/util',
         api : '../project/js/api',
     }
 });
 
-require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
-    var obLunchDetail = ko.observableArray();
-    var obAccountName = ko.observable('paul');
-    var obInsertDate = ko.observable(util.getToday());
-    var obInsertAmount = ko.observable(-1);
+require(['jquery', 'knockout', 'util', 'api', 'knockout-amd-helpers', 'text'], function ($, ko, util, api) {
     
-    var formatDate = function(date)
+    function DetailViewModel() {
+        ko.amdTemplateEngine.defaultPath = "../templates";
+        this.obLunchDetail = ko.observableArray();
+        this.obAccountName = ko.observable('paul');
+        this.obInsertDate = ko.observable(util.getToday());
+        this.obInsertAmount = ko.observable(-1);
+    }
+
+    DetailViewModel.prototype.formatDate = function(date)
     {
         return date.split('T')[0];
     };
     
-    var updateDetailClickGen = function(id, amount){
+    DetailViewModel.prototype.updateDetailClickGen = function(id, amount){
+        var self = this;
         return function(){
             api.updateDetail(id, amount)
-            .done(loadPage);
+            .done(self.loadPage);
         };
     };
     
-    var insertDetailClick = function()
+    DetailViewModel.prototype.insertDetailClick = function()
     {
-        api.insertDetail(obAccountName(), obInsertDate(), obInsertAmount())
-        .done(loadPage);
+        var self = this;
+        api.insertDetail(self.obAccountName(), self.obInsertDate(), self.obInsertAmount())
+        .done(self.loadPage);
     };
 
-    var loadPage = function () {
-        obAccountName(getParameterByName('name'));
-        api.getDetail(obAccountName())
+    DetailViewModel.prototype.loadPage = function () {
+        var self = this;
+        self.obAccountName(util.getParameterByName('name'));
+
+        api.getDetail(self.obAccountName())
         .done(function (data) {
             var result = $.parseJSON(data);
-            obLunchDetail(result);
+            self.obLunchDetail(result);
         });
     };
 
-    var myViewModel = {
-        obLunchDetail:obLunchDetail,
-        obAccountName:obAccountName,
-        obInsertDate:obInsertDate,
-        obInsertAmount:obInsertAmount,
-        insertDetailClick:insertDetailClick,
-        updateDetailClickGen:updateDetailClickGen,
-        formatDate:formatDate
-    };
-
-    loadPage();
-    ko.applyBindings(myViewModel);
+    // setTimeout(function() {
+        var viewModel = new DetailViewModel();
+        ko.applyBindings(viewModel);
+        viewModel.loadPage();
+    // }, 0);
 });
-
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-        results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}

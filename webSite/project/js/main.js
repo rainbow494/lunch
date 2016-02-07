@@ -1,30 +1,33 @@
-;
 require.config({
     baseUrl : 'bower_components',
     paths : {
-        jquery : 'jquery/dist/jquery',
         knockout : 'knockout/dist/knockout',
+        'knockout-amd-helpers': 'knockout-amd-helpers/build/knockout-amd-helpers',
+        'text': 'text/text',
+        jquery : 'jquery/dist/jquery',
         api : '../project/js/api'
     }
 });
 
-require(['jquery', 'knockout', 'api'], function ($, ko, api) {
+require(['api', 'jquery', 'knockout', 'knockout-amd-helpers', 'text'], function (api, $, ko) {
 
-    var obLunchAccounts = ko.observableArray();
+    function IndexViewModel(){
+        ko.amdTemplateEngine.defaultPath = "../templates";
+        this.obLunchAccounts = ko.observableArray();
+    }
 
-    myViewModel = {
-        obLunchAccounts
-    };
-
-    var loadPage = function () {
+    IndexViewModel.prototype.loadPage = function () {
+        var self = this;
         api.getSummary()
         .done(function (data) {
             var result = $.parseJSON(data);
-            obLunchAccounts(result);
+            self.obLunchAccounts(result);
         });
-    }
+    };
 
-    loadPage();
-
-    ko.applyBindings(myViewModel);
+    // setTimeout(function() {
+        var viewModel = new IndexViewModel();
+        ko.applyBindings(viewModel);
+        viewModel.loadPage();
+    // }, 0);
 });

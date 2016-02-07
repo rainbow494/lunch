@@ -1,52 +1,45 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<title>Lunch Account</title>
-        
-		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="project/style/main.css" rel="stylesheet">
-        
-        <script data-main="project/js/main" src="bower_components/requirejs/require.js" defer async="true"></script>
-        
-    </head>
-	<body>        
-        <a href="https://github.com/rainbow494/lunch"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
-        <body class="HolyGrail">
-            <header>
-                <h1>Lunch Account</h1>
-            </header>
-            <div class="HolyGrail-body">
-                <div class="container">   
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Account</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: obLunchAccounts">
-                                    <tr>
-                                        <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
-                                        <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
-                                        <td>
-                                            <form method="get" action="/detail.html" >
-                                                <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="project/style/main.css" rel="stylesheet">
+
+  <title>Lunch Account</title>
+</head>     
+<body class="HolyGrail">
+    <header data-bind="template: 'header'"></header>
+    <div class="HolyGrail-body">
+        <div class="container">   
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Account</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: obLunchAccounts">
+                            <tr>
+                                <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
+                                <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
+                                <td>
+                                    <form method="get" action="/detail.html" >
+                                        <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <footer>...</footer>
-        </body>
-    </html>                    
+        </div>
+    </div>
+    <footer data-bind="template: 'footer'"></footer>
+    <script data-main="project/js/main" src="bower_components/requirejs/require.js"  defer async="true"></script>
+</body>
+</html>                    

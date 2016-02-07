@@ -4,19 +4,13 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        
-		<title>Lunch Account</title>
-        
 		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">        
         <link href="project/style/main.css" rel="stylesheet">
-        
-        
-        <script data-main="project/js/edit.js" src="bower_components/requirejs/require.js" defer async="true"></script>
+
+        <title>Lunch Account</title>
     </head>
 	<body class="HolyGrail">
-		<header>
-            <h1>Lunch Account</h1>
-        </header>
+		<header data-bind="template: 'header'"></header>
         <div class="HolyGrail-body">
             <div class="container">
                 <div class="row">
@@ -30,6 +24,7 @@
                                     <th></th>
                                     <th>Insert Date</th>
                                     <th>Insert Amount</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach: obLunchAccounts">
@@ -62,6 +57,7 @@
                 </div>
             </div>
         </div>
-        <footer>...</footer>
+        <footer data-bind="template: 'footer'"></footer>
+        <script data-main="project/js/edit.js" src="bower_components/requirejs/require.js" defer async="true"></script>
     </body>
 </html>		

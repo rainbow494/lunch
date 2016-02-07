@@ -2,20 +2,27 @@ require.config({
     baseUrl : 'bower_components',
     paths : {
         jquery : 'jquery/dist/jquery',
-        knockout : 'knockout/dist/knockout',
+        knockout : 'knockout/dist/knockout',        
+        'knockout-amd-helpers': 'knockout-amd-helpers/build/knockout-amd-helpers',
+        'text': 'text/text',
         util : '../project/js/util',
         api : '../project/js/api'
     }
 });
 
-require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
+require(['jquery', 'knockout', 'util', 'api', 'knockout-amd-helpers', 'text'], function ($, ko, util, api) {
 
-    var obLunchAccounts = ko.observableArray();
-    var obResult = ko.observable();
+    function EditViewModel() {
+        ko.amdTemplateEngine.defaultPath = "../templates";
+        this.obLunchAccounts = ko.observableArray();
+        this.obResult = ko.observable();
+    }
 
-    var updateAllAccountsClick = function () {
+    EditViewModel.prototype.updateAllAccountsClick = function () {
+        var self = this;
+
         var deferreds = [];
-        obLunchAccounts().forEach(function (item) {
+        self.obLunchAccounts().forEach(function (item) {
             deferreds.push(api.updateAccountByAmount(item.name, item.account));
         });
 
@@ -23,14 +30,16 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
         $.when.apply($, deferreds)
         .done(function (data) {
             var result = $.parseJSON(data[0]);
-            obResult(result);
-            loadPage();
+            self.obResult(result);
+            self.loadPage();
         });
     };
 
-    var insertAllDetailsClick = function () {
+    EditViewModel.prototype.insertAllDetailsClick = function () {
+        var self = this;
+
         var deferreds = [];
-        obLunchAccounts().forEach(function (item) {
+        self.obLunchAccounts().forEach(function (item) {
             if (item.insertAmount !== 0)
             deferreds.push(api.insertDetail(item.name, item.insertDate, item.insertAmount));
         });
@@ -41,18 +50,22 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
             //var result = $.parseJSON(data);
             //console.log(result);
             //obResult(result);
-            loadPage();
+            self.loadPage();
         });
     };
 
-    var insertDetailClickGen = function (name, date, amount) {
+    EditViewModel.prototype.insertDetailClickGen = function (name, date, amount) {
+        var self = this;
+
         return function () {
             if (amount !== 0)
-                api.insertDetail(name, date, amount).done(loadPage);
+                api.insertDetail(name, date, amount).done(self.loadPage);
         };
     };
 
-    var loadPage = function () {
+    EditViewModel.prototype.loadPage = function () {
+        var self = this;
+
         api.getSummary()
         .done(function (data) {
             var accounts = $.parseJSON(data);
@@ -61,19 +74,11 @@ require(['jquery', 'knockout', 'util', 'api'], function ($, ko, util, api) {
                     account.insertDate = util.getToday();
                     return account;
                 });
-            obLunchAccounts(accounts);
+            self.obLunchAccounts(accounts);
         });
     };
 
-    loadPage();
-
-    var editViewModel = {
-        obResult : obResult,
-        updateAllAccountsClick : updateAllAccountsClick,
-        insertAllDetailsClick : insertAllDetailsClick,
-        insertDetailClickGen : insertDetailClickGen,
-        obLunchAccounts : obLunchAccounts
-    };
-
-    ko.applyBindings(editViewModel);
+    var viewModel = new EditViewModel();
+    ko.applyBindings(viewModel);
+    viewModel.loadPage();
 });

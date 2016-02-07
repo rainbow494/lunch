@@ -1,7 +1,3 @@
-require.config({
-    baseUrl : 'bower_components/jquery/dist'
-});
-
 define(['jquery'], function ($) {
     var api = {};
     var apiUrl = 'http://<aws.hostname>:<aws.webserver.port>/api/';
