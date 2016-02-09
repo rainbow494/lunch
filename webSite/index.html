@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head>  
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="project/style/main.css" rel="stylesheet">
-
   <title>Lunch Account</title>
-</head>     
+  <link rel="icon" href="ph.ico"/>
+  <link rel="shortcut icon" href="pH.ico" type="image/x-icon" />
+</head>
 <body class="HolyGrail">
     <header data-bind="template: 'header'"></header>
     <div class="HolyGrail-body">
-        <div class="container">   
+        <div class="container">
             <div class="row">
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -39,7 +40,10 @@
             </div>
         </div>
     </div>
-    <footer data-bind="template: 'footer'"></footer>
-    <script data-main="project/js/main" src="bower_components/requirejs/require.js"  defer async="true"></script>
+    <footer data-bind="template: 'footer'">
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    </footer>
+    <script data-main="project/js/main" src="bower_components/requirejs/require.js" defer async="true"></script>
 </body>
 </html>                    

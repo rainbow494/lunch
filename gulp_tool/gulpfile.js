@@ -2,8 +2,11 @@ var gulp = require('gulp');
 var del = require('del');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
+var less = require('gulp-less');
+var sourcemaps = require('gulp-sourcemaps');
 var argv = require('yargs').argv;
 var secrets = require('../encrpty/secrets.json');
+var util = require('gulp-util');
 
 var path = {
     backendPath : '../backend',
@@ -28,6 +31,19 @@ gulp.task('lint', function () {
     })
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('less', function () {
+  return gulp.src(['project/style/*.less', '!node_modules/**'], {
+        cwd : path.website
+    })  
+    .pipe(sourcemaps.init())
+    .pipe(less().on('error', util.log))
+    .on('error', function (error) {
+        console.log(error.message);
+    })
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(path.distPath + '/website/project/style'));
 });
 
 gulp.task('clean-debug', function () {
@@ -77,10 +93,10 @@ gulp.task('website', function () {
 });
 
 gulp.task('default',
-    gulp.series('clean', 'backend', 'website'));
+    gulp.series('clean', 'backend', 'website', 'less'));
 
 gulp.task('debug',
-    gulp.series('clean-debug', 'backend', 'website'));
+    gulp.series('clean-debug', 'backend', 'website', 'less'));
 
 gulp.task('debug-watch', function () {
     setDebugEnv();
@@ -93,11 +109,19 @@ gulp.task('debug-watch', function () {
         console.log('File ' + arguments[0] + ' was updated, running tasks...');
     });
 
-    var watcher_website = gulp.watch(['**', '!bower_components/**'], {
+    var watcher_website = gulp.watch(['**', '!project/style/*.less', '!bower_components/**'], {
             cwd : path.website
         }, gulp.series('website'));
         
     watcher_website.on('change', function () {
+        console.log('File ' + arguments[0] + ' was updated, running tasks...');
+    });
+
+    var watcher_less = gulp.watch(['project/style/*.less', '!bower_components/**'], {
+            cwd : path.website
+        }, gulp.series('less'));
+
+    watcher_less.on('change', function () {
         console.log('File ' + arguments[0] + ' was updated, running tasks...');
     });
 });
