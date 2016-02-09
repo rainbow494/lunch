@@ -1,17 +1,23 @@
 require.config({
     baseUrl : 'bower_components',
+    // shim: {
+    //     'bootstrap.min': ['jquery']
+    // },
     paths : {
         jquery : 'jquery/dist/jquery',
         knockout : 'knockout/dist/knockout',        
         'knockout-amd-helpers': 'knockout-amd-helpers/build/knockout-amd-helpers',
         'text': 'text/text',
         util : '../project/js/util',
-        api : '../project/js/api'
+        api : '../project/js/api',
+        bootstrap : 'bootstrap/dist/js/bootstrap.min'
     }
 });
 
 require(['jquery', 'knockout', 'util', 'api', 'knockout-amd-helpers', 'text'], function ($, ko, util, api) {
 
+    require(['bootstrap']);
+    
     function EditViewModel() {
         ko.amdTemplateEngine.defaultPath = "../templates";
         this.obLunchAccounts = ko.observableArray();
