@@ -7,6 +7,9 @@
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="project/style/main.css" rel="stylesheet">
 
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
     <title>Lunch Account</title>
 </head>
 <body class="HolyGrail">
@@ -14,62 +17,36 @@
     <div class="HolyGrail-body">
         <div class="container">
             <div class="row">
-                <h1><span class="text-capitalize"><!--ko text:obAccountName--><!--/ko--></span>'s Account</h1>
-                <div class="container">
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table table-striped ">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>#</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: obLunchDetail">
-                                    <tr>
-                                        <td style="vertical-align:middle" class="col-md-3" data-bind="text:$parent.formatDate(date)"></td>
-                                        <td style="vertical-align:middle" class="col-md-3" data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
-                                        <td style="vertical-align:middle" class="col-md-3" >
-                                            <input type="number" data-bind="textInput:amount" class="form-control">
-                                        </td>
-                                        <td class="col-md-3">
-                                            <button class="btn btn-primary" data-bind="click: $parent.updateDetailClickGen($data._id, $data.amount)">Update</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>#</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="vertical-align:middle" class="col-md-3">
-                                            <input type="string" data-bind="textInput:obInsertDate" class="form-control">
-                                        </td>
-                                        <td style="vertical-align:middle" class="col-md-3">
-                                            <input type="number" data-bind="textInput:obInsertAmount" class="form-control">
-                                        </td>
-                                        <td class="col-md-3">
-                                        </td>
-                                        <td class="col-md-3">
-                                            <button class="btn btn-primary" data-bind="click:insertDetailClick">Insert</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <h2><span class="text-capitalize"><!--ko text:obAccountName--><!--/ko--></span>'s Account</h2>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bind="text:formatDateRange(obSelectedDateRange())">                        
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-bind="foreach: obDateRanges" aria-labelledby="dLabel">
+                        <li><a href="#" data-bind="text:$parent.formatDateRange($data)"></a></li>
+                    </ul>
                 </div>
-                <h3>Last Month <small>(Recharge : --.--)</small> <small>(Payment : --.--)</small></h3>
             </div>
-        </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: obLunchDetail">
+                            <tr>
+                                <td style="vertical-align:middle" data-bind="text:$parent.formatDate(date)"></td>
+                                <td style="vertical-align:middle" data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h3>Last Month <small>(Recharge : --.--)</small> <small>(Payment : --.--)</small></h3>
+        </div>    
     </div>
     <footer data-bind="template: 'footer'"></footer>
     <script data-main="project/js/detail" src="bower_components/requirejs/require.js" defer async="true"></script>

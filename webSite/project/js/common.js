@@ -1,14 +1,17 @@
 require.config({
     baseUrl : 'bower_components',
     paths : {
+        jquery : 'jquery/dist/jquery',        
+        'text': 'text/text',
         knockout : 'knockout/dist/knockout',
         'knockout-amd-helpers': 'knockout-amd-helpers/build/knockout-amd-helpers',
-        'text': 'text/text',
-        jquery : 'jquery/dist/jquery',
-        bootstrap : 'bootstrap/dist/js/bootstrap.min'
+        bootstrap : 'bootstrap/dist/js/bootstrap.min',
+        util : '../project/js/util',
+        api : '../project/js/api'
     }
 });
 
-// define(['jquery', 'knockout', 'knockout-amd-helpers', 'text'], function ($, ko) {
-//     require(['bootstrap']);
-// });
+define(['jquery', 'text', 'knockout', 'knockout-amd-helpers', 'api', 'util'], function () {
+	require(['bootstrap'], function () {
+	});
+});
