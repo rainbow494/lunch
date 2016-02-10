@@ -1,13 +1,6 @@
-// require.config({
-//     baseUrl: 'bower_components',
-//     paths: {
-//         moment: 'momentjs/moment'
-//     }
-// });
-
 require(['common'], function () {
     require(['util', 'api', 'knockout', 'moment'], function (util, api, ko, moment) {
-      
+
         function DetailViewModel() {
             ko.amdTemplateEngine.defaultPath = "../templates";
             this.obAccountName = ko.observable('paul');
@@ -18,7 +11,34 @@ require(['common'], function () {
             this.obSelectedDateRange = ko.observable(this.obDateRanges()[0]);
 
             this.dataRangeSeleted = this.dataRangeSeleted.bind(this);
-            this.loadPage = this.loadPage.bind(this);            
+            this.loadPage = this.loadPage.bind(this);
+
+            this.obRecharge = ko.computed(function() {
+                if(this.obLunchDetail().length === 0)
+                    return '0.00';
+
+                var result = this.obLunchDetail().reduce(function(sum, prevItem) {
+                    if (prevItem.amount > 0)
+                        return sum + prevItem.amount;
+                    else
+                        return sum;
+                }, 0);
+
+                return result.toFixed(2);
+            }, this); 
+            this.obPayment =  ko.computed(function() {
+                if(this.obLunchDetail().length === 0)
+                    return '0.00';
+
+                var result = this.obLunchDetail().reduce(function(sum, prevItem) {
+                    if (prevItem.amount < 0)
+                        return sum + prevItem.amount;
+                    else
+                        return sum;
+                }, 0);
+
+                return result.toFixed(2);
+            }, this);  
         }
 
         var DateRange = function(name, startDate, endDate) {
@@ -30,10 +50,10 @@ require(['common'], function () {
         DetailViewModel.prototype._getDateRanges = function()
         {
             return ko.observableArray([
-                    new DateRange('本周', moment().day(0), moment().day(6)),
-                    new DateRange('上周', moment().day(-7), moment().day(-1)),
-                    new DateRange('本月', moment().startOf('month'), moment().endOf('month')),
-                    new DateRange('全部记录')
+                new DateRange('本周', moment().day(0), moment().day(6)),
+                new DateRange('上周', moment().day(-7), moment().day(-1)),
+                new DateRange('本月', moment().startOf('month'), moment().endOf('month')),
+                new DateRange('全部记录')
                 ]);
         };
 
@@ -80,16 +100,16 @@ require(['common'], function () {
 
             if (self.obSelectedDateRange().startDate || self.obSelectedDateRange().endDate)
                 api.getDetailsByNameAndDateRange(self.obAccountName(), self.obSelectedDateRange().startDate.format('YYYY-MM-DD'), self.obSelectedDateRange().endDate.format('YYYY-MM-DD'))
-                .done(function (data) {
-                    var result = JSON.parse(data);
-                    self.obLunchDetail(result);
-                });
+            .done(function (data) {
+                var result = JSON.parse(data);
+                self.obLunchDetail(result);
+            });
             else
                 api.getDetailsByName(self.obAccountName())
-                .done(function (data) {
-                    var result = JSON.parse(data);
-                    self.obLunchDetail(result);
-                });
+            .done(function (data) {
+                var result = JSON.parse(data);
+                self.obLunchDetail(result);
+            });
             
         };
 

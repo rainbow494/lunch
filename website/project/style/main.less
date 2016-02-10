@@ -1,37 +1,57 @@
 @navbar-height:50px;
 
-.HolyGrail {
+.holygrail {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
-.HolyGrail-body {
-    padding-top:60px;
+.holygrail-body {
     display: flex;
     flex: 1;
     margin-top: @navbar-height;
     max-height: calc(~'100vh - 10vh' - @navbar-height);
+    flex-direction: column;
     overflow: auto;
-}
 
-@media only screen and (max-device-height: 480px) {
-    .HolyGrail-body {
-        padding-top:20px;
+    h3,h4 {
+        display: flex;
+        align-items: center;
+    }
+
+    h3{
+        justify-content:center;
+    }
+
+    h4 {
+        justify-content:flex-end;
+    }
+
+    .container{
+        margin-top: -5px;
+
+        .row {
+            margin-top: 10px;
+        }
     }
 }
 
-.HolyGrail-content {
+@media only screen and (max-device-height: 480px) {
+    .holygrail-body {
+    }
+}
+
+.holygrail-content {
     flex: 1;
 }
 
-.HolyGrail-nav, .HolyGrail-ads {
+/*.holygrail-nav, .holygrail-ads {
     flex: 0 0 12em;
 }
 
-.HolyGrail-nav {
+.holygrail-nav {
     order: -1;
-}
+}*/
 
 /*header,*/
 footer {
@@ -42,14 +62,7 @@ footer {
     align-items: center;
     background-color:#293134;
     color:white;
-}
 
-footer {
-
-  display: inline-flex;  
-  justify-content: center;
-  align-items: center;
-  flex: 1;
     a,
     a:active,
     a:hover,
