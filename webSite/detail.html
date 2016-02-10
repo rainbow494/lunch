@@ -23,7 +23,7 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" data-bind="foreach: obDateRanges" aria-labelledby="dLabel">
-                        <li><a href="#" data-bind="text:$parent.formatDateRange($data)"></a></li>
+                        <li><a href="#" data-bind="click:$parent.dataRangeSeleted, text:$parent.formatDateRange($data)"></a></li>
                     </ul>
                 </div>
             </div>

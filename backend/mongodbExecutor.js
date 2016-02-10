@@ -81,7 +81,7 @@
                 })
                 .finally (function () {
                     if (self.db) {
-                        //self.db.close();                        
+                        self.db.close();                        
                     }
                 });
             }

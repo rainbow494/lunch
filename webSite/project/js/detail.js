@@ -14,8 +14,11 @@ require(['common'], function () {
             this.obLunchDetail = ko.observableArray();
             this.obInsertDate = ko.observable(util.getToday());
             this.obInsertAmount = ko.observable(-1);
-            this.obDateRanges = DetailViewModel._getDateRanges();
+            this.obDateRanges = this._getDateRanges();
             this.obSelectedDateRange = ko.observable(this.obDateRanges()[0]);
+
+            this.dataRangeSeleted = this.dataRangeSeleted.bind(this);
+            this.loadPage = this.loadPage.bind(this);            
         }
 
         var DateRange = function(name, startDate, endDate) {
@@ -24,7 +27,7 @@ require(['common'], function () {
             this.endDate = endDate;
         };
 
-        DetailViewModel._getDateRanges = function()
+        DetailViewModel.prototype._getDateRanges = function()
         {
             return ko.observableArray([
                     new DateRange('本周', moment().day(0), moment().day(6)),
@@ -32,6 +35,11 @@ require(['common'], function () {
                     new DateRange('本月', moment().startOf('month'), moment().endOf('month')),
                     new DateRange('全部记录')
                 ]);
+        };
+
+        DetailViewModel.prototype.dataRangeSeleted = function(args, event) { // jshint ignore:line
+            this.obSelectedDateRange(args);
+            this.loadPage();
         };
 
         DetailViewModel.prototype.formatDateRange = function(dateRange)
@@ -70,11 +78,19 @@ require(['common'], function () {
             var name = util.getParameterByName('name') || self.obAccountName(); 
             self.obAccountName(name);
 
-            api.getDetail(self.obAccountName())
-            .done(function (data) {
-                var result = JSON.parse(data);
-                self.obLunchDetail(result);
-            });
+            if (self.obSelectedDateRange().startDate || self.obSelectedDateRange().endDate)
+                api.getDetailsByNameAndDateRange(self.obAccountName(), self.obSelectedDateRange().startDate.format('YYYY-MM-DD'), self.obSelectedDateRange().endDate.format('YYYY-MM-DD'))
+                .done(function (data) {
+                    var result = JSON.parse(data);
+                    self.obLunchDetail(result);
+                });
+            else
+                api.getDetailsByName(self.obAccountName())
+                .done(function (data) {
+                    var result = JSON.parse(data);
+                    self.obLunchDetail(result);
+                });
+            
         };
 
         // setTimeout(function() {

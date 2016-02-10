@@ -13,9 +13,20 @@ define(['jquery'], function ($) {
         });
     };
     
-    var getDetail = function (accountName) {
+    var getDetailsByName = function (accountName) {
         return $.ajax({
             url : apiUrl + 'detail/queryDetailsByName?name=' + accountName,
+            beforeSend : function (xhr) { 
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        }).fail(function (err) {
+            console.warn(err);
+        });
+    };
+
+    var getDetailsByNameAndDateRange = function (accountName, startDate, endDate) {
+        return $.ajax({
+            url : apiUrl + 'detail/queryDetailsByNameAndDate?name=' + accountName + '&startdate=' + startDate + '&enddate=' + endDate,
             beforeSend : function (xhr) { 
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
@@ -81,7 +92,8 @@ define(['jquery'], function ($) {
 
     api.getSummary = getSummary;
     api.updateAccountByAmount = updateAccountByAmount;
-    api.getDetail = getDetail;
+    api.getDetailsByName = getDetailsByName;
+    api.getDetailsByNameAndDateRange = getDetailsByNameAndDateRange;
     api.updateDetail = updateDetail;
     api.insertDetail = insertDetail;
     
