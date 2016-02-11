@@ -59,7 +59,7 @@ require(['common'], function () {
                 var accounts = JSON.parse(data);
                 accounts = accounts.map(function (account) {
                     account.insertAmount = 0;
-                    account.insertDate = util.getToday();
+                    account.insertDate = util.getFormatToday();
                     return account;
                 });
                 self.obLunchAccounts(accounts);

@@ -2,14 +2,30 @@ require.config({
     baseUrl: 'bower_components',
     paths: {
         jquery: 'jquery/dist/jquery',
-        moment: 'momentjs/moment'
+        moment: 'moment/moment'
     }
 });
 
 define(['jquery', 'moment'], function($, moment) {
     var util = {};
-    util.getToday = function() {
-        return moment().format('YYYY-MM-DD');
+    util.getFormatToday = function() {
+        return moment().format('YYYY/MM/DD');
+    };
+
+    util.getShortFormateDate = function(momentDate) {
+        return momentDate.format('MM/DD');
+    };
+
+    util.getLongFormateDate = function(momentDate) {
+        return momentDate.format('YYYY/MM/DD');
+    };
+
+    util.covertISOToFormatDate = function(isoDate) {
+        return isoDate.split('T')[0];
+    };
+
+    util.covertISOToMomentDate = function(isoDate) {
+        return moment(util.covertISOToFormatDate(isoDate));
     };
 
     util.getParameterByName = function(name) {
