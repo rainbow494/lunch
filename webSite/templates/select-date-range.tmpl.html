@@ -1,0 +1,8 @@
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bind="text:formatDateRange(obSelectedDateRange())">                        
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" data-bind="foreach: obDateRanges" aria-labelledby="dLabel">
+        <li><a href="#" data-bind="click:$parent.dataRangeSeleted, text:$parent.formatDateRange($data)"></a></li>
+    </ul>
+</div>

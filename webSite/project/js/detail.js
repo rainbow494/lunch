@@ -13,32 +13,8 @@ require(['common'], function () {
             this.dataRangeSeleted = this.dataRangeSeleted.bind(this);
             this.loadPage = this.loadPage.bind(this);
 
-            this.obRecharge = ko.computed(function() {
-                if(this.obLunchDetail().length === 0)
-                    return '0.00';
-
-                var result = this.obLunchDetail().reduce(function(sum, prevItem) {
-                    if (prevItem.amount > 0)
-                        return sum + prevItem.amount;
-                    else
-                        return sum;
-                }, 0);
-
-                return result.toFixed(2);
-            }, this); 
-            this.obPayment =  ko.computed(function() {
-                if(this.obLunchDetail().length === 0)
-                    return '0.00';
-
-                var result = this.obLunchDetail().reduce(function(sum, prevItem) {
-                    if (prevItem.amount < 0)
-                        return sum + prevItem.amount;
-                    else
-                        return sum;
-                }, 0);
-
-                return result.toFixed(2);
-            }, this);  
+            this.obRecharge = ko.computed(function() { return this._computedAmount(-1); }, this);
+            this.obPayment =  ko.computed(function() { return this._computedAmount(1); }, this);  
         }
 
         var DateRange = function(name, startDate, endDate) {
@@ -47,8 +23,21 @@ require(['common'], function () {
             this.endDate = endDate;
         };
 
-        DetailViewModel.prototype._getDateRanges = function()
-        {
+        DetailViewModel.prototype._computedAmount = function(reduceCondition) {
+            if(this.obLunchDetail().length === 0)
+                return '0.00';
+
+            var result = this.obLunchDetail().reduce(function(sum, prevItem) {
+                if (prevItem.amount * reduceCondition < 0)
+                    return sum + prevItem.amount;
+                else
+                    return sum;
+            }, 0);
+
+            return result.toFixed(2);
+        };
+
+        DetailViewModel.prototype._getDateRanges = function(){
             return ko.observableArray([
                 new DateRange('本周', moment().day(0), moment().day(6)),
                 new DateRange('上周', moment().day(-7), moment().day(-1)),
@@ -72,9 +61,16 @@ require(['common'], function () {
             return displayItem;
         };
 
-        DetailViewModel.prototype.formatDate = function(date)
+        DetailViewModel.prototype.convertToWeekDay = function(dateString)
         {
-            return date.split('T')[0];
+            var date = moment(dateString.split('T')[0]);
+            return moment.weekdaysMin(date.weekday());
+        };
+
+        DetailViewModel.prototype.formatDate = function(dateString)
+        {
+            var date = moment(dateString.split('T')[0]);
+            return date.format('MM/DD');
         };
         
         DetailViewModel.prototype.updateDetailClickGen = function(id, amount){

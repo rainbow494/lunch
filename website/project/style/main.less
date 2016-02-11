@@ -7,24 +7,17 @@
 }
 
 .holygrail-body {
-    display: flex;
-    flex: 1;
     margin-top: @navbar-height;
     max-height: calc(~'100vh - 10vh' - @navbar-height);
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    flex: 1;    
     overflow: auto;
 
-    h3,h4 {
-        display: flex;
-        align-items: center;
-    }
-
     h3{
+        display: flex;
         justify-content:center;
-    }
-
-    h4 {
-        justify-content:flex-end;
     }
 
     .container{
@@ -36,8 +29,12 @@
     }
 }
 
-@media only screen and (max-device-height: 480px) {
+@media only screen and (max-device-width: 767px) {
     .holygrail-body {
+        .dropdown{
+            display: flex;
+            justify-content: center;
+        }
     }
 }
 
@@ -82,4 +79,15 @@ footer {
     right: 0;
     border: 0;
     height: 10vh;
+}
+
+.amount{
+
+    float:right;
+    
+    h4 {
+        display: flex;
+        justify-content:space-between;
+        width:150px;
+    }
 }
