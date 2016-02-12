@@ -1,6 +1,7 @@
 (function () {
     var express = require('express');
     var bodyParser = require('body-parser');
+    var favicon = require('serve-favicon');
 	//var moment = require('moment');
 	
 	var util = require('./util');
@@ -14,7 +15,14 @@
         }));
 
     app.get('/api/test', function (req, res) {
-        res.send('Api is working!');
+        res.send('Api is working!\n' +
+            'api/lunch/summary \n' +
+            'api/lunch/updateAccountByAmount \n' +
+            '\n' +
+            '\n' +
+            '\n' +
+            '\n' +
+            '\n');
     });
 
     app.get('/api/lunch/summary', function (req, res, next) {
@@ -46,7 +54,7 @@
         //res.json("this api is deprecated!");
     });
 
-    app.get('/api/detail/queryDetailsByName', function (req, res, next) {
+    app.get('/api/detail/queryDetailsByName', function (req, res, next) { // jshint ignore:line 
         var accountName = req.query.name || 'paul';
 		res.redirect('/api/detail/queryDetailsByNameAndDate?name=' + accountName);
     });
@@ -86,9 +94,23 @@
         .catch (next);
     });
 
+    app.get('/api/weather/queryWeathersByDate', function (req, res, next) {
+        var startDate = req.query.startdate || util.getDefaultStartDate();
+        var endDate = req.query.enddate || util.getToday();
+
+        dbHelper.weather.queryByDate(startDate, endDate)
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch (next);
+    });
+
     app.use(express.static('../webSite', {
             index : 'index.html'
         }));
+    
+    // app.use(favicon(__dirname + '/favicon.ico'));
+    app.use(favicon('../webSite/favicon.ico'));
 
     app.use(function (req, res) {
         res.send('404: Page not Found', 404);

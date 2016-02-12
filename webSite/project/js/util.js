@@ -9,7 +9,7 @@ require.config({
 define(['jquery', 'moment'], function($, moment) {
     var util = {};
     util.getFormatToday = function() {
-        return moment().format('YYYY/MM/DD');
+        return moment().format('YYYY-MM-DD');
     };
 
     util.getShortFormateDate = function(momentDate) {
@@ -17,7 +17,7 @@ define(['jquery', 'moment'], function($, moment) {
     };
 
     util.getLongFormateDate = function(momentDate) {
-        return momentDate.format('YYYY/MM/DD');
+        return momentDate.format('YYYY-MM-DD');
     };
 
     util.covertISOToFormatDate = function(isoDate) {

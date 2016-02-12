@@ -6,6 +6,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         ko.amdTemplateEngine.defaultPath = "../templates";
         this.obAccountName = ko.observable('paul');
         this.obLunchDetail = ko.observableArray();
+        this.obWeathers = ko.observableArray();
         this.obInsertDate = ko.observable(util.getFormatToday());
         this.obInsertAmount = ko.observable(-1);
         this.obDateRanges = this._getDateRanges();
@@ -17,9 +18,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         this.obRecharge = ko.computed(function() { return this._computedAmount(-1); }, this);
         this.obPayment =  ko.computed(function() { return this._computedAmount(1); }, this);
 
-        this.myChart = echarts.init($('#main')[0]);
-
-
+        this.myChart = $('#main').length > 0 ? echarts.init($('#main')[0]) : null;
     }
 
     var DateRange = function(name, startDate, endDate, type) {
@@ -120,23 +119,35 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         }
     };
 
-    var ChartData = function(date, payment, temperature) {
+    var ChartData = function(date, payment, temperature, weatherText) {
         this.date = date;
         this.payment = payment;
         this.temperature = temperature;
+        this.weatherText = weatherText;
     };
 
     DetailViewModel.prototype._afterLoadDetails = function (data) {
-        var result = JSON.parse(data);
-        this.obLunchDetail(result);
+        var self = this;
 
-        var series = this._getSeries({
-          'startDate' : this._getSeriesStartDate(),  
-          'endDate' : this.obSelectedDateRange().endDate,
-          'details' : this.obLunchDetail(),
-          'weather' : []
+        var result = JSON.parse(data);
+        self.obLunchDetail(result);
+
+        api.getWeathersByDateRange(
+            util.getLongFormateDate(self.obSelectedDateRange().startDate), 
+            util.getLongFormateDate(self.obSelectedDateRange().endDate)
+        )
+        .done(function (data) {
+            result = JSON.parse(data);
+            self.obWeathers(result);
+
+            var series = self._getSeries({
+              'startDate' : self._getSeriesStartDate(),  
+              'endDate' : self.obSelectedDateRange().endDate,
+              'details' : self.obLunchDetail(),
+              'weathers' : self.obWeathers()
+            });
+            self.loadChart(series, self.myChart);
         });
-        this.loadChart(series, this.myChart);
     };
 
     DetailViewModel.prototype._getSeriesStartDate = function() {
@@ -155,6 +166,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
 
     DetailViewModel.prototype._getSeries = function(option) {
         var details = option.details;
+        var weathers = option.weathers;
 
         var startDate = option.startDate;
         var endDate = option.endDate;
@@ -172,8 +184,14 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
                         return sum + todayPayments.amount;
                 }, 0) * -1;
 
-            var temperature = 0;
-            return new ChartData(date, payment, temperature);
+            var todayWeather = weathers.filter(function (weather) {
+                if (util.covertISOToFormatDate(date.toISOString()) === util.covertISOToFormatDate(weather.date))
+                    return true;
+            });
+
+            var averageTemperature = todayWeather.length > 0 ? todayWeather[0].high : 0; //(weather[0].high + weather[0].low) / 2;
+            var weatherText = todayWeather.length > 0 ? todayWeather[0].text : '';
+            return new ChartData(date, payment, averageTemperature, weatherText);
         });
 
         return series;
@@ -181,8 +199,11 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
 
     DetailViewModel.prototype.loadChart = function(series, echart){
 
-        var xAxisData = series.map(function(item) {
-            return item.date.format('M/D');
+        if (!echart)
+            return;
+
+        var xAxisDate = series.map(function(item) {
+            return item.date.format('M/D') + '\n' + item.weatherText;
         });
 
         var seriesPayment = series.map(function(item) {
@@ -216,7 +237,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
             },
             grid: {
               left: '3%',
-              right: '4%',
+              right: '3%',
               bottom: '3%',
               containLabel: true,
             //backgroundColor : '#aaa',
@@ -229,13 +250,13 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
             xAxis : [
             {
                 type : 'category',
-                data : xAxisData,
+                data : xAxisDate,
                 // name : 'week day',
                 // nameLocation :'middle',
                 axisLine: {
                     show:false
                 }
-            }
+            }           
             ],
             yAxis : [
             {
@@ -252,9 +273,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
                 axisLabel : {
                     formatter: '{value} °C'
                 },
-                // axisLine: {
-                //     show:true
-                // }
+                boundaryGap: ['0', '.1']
             }],
             series : [
             {

@@ -6,6 +6,7 @@
     var _defaultDbConnectionString = 'mongodb://<mongodb.hostname>:<mongodb.port>/<mongodb.dbname>';
     var _lunchCollection = 'lunch';
     var _detailCollection = 'detail';
+    var _weatherCollection = 'weather';
 
     var MongoClient = mongodb.MongoClient;
     var Collection = mongodb.Collection;
@@ -59,6 +60,13 @@
                 mongo.dbExecutor = _updateDetailAndAccount;
                 return mongo.process.apply(mongo, arguments);
             }
+        };
+
+        this.weather = {
+            queryByDate : function () {
+                mongo.dbExecutor = _queryWeatherByDate;
+                return mongo.process.apply(mongo, arguments);
+            },
         };
 
         var mongoStore = {
@@ -236,6 +244,18 @@
     // })
     // .limit(1).toArrayAsync();
     // }
+
+    function _queryWeatherByDate(db, startDate, endDate) {
+        var collection = db.collection(_weatherCollection);        
+        return collection.find({
+            date : {
+                $gte : new Date(startDate),
+                $lte : new Date(endDate)
+            }
+        }).sort({
+            date : 1
+        }).toArrayAsync();
+    }
 
     exports.mongdbExecutor = function (db) {
         return new MongdbExecutor(db);

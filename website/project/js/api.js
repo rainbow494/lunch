@@ -90,12 +90,24 @@ define(['jquery'], function ($) {
         });
     };
 
+    var getWeathersByDateRange = function (startDate, endDate) {
+        return $.ajax({
+            url : apiUrl + 'weather/queryWeathersByDate?startdate=' + startDate + '&enddate=' + endDate,
+            beforeSend : function (xhr) { 
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        }).fail(function (err) {
+            console.warn(err);
+        });
+    };
+
     api.getSummary = getSummary;
     api.updateAccountByAmount = updateAccountByAmount;
     api.getDetailsByName = getDetailsByName;
     api.getDetailsByNameAndDateRange = getDetailsByNameAndDateRange;
     api.updateDetail = updateDetail;
     api.insertDetail = insertDetail;
+    api.getWeathersByDateRange = getWeathersByDateRange;
     
     return api;
 });
