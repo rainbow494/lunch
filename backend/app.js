@@ -3,7 +3,7 @@
     var bodyParser = require('body-parser');
     var favicon = require('serve-favicon');
 	//var moment = require('moment');
-	
+
 	var util = require('./util');
     //var dbConnection = 'mongodb://localhost:27017/test';
     //var dbHelper = require('./mongodbExecutor.js').mongdbExecutor(dbConnection);
@@ -54,7 +54,7 @@
         //res.json("this api is deprecated!");
     });
 
-    app.get('/api/detail/queryDetailsByName', function (req, res, next) { // jshint ignore:line 
+    app.get('/api/detail/queryDetailsByName', function (req, res, next) { // jshint ignore:line
         var accountName = req.query.name || 'paul';
 		res.redirect('/api/detail/queryDetailsByNameAndDate?name=' + accountName);
     });
@@ -108,7 +108,7 @@
     app.use(express.static('../webSite', {
             index : 'index.html'
         }));
-    
+
     // app.use(favicon(__dirname + '/favicon.ico'));
     app.use(favicon('../webSite/favicon.ico'));
 

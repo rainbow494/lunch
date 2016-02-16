@@ -1,22 +1,22 @@
 (function () {
-    moment = require('moment');
+    var moment = require('moment');
 
-    function util() {};
+    function util() {}
 
     util.getDefaultStartDate = function () {
         return '2015-01-01';
     };
 
     util.getToday = function () {
-        return moment().format("YYYY-MM-DD");
+        return moment().format('YYYY-MM-DD');
     };
 
     util.getWeekStart = function () {
-        return moment().day(1).format("YYYY-MM-DD");
+        return moment().day(1).format('YYYY-MM-DD');
     };
 
     util.getWeekEnd = function () {
-        return moment().day(5).format("YYYY-MM-DD");
+        return moment().day(5).format('YYYY-MM-DD');
     };
 
     util.getZhDate = function () {
@@ -32,6 +32,11 @@
         return _weekday[weekdayIdx];
     };
 
+    util.convertF2C = function (fahrenheit) {
+        // convert fahrenheit to celsius
+        return ((fahrenheit - 32) / 1.8).toFixed(1);
+    };
+
     var _weekday = {
         0 : "周日",
         1 : "周一",
@@ -40,7 +45,7 @@
         4 : "周四",
         5 : "周五",
         6 : "周六"
-    }
+    };
 
     module.exports = util;
 })();

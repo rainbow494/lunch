@@ -58,6 +58,17 @@
         //return data;
     }
 
+    function _getNotifyMailBody(message) {
+        var data = {
+          from: 'rainbow494@qq.com',
+          to: 'rainbow494@qq.com',
+          subject: util.getZhDate() + ' weather forecast',
+          text: message
+        };
+
+        return Promise.resolve(data);
+    }
+
     function _getDisplayDetails(details) {
         var displayDetails = [];
         displayDetails = details.map(function(detail) {
@@ -126,7 +137,7 @@
             .then(function(mailbody) {
                 return _sendmail(mailbody);
             });
-            
+
     }
 
     function _sendWeeklyReportBatch(account) {
@@ -157,6 +168,19 @@
             });
     }
 
+    function sendWeatherReportToAdmin(weatherReport) {
+        return sendNotifyReportToAdmin(JSON.stringify(weatherReport));
+    }
+
+    function sendNotifyReportToAdmin(message) {
+        return _getNotifyMailBody(message)
+            .then(function(mailbody) {
+                return _sendmail(mailbody);
+            })
+            .then(function() {
+                return Promise.resolve("Sent notify reports complate");
+            });
+    }
 
     MailHelper.prototype._getMailBody = _getMailBody; // For test
     MailHelper.prototype._getExpense = _getExpense; // For test
@@ -164,6 +188,9 @@
 
     MailHelper.prototype.sendWeeklyReport = sendWeeklyReport;
     MailHelper.prototype.sendWeeklyReports = sendWeeklyReports;
+
+    MailHelper.prototype.sendWeatherReportToAdmin = sendWeatherReportToAdmin;
+    MailHelper.prototype.sendNotifyReportToAdmin = sendNotifyReportToAdmin;
 
     module.exports.mailHelper = function(option) {
         return new MailHelper(option);

@@ -51,7 +51,7 @@
             queryByNameAndDate : function () {
                 mongo.dbExecutor = _queryDetailsByNameAndDate;
                 return mongo.process.apply(mongo, arguments);
-            },            
+            },
             insert : function () {
                 mongo.dbExecutor = _insertDetailAndUpdateAccount;
                 return mongo.process.apply(mongo, arguments);
@@ -67,6 +67,10 @@
                 mongo.dbExecutor = _queryWeatherByDate;
                 return mongo.process.apply(mongo, arguments);
             },
+            insert :  function () {
+                mongo.dbExecutor = _insertWeather;
+                return mongo.process.apply(mongo, arguments);
+            }
         };
 
         var mongoStore = {
@@ -89,7 +93,7 @@
                 })
                 .finally (function () {
                     if (self.db) {
-                        self.db.close();                        
+                        self.db.close();
                     }
                 });
             }
@@ -191,7 +195,7 @@
     // }
 
     function _queryDetailsByNameAndDate(db, name, startDate, endDate) {
-        var collection = db.collection(_detailCollection);        
+        var collection = db.collection(_detailCollection);
         return collection.find({
             name : name,
             date : {
@@ -246,7 +250,7 @@
     // }
 
     function _queryWeatherByDate(db, startDate, endDate) {
-        var collection = db.collection(_weatherCollection);        
+        var collection = db.collection(_weatherCollection);
         return collection.find({
             date : {
                 $gte : new Date(startDate),
@@ -255,6 +259,16 @@
         }).sort({
             date : 1
         }).toArrayAsync();
+    }
+
+    function _insertWeather(db, weatherReport) {
+        var weatherCollection = db.collection(_weatherCollection);
+        return weatherCollection.insertAsync({
+            date : new Date(weatherReport.date),
+            high : weatherReport.high,
+            low : weatherReport.low,
+            text : weatherReport.text
+        });
     }
 
     exports.mongdbExecutor = function (db) {
