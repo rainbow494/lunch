@@ -34,7 +34,7 @@
 
     util.convertF2C = function (fahrenheit) {
         // convert fahrenheit to celsius
-        return ((fahrenheit - 32) / 1.8).toFixed(1);
+        return ((fahrenheit - 32) / 1.8).toFixed(0);
     };
 
     var _weekday = {
