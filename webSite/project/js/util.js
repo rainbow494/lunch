@@ -37,11 +37,15 @@ define(['jquery', 'moment'], function($, moment) {
 
     util.format = function() {
       var s = arguments[0];
-      for (var i = 0; i < arguments.length - 1; i++) {       
-          var reg = new RegExp("\\{" + i + "\\}", "gm");             
+      for (var i = 0; i < arguments.length - 1; i++) {
+          var reg = new RegExp("\\{" + i + "\\}", "gm");
           s = s.replace(reg, arguments[i + 1]);
       }
       return s;
+    };
+
+    util.formatAmount = function (amount) {
+        return (amount || 0).toFixed(1);
     };
 
   return util;

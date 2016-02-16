@@ -22,6 +22,7 @@
             // var condition = data.query.results.channel[0].item;
             try {
                 var todayWearthReport = data.query.results.channel[0].item.forecast;
+                todayWearthReport.dateText = todayWearthReport.date;
                 todayWearthReport.date = util.getToday();
                 todayWearthReport.high = util.convertF2C(todayWearthReport.high);
                 todayWearthReport.low = util.convertF2C(todayWearthReport.low);

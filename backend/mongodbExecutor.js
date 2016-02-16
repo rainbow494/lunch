@@ -267,7 +267,9 @@
             date : new Date(weatherReport.date),
             high : weatherReport.high,
             low : weatherReport.low,
-            text : weatherReport.text
+            text : weatherReport.text,
+            code : weatherReport.code,
+            dateText : weatherReport.dateText
         });
     }
 

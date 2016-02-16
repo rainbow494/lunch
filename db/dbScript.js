@@ -78,8 +78,8 @@ db.weather.insert({date:new Date('2016-02-11'), high:18, low:14, 'text':'rainy'}
 db.weather.insert({date:new Date('2016-02-12'), high:20, low:14, 'text':'cloudy'});
 db.weather.insert({date:new Date('2016-02-13'), high:19, low:4, 'text':'light rainy'});
 db.weather.insert({date:new Date('2016-02-14'), high:6, low:0, 'text':'light rainy'});
-db.weather.insert({date:new Date('2016-02-14'), high:10, low:3, 'text':'cloudy'});
-db.weather.insert({date:new Date('2016-02-14'), high:6, low:12, 'text':'partly cloudy'});
+db.weather.insert({date:new Date('2016-02-15'), high:10, low:3, 'text':'cloudy'});
+db.weather.insert({date:new Date('2016-02-16'), high:12, low:6, 'text':'partly cloudy'});
 // db.weather.insert({date:new Date('2016-02-15'), high:, low:, 'text':''});
 // db.weather.insert({date:new Date('2016-02-16'), high:, low:, 'text':''});
 // db.weather.insert({date:new Date('2016-02-17'), high:, low:, 'text':''});

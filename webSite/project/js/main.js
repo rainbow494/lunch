@@ -1,5 +1,5 @@
 require(['common'], function () {
-    require(['api', 'knockout'], function (api, ko) {
+    require(['api', 'knockout','util'], function (api, ko, util) {
         function IndexViewModel(){
             ko.amdTemplateEngine.defaultPath = "../templates";
             this.obLunchAccounts = ko.observableArray();
@@ -12,6 +12,10 @@ require(['common'], function () {
                 var result = JSON.parse(data);
                 self.obLunchAccounts(result);
             });
+        };
+
+        IndexViewModel.prototype.formatAmount = function(amount) {
+            return util.formatAmount(amount);
         };
 
     // setTimeout(function() {

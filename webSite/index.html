@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>  
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -30,7 +30,7 @@
                             <tbody data-bind="foreach: obLunchAccounts">
                                 <tr>
                                     <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
-                                    <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
+                                    <td style="vertical-align:middle" data-bind="text: $parent.formatAmount(account), css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
                                     <td>
                                         <form method="get" action="/detail.html" >
                                             <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
