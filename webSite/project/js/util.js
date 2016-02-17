@@ -45,7 +45,7 @@ define(['jquery', 'moment'], function($, moment) {
     };
 
     util.formatAmount = function (amount) {
-        return (amount || 0).toFixed(1);
+        return (amount ? parseFloat(amount) : 0).toFixed(1);
     };
 
   return util;
