@@ -15,10 +15,10 @@ db.lunch.insert({name:'paul', account: 0});
 // db.lunch.update({name:'chen'},{$set: {account: 29}});
 // db.lunch.update({name:'paul'},{$set: {account: 0}});
 
-db.lunch.update({name:'yuki'},{$set: {mail: '86158131@qq.com'}});
-db.lunch.update({name:'nick'},{$set: {mail: '372486150@qq.com'}});
+db.lunch.update({name:'yuki'},{$set: {mail: 'yuki.wang@transfinder.com'}});
+db.lunch.update({name:'nick'},{$set: {mail: 'weihuan.wang@transfinder.com'}});
 db.lunch.update({name:'tony'},{$set: {mail: 'tony.chen@transfinder.com'}});
-db.lunch.update({name:'weipu'},{$set: {mail: '94178875@qq.com'}});
+db.lunch.update({name:'weipu'},{$set: {mail: 'weipu.zhao@transfinder.com'}});
 db.lunch.update({name:'chen'},{$set: {mail: 'chenhao.gao@transfinder.com'}});
 db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
 
