@@ -7,6 +7,8 @@ db.lunch.insert({name:'tony', account: 0});
 db.lunch.insert({name:'weipu', account: 0});
 db.lunch.insert({name:'chen', account: 0});
 db.lunch.insert({name:'paul', account: 0});
+db.lunch.insert({name:'ted', account: 0});
+db.lunch.insert({name:'leo', account: 0});
 
 // db.lunch.update({name:'yuki'},{$set: {account: 53}});
 // db.lunch.update({name:'nick'},{$set: {account: -244.5}});
@@ -21,6 +23,9 @@ db.lunch.update({name:'tony'},{$set: {mail: 'tony.chen@transfinder.com'}});
 db.lunch.update({name:'weipu'},{$set: {mail: 'weipu.zhao@transfinder.com'}});
 db.lunch.update({name:'chen'},{$set: {mail: 'chenhao.gao@transfinder.com'}});
 db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
+
+db.lunch.update({name:'ted'},{$set: {mail: 'kai.li@transfinder.com'}});
+db.lunch.update({name:'leo'},{$set: {mail: 'chenjie.deng@transfinder.com'}});
 
 //Todo : add index of table
 
