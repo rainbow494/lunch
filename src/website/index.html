@@ -17,29 +17,27 @@
         <h3>Summary</h3>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Account</th>
-                                    <th>Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: obLunchAccounts">
-                                <tr>
-                                    <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
-                                    <td style="vertical-align:middle" data-bind="text: $parent.formatAmount(account), css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
-                                    <td>
-                                        <form method="get" action="/detail.html" >
-                                            <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Account</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: obLunchAccounts">
+                            <tr>
+                                <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
+                                <td style="vertical-align:middle" data-bind="text: $parent.formatAmount(account), css:{'text-danger': account < 0,'text-success': account >= 0} "></td>
+                                <td>
+                                    <form method="get" action="/detail.html" >
+                                        <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
