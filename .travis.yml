@@ -1,9 +1,0 @@
-env:
-    - TRAVIS_BUILD_DIR = rainbow494/lunch/gulp_tool
-language: node_js
-node_js:
-  - "0.12"
-sudo: required
-before_script:
-  - npm install -g gulp
-  - npm install -g mocha

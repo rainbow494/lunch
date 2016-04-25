@@ -1,13 +1,40 @@
 # Transfinder Shanghai Team Lunch Project
 ----
 
-## Plan Feature
-- Display accounts summary.
-- Display account stated of each user.
-- Edit account stated of each user.
-- Send report to each guy when account below the warning line(less then 10).
-- Send report to every one on Friday afternoon.
+## Feature
+- Input/Edit Lunch Account
+- Display Lunch Accounts' summary
+- Display Lunch Account's Detail by Grid & Chart (with daily temperature)
+- Send Weekly Report Each Friday Afternoon
 
+## Quick Start
+- PreInstall
+    - mongoDB
+    - nodejs
+    - nodemon
+    - node-inspector
+    - gulp
+
+- Build Debug Environment
+    - Init DB
+        - run ```src/db/dbScript.js``` in ```MongoDB```
+
+    - Build
+        - open ```./src/encrpty/```
+        - change ```secrets-template.json``` to ```secrets.json``` and update parameter by yours
+        - open ```./src/```
+        - run ```npm install ```
+        - run ```npm run build```
+
+    - Run & Debug
+        - open ```./src/build_debug/webSite/```
+        - run ```bower install ```
+        - open ```./src/build_debug/server/```
+        - run ```npm install ```
+        - open ```./src/```
+        - run ```npm run watch``` for watch code change
+        - in same path but new cmd, run ```npm run start``` for run server
+        - in same path but new cmd, run ```node-inspector``` for debug (open new chrome and input http://127.0.0.1:8080/?port=5858)
 
 ----
 
@@ -17,7 +44,7 @@
     - Bootstarp
     - Jquery
     - KnockoutJS
-    
+
 - BackEnd
     - Nodejs
         - bluebird

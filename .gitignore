@@ -1,7 +1,5 @@
-/node_modules
 */node_modules
 */bower_components
-/dist
-/debug-dist
-/encrpty/secrets.json
-/mobile
+/src/build_debug
+/src/build_product
+/src/encrpty/secrets.json
