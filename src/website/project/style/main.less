@@ -1,0 +1,94 @@
+@navbar-height:50px;
+
+.holygrail {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.holygrail-body {
+    margin-top: @navbar-height;
+    max-height: calc(~'100vh - 10vh' - @navbar-height);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;    
+    overflow: auto;
+
+    h3{
+        display: flex;
+        justify-content:center;
+    }
+
+    .container-fluid{
+        width:100%;
+        margin-top: -5px;
+
+        .row {
+            margin-top: 10px;
+        }
+    }
+}
+
+@media only screen and (max-device-width: 767px) {
+    .holygrail-body {
+        /*.dropdown{
+            display: flex;
+            justify-content: center;
+        }*/
+    }
+}
+
+.holygrail-content {
+    flex: 1;
+}
+
+/*.holygrail-nav, .holygrail-ads {
+    flex: 0 0 12em;
+}
+
+.holygrail-nav {
+    order: -1;
+}*/
+
+/*header,*/
+footer {
+    max-height: 10vh;
+    display: inline-flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color:#293134;
+    color:white;
+
+    a,
+    a:active,
+    a:hover,
+    a:focus{
+        font-style: italic;
+        border-bottom-width: 1px;
+        border-bottom-style: dotted;
+        color:white;
+        text-decoration: none;
+        outline:none;
+    }  
+}
+
+.github-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    height: 10vh;
+}
+
+.amount{
+
+    float:right;
+    
+    h4 {
+        display: flex;
+        justify-content:space-between;
+        width:150px;
+    }
+}

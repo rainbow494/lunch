@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.0.2",
+    "cron": "^1.0.9",
+    "express": "^4.13.3",
+    "handlebars": "^4.0.5",
+    "juice": "^1.8.1",
+    "mailgun-js": "^0.7.7",
+    "moment": "^2.11.1",
+    "mongodb": "^2.0.45",
+    "serve-favicon": "^2.3.0",
+    "yql": "^1.0.2"
+  },
+  "devDependencies": {
+    "body-parser": "^1.14.1",
+    "jshint": "^2.9.1-rc1"
+  }
+}
