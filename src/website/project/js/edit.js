@@ -26,20 +26,26 @@ require(['common'], function () {
         EditViewModel.prototype.insertAllDetailsClick = function () {
             var self = this;
 
-            var deferreds = [];
-            self.obLunchAccounts().forEach(function (item) {
-                if (item.insertAmount !== 0)
-                    deferreds.push(api.insertDetail(item.name, item.insertDate, item.insertAmount));
+            var tmp = self.obLunchAccounts().filter(function (item) {
+                return item.insertAmount !== 0;
             });
 
-            // 利用apply数组化参数
-            $.when.apply($, deferreds)
-            .done(function (data) {// jshint ignore:line
-                //var result = $.parseJSON(data);
-                //console.log(result);
-                //obResult(result);
-                self.loadPage();
-            });
+
+            if (tmp.length > 0){
+                var details = tmp.map(function (item) {
+                    return {
+                        name: item.name,
+                        date: item.insertDate,
+                        amount: item.insertAmount
+                    };
+                });
+
+                api.insertDetails2(details)
+                .done(function (data) {// jshint ignore:line
+                    //var result = $.parseJSON(data);
+                    self.loadPage();
+                });
+            }
         };
 
         EditViewModel.prototype.insertDetailClickGen = function (name, date, amount) {

@@ -39,13 +39,15 @@ MongoExecutor2.prototype.insertDetail = function(name, date, amount){
 
 MongoExecutor2.prototype.insertDetails = function(details){
     var self = this;
-    var detail = {
-        name: name,
-        date: new Date(date),
-        amount: amount
-    };
+    var detailEntities = details.map(function(detail) {
+        return {
+            name: detail.name,
+            date: new Date(detail.date),
+            amount: detail.amount
+        };
+    });
 
-    return self.DetailModel.create([detail,detail]);};
+    return self.DetailModel.create(detailEntities);};
 
 MongoExecutor2.prototype.updateDetail = function(_id, amount, date){
     var self = this;

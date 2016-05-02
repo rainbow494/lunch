@@ -1,6 +1,25 @@
 # Transfinder Shanghai Team Lunch Project
 ----
 
+## Planed Feature
+- 字段类型转换
+- api替换
+
+- 引入权限控制 -2h
+- 引入人员管理系统 -2h
+- 部署，测试
+
+- 数据导出
+- 数据导入
+
+- 批量插入数据 -2h
+- 点击人数 / 算出价格
+- 姓名下拉菜单
+
+- 配置
+- 移动端
+- 自动部署？？？
+
 ## Feature
 - Input/Edit Lunch Account
 - Display Lunch Accounts' summary

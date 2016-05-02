@@ -12,11 +12,11 @@ define(['jquery'], function ($) {
             console.warn(err);
         });
     };
-    
+
     var getDetailsByName = function (accountName) {
         return $.ajax({
             url : apiUrl + 'detail/queryDetailsByName?name=' + accountName,
-            beforeSend : function (xhr) { 
+            beforeSend : function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
         }).fail(function (err) {
@@ -27,7 +27,7 @@ define(['jquery'], function ($) {
     var getDetailsByNameAndDateRange = function (accountName, startDate, endDate) {
         return $.ajax({
             url : apiUrl + 'detail/queryDetailsByNameAndDate?name=' + accountName + '&startdate=' + startDate + '&enddate=' + endDate,
-            beforeSend : function (xhr) { 
+            beforeSend : function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
         }).fail(function (err) {
@@ -53,13 +53,14 @@ define(['jquery'], function ($) {
         });
     };
 
-    var updateDetail = function (id, amount) {
+    var updateDetail = function (id, amount, date) {
         return $.ajax({
             type : 'POST',
-            url : apiUrl + 'lunch/updateDetail',
+            url : apiUrl + 'lunch/updateDetail2',
             data : {
                 id : id,
-                amount : amount
+                amount : amount,
+                date : date
             },
             beforeSend : function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
@@ -70,11 +71,11 @@ define(['jquery'], function ($) {
             return $.Deferred().reject(err);
         });
     };
-    
+
     var insertDetail = function (name, date, amount) {
         return $.ajax({
             type : 'POST',
-            url : apiUrl + 'lunch/insertDetail',
+            url : apiUrl + 'lunch/insertDetail2',
             data : {
                 name : name,
                 date : date,
@@ -93,11 +94,47 @@ define(['jquery'], function ($) {
     var getWeathersByDateRange = function (startDate, endDate) {
         return $.ajax({
             url : apiUrl + 'weather/queryWeathersByDate?startdate=' + startDate + '&enddate=' + endDate,
-            beforeSend : function (xhr) { 
+            beforeSend : function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
         }).fail(function (err) {
             console.warn(err);
+        });
+    };
+
+    var insertDetail2 = function (name, date, amount) {
+        return $.ajax({
+            type : 'POST',
+            url : apiUrl + 'lunch/insertDetail2',
+            data : {
+                name : name,
+                date : date,
+                amount : amount
+            },
+            beforeSend : function (xhr) {
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        })
+        .fail(function (err) {
+            console.warn(err);
+            return $.Deferred().reject(err);
+        });
+    };
+
+    var insertDetails2 = function (details) {
+        return $.ajax({
+            type : 'POST',
+            url : apiUrl + 'lunch/insertDetails2',
+            data : {
+                details : JSON.stringify(details)
+            },
+            beforeSend : function (xhr) {
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        })
+        .fail(function (err) {
+            console.warn(err);
+            return $.Deferred().reject(err);
         });
     };
 
@@ -108,6 +145,10 @@ define(['jquery'], function ($) {
     api.updateDetail = updateDetail;
     api.insertDetail = insertDetail;
     api.getWeathersByDateRange = getWeathersByDateRange;
-    
+
+
+    api.updateDetail2 = insertDetail2;
+    api.insertDetail2 = insertDetail2;
+    api.insertDetails2 = insertDetails2;
     return api;
 });

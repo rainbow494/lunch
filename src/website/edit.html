@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">        
-        <link href="project/style/main.css" rel="stylesheet">        
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="project/style/main.css" rel="stylesheet">
         <title>Lunch Account</title>
     </head>
 	<body class="holygrail">
@@ -20,7 +20,6 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Account</th>
-                                    <th>Edit</th>
                                     <th></th>
                                     <th>Insert Date</th>
                                     <th>Insert Amount</th>
@@ -31,16 +30,13 @@
                                 <tr>
                                     <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalized"></td>
                                     <td style="vertical-align:middle" data-bind="text: account, css:{'text-danger': account < 0} "></td>
-                                    <td style="vertical-align:middle">
-                                        <input type="number" data-bind="textInput:account" class="form-control">
-                                    </td>
                                     <td>
                                         <form method="get" action="/detail.html" >
                                             <button type="submit" name="name" class="btn btn-primary" data-bind="attr: {value: name}">Detail</button>
                                         </form>
                                     </td>
                                     <td style="vertical-align:middle">
-                                        <input type="string" data-bind="textInput:insertDate" class="form-control">
+                                        <input type="date" data-bind="textInput:insertDate" class="form-control">
                                     </td>
                                     <td style="vertical-align:middle">
                                         <input type="number" data-bind="textInput:insertAmount" class="form-control">
@@ -60,4 +56,4 @@
         <footer data-bind="template: 'footer'"></footer>
         <script data-main="project/js/edit.js" src="bower_components/requirejs/require.js" defer async="true"></script>
     </body>
-</html>		
+</html>

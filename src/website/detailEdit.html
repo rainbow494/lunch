@@ -32,7 +32,9 @@
                             </thead>
                             <tbody data-bind="foreach: obLunchDetail">
                                 <tr>
-                                    <td style="vertical-align:middle" class="col-md-3" data-bind="text:$parent.formatDate(date)"></td>
+                                    <td style="vertical-align:middle" class="col-md-3">
+                                        <input type="date" data-bind="textInput:$parent.formatDate($data.date)" class="form-control detail-date">
+                                    </td>
                                     <td style="vertical-align:middle" class="col-md-3" data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
                                     <td style="vertical-align:middle" class="col-md-3" >
                                         <input type="number" data-bind="textInput:amount" class="form-control">
@@ -55,7 +57,7 @@
                             <tbody>
                                 <tr>
                                     <td style="vertical-align:middle" class="col-md-3">
-                                        <input type="string" data-bind="textInput:obInsertDate" class="form-control">
+                                        <input type="date" data-bind="textInput:obInsertDate" class="form-control">
                                     </td>
                                     <td style="vertical-align:middle" class="col-md-3">
                                         <input type="number" data-bind="textInput:obInsertAmount" class="form-control">
@@ -77,4 +79,4 @@
     <footer data-bind="template: 'footer'"></footer>
     <script data-main="project/js/detail" src="bower_components/requirejs/require.js" defer async="true"></script>
 </body>
-</html>		
+</html>

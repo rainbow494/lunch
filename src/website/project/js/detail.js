@@ -79,17 +79,18 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
     DetailViewModel.prototype.formatDate = function(isoDate)
     {
         var date = util.covertISOToMomentDate(isoDate);
-        return util.getShortFormateDate(date);
+        return util.getLongFormateDate(date);
     };
-    
+
     DetailViewModel.prototype.updateDetailClickGen = function(id, amount){
         var self = this;
-        return function(){
-            api.updateDetail(id, amount)
+        return function(arg, event){
+            var date = $(event.target).closest('tr').find('.detail-date').val();
+            api.updateDetail(id, amount, date)
             .done(self.loadPage);
         };
     };
-    
+
     DetailViewModel.prototype.insertDetailClick = function()
     {
         var self = this;
@@ -100,13 +101,13 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
     DetailViewModel.prototype.loadPage = function () {
         var self = this;
 
-        var name = util.getParameterByName('name') || self.obAccountName(); 
+        var name = util.getParameterByName('name') || self.obAccountName();
         self.obAccountName(name);
 
         if (self.obSelectedDateRange().startDate || self.obSelectedDateRange().endDate){
             api.getDetailsByNameAndDateRange(
-                self.obAccountName(), 
-                util.getLongFormateDate(self.obSelectedDateRange().startDate), 
+                self.obAccountName(),
+                util.getLongFormateDate(self.obSelectedDateRange().startDate),
                 util.getLongFormateDate(self.obSelectedDateRange().endDate)
             )
             .done(self._afterLoadDetails.bind(self));
@@ -133,7 +134,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         self.obLunchDetail(result);
 
         api.getWeathersByDateRange(
-            util.getLongFormateDate(self.obSelectedDateRange().startDate), 
+            util.getLongFormateDate(self.obSelectedDateRange().startDate),
             util.getLongFormateDate(self.obSelectedDateRange().endDate)
         )
         .done(function (data) {
@@ -141,7 +142,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
             self.obWeathers(result);
 
             var series = self._getSeries({
-              'startDate' : self._getSeriesStartDate(),  
+              'startDate' : self._getSeriesStartDate(),
               'endDate' : self.obSelectedDateRange().endDate,
               'details' : self.obLunchDetail(),
               'weathers' : self.obWeathers()
@@ -153,7 +154,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
     DetailViewModel.prototype._getSeriesStartDate = function() {
         var startDate = this.obSelectedDateRange().startDate;
 
-        if (this.obSelectedDateRange().type !== DataRangeTypeAll || 
+        if (this.obSelectedDateRange().type !== DataRangeTypeAll ||
             this.obLunchDetail().length === 0)
             return startDate;
 
@@ -256,7 +257,7 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
                 axisLine: {
                     show:false
                 }
-            }           
+            }
             ],
             yAxis : [
             {
@@ -302,5 +303,5 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         });
     }, 0);
 
-    
+
 });});

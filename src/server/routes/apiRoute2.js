@@ -8,7 +8,7 @@ var dbHelper2 = require('../mongodbExecutor2.js');
 var dbHelper = require('../mongodbExecutor.js').mongdbExecutor();
 
 router.post('/api/lunch/updateDetail2', function (req, res, next) {
-    var id = parseInt(req.body.id);
+    var id = req.body.id;
     var date = req.body.date;
     var amount = parseFloat(req.body.amount || 0);
 
@@ -26,6 +26,25 @@ router.post('/api/lunch/insertDetail2', function (req, res, next) {
     var amount = parseFloat(req.body.amount || 0);
 
     dbHelper2.insertDetail(name, date, amount)
+    .then(function (result) {
+        dbHelper.script.updateLunchAmount();
+        res.json('insert detail sucess');
+    })
+    .catch (next);
+});
+
+router.post('/api/lunch/insertDetails2', function (req, res, next) {
+    var tmp = req.body.details;
+    tmp = JSON.parse(tmp);
+    var details = tmp.map(function(detail) {
+        return {
+            name: detail.name,
+            date: detail.date,
+            amount: parseFloat(detail.amount || 0)
+        };
+    });
+
+    dbHelper2.insertDetails(details)
     .then(function (result) {
         dbHelper.script.updateLunchAmount();
         res.json('insert detail sucess');
