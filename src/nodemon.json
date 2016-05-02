@@ -1,5 +1,5 @@
 {
     "watch": [
-        "./build_debug/server/"
+        "build_debug/server/"
     ]
 }

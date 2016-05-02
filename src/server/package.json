@@ -17,6 +17,7 @@
     "mailgun-js": "^0.7.7",
     "moment": "^2.11.1",
     "mongodb": "^2.0.45",
+    "mongoose": "^4.4.14",
     "serve-favicon": "^2.3.0",
     "yql": "^1.0.2"
   },

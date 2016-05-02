@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build":"gulp debug --debug true",
     "watch":"gulp debug-watch",
-    "start":"nodemon --debug",
+    "start":"nodemon --debug build_debug/server",
     "build-product":"gulp default",
     "lint":"gulp lint"
   },
