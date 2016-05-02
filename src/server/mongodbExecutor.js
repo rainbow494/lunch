@@ -73,6 +73,13 @@
             }
         };
 
+        this.script = {
+            updateLunchAmount : function () {
+                mongo.dbExecutor = _updateLunchAmount;
+                return mongo.process.apply(mongo, arguments);
+            }
+        };
+
         var mongoStore = {
             dbExecutor : function () {
                 return Promise.reject('not init executor!');
@@ -107,6 +114,16 @@
             return new F();
         }
     };
+
+    function _queryAndIncDetailSeq(db) {
+        db.evalAsync = Promise.promisify(db.eval);
+        return db.evalAsync('getNextSequence("detail_seq")');
+    }
+
+    function _updateLunchAmount(db) {
+        db.evalAsync = Promise.promisify(db.eval);
+        return db.evalAsync('updateLunchAmount()');
+    }
 
     function _getDb(connectionString) {
         return MongoClient.connectAsync(connectionString)
@@ -173,11 +190,6 @@
                 date : new Date(date)
             });
         });
-    }
-
-    function _queryAndIncDetailSeq(db) {
-        db.evalAsync = Promise.promisify(db.eval);
-        return db.evalAsync('getNextSequence("detail_seq")');
     }
 
     function _queryDetailById(db, id) {

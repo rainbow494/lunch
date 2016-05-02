@@ -100,7 +100,22 @@ db.weather.insert({date:new Date('2016-02-16'), high:12, low:6, 'text':'partly c
 //db.detail.find({"name":"tony"})
 
 //db.tmp.remove({});
-db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
+
+db.system.js.save(
+    {
+        _id:"updateLunchAmount",
+        value:function (name) {
+            db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
+            db.tmp.find().forEach(function(ret){
+                    //print(tojson(ret));
+                   db.lunch.findAndModify({
+                        query:{name:ret._id},
+                        update:{$set :{account:ret.totalAmount}}
+                   });
+            });
+        }
+    }
+);
 
 // Normal solution : left join, need add if statement to handle unmatched rows.
 // db.lunch.find().forEach(function (userAccount) {
@@ -117,12 +132,9 @@ db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ 
 // });
 
 // Better solution : right join, without unmatched rows.
-db.tmp.find().forEach(function(ret){
-        //print(tojson(ret));
-       db.lunch.findAndModify({
-            query:{name:ret._id},
-            update:{$set :{account:ret.totalAmount}}
-       });
-});
+
+
+
+db.loadServerScripts();
 
 /* jshint ignore:end */

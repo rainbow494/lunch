@@ -54,7 +54,7 @@ MongoExecutor2.prototype.updateDetail = function(_id, amount, date){
     if (_id) filterClause._id = _id;
 
     var updateCluse = { $set: { }};
-    if (amount) updateCluse.$set.amount = amount;
+    if (amount !== undefined) updateCluse.$set.amount = amount;
     if (date) updateCluse.$set.date = new Date(date);
 
 	return self.DetailModel.update(filterClause, updateCluse).exec();
@@ -67,7 +67,10 @@ MongoExecutor2.prototype.updateLunch = function(name, amount, mail){
     return self.ArchModel.update(filterClause, updateCluse).exec();
 };
 
-
+MongoExecutor2.prototype._queryAndIncDetailSeq = function (db) {
+    db.evalAsync = Promise.promisify(db.eval);
+    return db.evalAsync('getNextSequence("detail_seq")');
+};
 
 var MongoExecutor2 = new MongoExecutor2();
 module.exports = MongoExecutor2;
