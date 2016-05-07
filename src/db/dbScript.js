@@ -1,30 +1,23 @@
 /* jshint ignore:start */
 // Create Master Collection
 db.lunch.ensureIndex({name:1}, {unique:true});
-db.lunch.insert({name:'yuki', account: 0});
 db.lunch.insert({name:'nick', account: 0});
 db.lunch.insert({name:'tony', account: 0});
 db.lunch.insert({name:'weipu', account: 0});
-db.lunch.insert({name:'chen', account: 0});
 db.lunch.insert({name:'paul', account: 0});
 db.lunch.insert({name:'ted', account: 0});
 db.lunch.insert({name:'leo', account: 0});
-
 // db.lunch.update({name:'yuki'},{$set: {account: 53}});
 
-db.lunch.update({name:'yuki'},{$set: {mail: 'yuki.wang@transfinder.com'}});
 db.lunch.update({name:'nick'},{$set: {mail: 'weihuan.wang@transfinder.com'}});
 db.lunch.update({name:'tony'},{$set: {mail: 'tony.chen@transfinder.com'}});
 db.lunch.update({name:'weipu'},{$set: {mail: 'weipu.zhao@transfinder.com'}});
-db.lunch.update({name:'chen'},{$set: {mail: 'chenhao.gao@transfinder.com'}});
 db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
 
 db.lunch.update({name:'ted'},{$set: {mail: 'kai.li@transfinder.com'}});
 db.lunch.update({name:'leo'},{$set: {mail: 'chenjie.deng@transfinder.com'}});
 
 // db.detail.remove({});
-// db.detail.insert(name:'yuki', amount: -10, date:new Date('2015-12-01')});
-// db.detail.insert(name:'yuki', amount: -15, date:new Date('2015-12-02')});
 // db.detail.insert(name:'nick', amount: -15, date:new Date('2015-12-24')});
 // db.detail.insert(name:'nick', amount: -12, date:new Date('2015-12-26')});
 
@@ -51,6 +44,12 @@ db.system.js.save(
 );
 
 db.loadServerScripts();
+
+// Upgrade Detail Collection
+// db.detail.find().forEach(function(doc){
+//     doc._id=ObjectId(); db.detail_new.insert(doc);
+// });
+// db.detail_new.renameCollection("detail", true);
 
 // Create Detail Collection
 // db.counters.remove({});

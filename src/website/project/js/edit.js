@@ -6,23 +6,6 @@ require(['common'], function () {
             this.obResult = ko.observable();
         }
 
-        EditViewModel.prototype.updateAllAccountsClick = function () {
-            var self = this;
-
-            var deferreds = [];
-            self.obLunchAccounts().forEach(function (item) {
-                deferreds.push(api.updateAccountByAmount(item.name, item.account));
-            });
-
-            // 利用apply数组化参数
-            $.when.apply($, deferreds)
-            .done(function (data) {
-                var result = JSON.parse(data[0]);
-                self.obResult(result);
-                self.loadPage();
-            });
-        };
-
         EditViewModel.prototype.insertAllDetailsClick = function () {
             var self = this;
 
@@ -46,15 +29,6 @@ require(['common'], function () {
                     self.loadPage();
                 });
             }
-        };
-
-        EditViewModel.prototype.insertDetailClickGen = function (name, date, amount) {
-            var self = this;
-
-            return function () {
-                if (amount !== 0)
-                    api.insertDetail(name, date, amount).done(self.loadPage);
-            };
         };
 
         EditViewModel.prototype.loadPage = function () {
