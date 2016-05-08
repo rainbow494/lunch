@@ -3,7 +3,12 @@ require(['common'], function () {
         function IndexViewModel(){
             ko.amdTemplateEngine.defaultPath = "../templates";
             this.obLunchAccounts = ko.observableArray();
+
+            this.obUser = ko.observable('');
         }
+
+        // IndexViewModel.prototype = new BaseViewModel();
+        // IndexViewModel.prototype.constructor = IndexViewModel;
 
         IndexViewModel.prototype.loadPage = function () {
             var self = this;
@@ -11,6 +16,11 @@ require(['common'], function () {
             .done(function (data) {
                 var result = JSON.parse(data);
                 self.obLunchAccounts(result);
+            });
+
+            api.verifyUserLogin()
+            .done(function(result) {
+                self.obUser(JSON.parse(result));
             });
         };
 

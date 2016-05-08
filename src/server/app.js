@@ -79,11 +79,11 @@ app.use(function (err, req, res, next) { // jshint ignore:line
 });
 
 var server = app.listen(3000, function () {
-        var host = server.address().address;
-        var port = server.address().port;
+    var host = server.address().address;
+    var port = server.address().port;
 
-        console.log('App listening at http://%s:%s', host, port);
-    });
+    console.log('App listening at http://%s:%s', host, port);
+});
 
 process.on('uncaughtException', function (err) {
     console.log('server is broken by unhandle exception : ' + err);

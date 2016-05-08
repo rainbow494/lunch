@@ -7,6 +7,16 @@ var util = require('../util');
 var dbHelper2 = require('../mongodbExecutor2.js');
 var dbHelper = require('../mongodbExecutor.js').mongdbExecutor();
 
+var isAuthenticated = function (req,res,next) {
+    if (req.isAuthenticated()) return next();
+    // res.writeHead(203, {location: '/login'});
+    // res.end();
+    res.redirect(203, {'redirect page:': 'http://localhost:3000/login'});
+};
+router.post('/api/lunch/*', isAuthenticated ,function(req, res, next){
+    next();
+});
+
 router.post('/api/lunch/updateDetail2', function (req, res, next) {
     var id = req.body.id;
     var date = req.body.date;

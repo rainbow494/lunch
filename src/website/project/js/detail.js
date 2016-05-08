@@ -19,6 +19,9 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
         this.obPayment =  ko.computed(function() { return this._computedAmount(1); }, this);
 
         this.myChart = $('#main').length > 0 ? echarts.init($('#main')[0]) : null;
+
+        this.obUser = ko.observable('');
+
     }
 
     var DateRange = function(name, startDate, endDate, type) {
@@ -118,6 +121,12 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
                 )
             .done(self._afterLoadDetails.bind(self));
         }
+
+
+        api.verifyUserLogin()
+        .done(function(result) {
+            self.obUser(JSON.parse(result));
+        });
     };
 
     var ChartData = function(date, payment, temperature, weatherText) {

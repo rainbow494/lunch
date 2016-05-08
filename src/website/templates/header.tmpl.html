@@ -14,10 +14,14 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="edit.html">Edit</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="logout.html">Logout</a></li>
+        <!--ko ifnot:obUser-->
+            <li><a href="login">Login</a></li>
+        <!--/ko-->
+        <!--ko if:obUser-->
+            <li><a href="edit.html">Edit</a></li>
+            <li><a href="">Name : <!--ko text: obUser--><!--/ko--></a></li>
+            <li><a href="logout">Logout</a></li>
+        <!--/ko-->
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>

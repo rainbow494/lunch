@@ -6,18 +6,27 @@ var passport = require('passport');
 var Account = require('../models/account');
 
 
+// var isAuthenticated = function (req,res,next) {
+//     if (req.isAuthenticated()) return next();
+//     res.redirect('/login');
+// };
+//
+// router.post('/api/lunch/*', isAuthenticated ,function(req, res, next){
+//     // req.next();
+// });
+
 // how to use passportjs https://segmentfault.com/a/1190000002926232
 router.get('/register', function (req, res, next) {
-
     Account.register(new Account({ username : 'tf_admin' }), 'jackjack', function(err, account) {
             if (err) {
                 console.log(JSON.stringify(err));
+                res.redirect('/');
                 return;
             }
 
             //console.log(JSON.stringify(account));
             passport.authenticate('local')(req, res, function () {
-                res.redirect(urlRouter.HOST);
+                res.redirect('/');
             });
         });
     // renderRegisterPage()
@@ -41,23 +50,37 @@ router.get('/register', function (req, res, next) {
 //     });
 // });
 
-// router.get('/login', function(req, res) {
-//     console.log('login page open');
-//     // renderLoginPage()
-//     // .then(page=>res.send(page));
-//     //res.render('login', { user : req.user });
-//     res.redirect('/');
-// });
+router.get('/login', function(req, res) {
+    // console.log('login page open');
+    if (!req.isAuthenticated())
+        res.redirect('/login.html');
+    else
+        res.redirect('/');
+});
 
-router.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
-// router.post('/login', passport.authenticate('local'), function(req, res) {
-//     res.redirect(urlRouter.HOST);
-// });
+router.post(
+    '/login',
+    passport.authenticate('local',
+        {
+            successRedirect: '/',
+            failureRedirect: '/login.html'
+        }),
+    function(req, res) {
+
+    }
+);
 
 router.get('/logout', function(req, res) {
     req.logout();
     console.log('back to home page');
     res.redirect('/');
+});
+
+router.get('/api/verify', function(req, res) {
+    if (req.isAuthenticated())
+        res.json(req.user.username);
+    else
+        res.json(false);
 });
 
 module.exports = router;

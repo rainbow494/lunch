@@ -138,6 +138,20 @@ define(['jquery'], function ($) {
         });
     };
 
+    var verifyUserLogin = function () {
+        return $.ajax({
+            type : 'Get',
+            url : apiUrl + 'verify',
+            beforeSend : function (xhr) {
+                xhr.overrideMimeType('text/plain; charset=x-user-defined');
+            }
+        })
+        .fail(function (err) {
+            console.warn(err);
+            return $.Deferred().reject(err);
+        });
+    };
+
     api.getSummary = getSummary;
     api.updateAccountByAmount = updateAccountByAmount;
     api.getDetailsByName = getDetailsByName;
@@ -150,5 +164,7 @@ define(['jquery'], function ($) {
     api.updateDetail2 = insertDetail2;
     api.insertDetail2 = insertDetail2;
     api.insertDetails2 = insertDetails2;
+
+    api.verifyUserLogin = verifyUserLogin;
     return api;
 });

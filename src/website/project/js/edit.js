@@ -4,6 +4,9 @@ require(['common'], function () {
             ko.amdTemplateEngine.defaultPath = "../templates";
             this.obLunchAccounts = ko.observableArray();
             this.obResult = ko.observable();
+
+            this.obUser = ko.observable('');
+
         }
 
         EditViewModel.prototype.insertAllDetailsClick = function () {
@@ -43,6 +46,11 @@ require(['common'], function () {
                     return account;
                 });
                 self.obLunchAccounts(accounts);
+            });
+
+            api.verifyUserLogin()
+            .done(function(result) {
+                self.obUser(JSON.parse(result));
             });
         };
 
