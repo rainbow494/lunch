@@ -2,19 +2,18 @@
 // Create Master Collection
 db.lunch.ensureIndex({name:1}, {unique:true});
 
-db.lunch.insert({ "name" : "nick", "account" : 255.5, "mail" : "weihuan.wang@transfinder.com" });
-db.lunch.insert({ "name" : "tony", "account" : 103.1, "mail" : "tony.chen@transfinder.com" });
-db.lunch.insert({ "name" : "weipu", "account" : -35, "mail" : "weipu.zhao@transfinder.com" });
-db.lunch.insert({ "name" : "paul", "account" : 965.7, "mail" : "rainbow494@qq.com" });
-db.lunch.insert({ "name" : "ted", "account" : 78.4, "mail" : "kai.li@transfinder.com" });
-db.lunch.insert({ "name" : "leo", "account" : 68, "mail" : "chenjie.deng@transfinder.com" });
-db.lunch.insert({ "name" : "jacky", "account" : 118.4, "mail" : "jiaqi.Cai@transfinder.com" });
-db.lunch.insert({ "name" : "will", "account" : 126.4, "mail" : "wei.xiao@transfinder.com" });
-db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfinder.com" });
+db.lunch.insert({ "name" : "nick", "account" : 255.5, "mail" : "weihuan.wang@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "tony", "account" : 103.1, "mail" : "tony.chen@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "weipu", "account" : -35, "mail" : "weipu.zhao@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "paul", "account" : 965.7, "mail" : "rainbow494@qq.com","group":"transfinder" });
+db.lunch.insert({ "name" : "ted", "account" : 78.4, "mail" : "kai.li@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "leo", "account" : 68, "mail" : "chenjie.deng@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "jacky", "account" : 118.4, "mail" : "jiaqi.Cai@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "will", "account" : 126.4, "mail" : "wei.xiao@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfinder.com","group":"transfinder" });
 
 
-db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com" });
-db.lunch.update({"name" : "yuki"},{$set:{"group":"delianac"}},{multi:true});
+db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com","group":"delianac"});
 // db.lunch.update({},{$set:{"group":"transfinder"}},{multi:true});
 // db.detail.update({},{$set:{"group":"transfinder"}},{multi:true});
 db.Account.update({'username':'tf_admin'},{$set:{"group":"transfinder", "role": "admin"}});
