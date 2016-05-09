@@ -29,10 +29,6 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-// mongoose
-// var port = parseInt('<mongodb.port>');
-// mongoose.connect('<mongodb.hostname>', port, '<mongodb.dbname>');
-
 /* login end -------------------------------------*/
 
 var weatherRoute = require('./routes/weatherRoute');

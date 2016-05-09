@@ -7,15 +7,33 @@ var util = require('../util');
 var dbHelper2 = require('../mongodbExecutor2.js');
 var dbHelper = require('../mongodbExecutor.js').mongdbExecutor();
 
-var isAuthenticated = function (req,res,next) {
-    if (req.isAuthenticated()) return next();
-    // res.writeHead(203, {location: '/login'});
-    // res.end();
-    res.redirect(203, {'redirect page:': 'http://localhost:3000/login'});
-};
-router.post('/api/lunch/*', isAuthenticated ,function(req, res, next){
-    next();
+router.get('/api/lunch/summary2', function (req, res, next) {
+    dbHelper2.findAll(req.user)
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch (next);
 });
+
+router.get('/api/lunch/userManager', function (req, res, next) {
+    dbHelper2.userManager(req.user)
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch (next);
+});
+
+router.post('/api/lunch/updateAccountMail', function (req, res, next) {
+    var id = req.body.id;
+    var mail = req.body.mail;
+
+    dbHelper2.updateAccountMail(req.user, id, mail)
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch (next);
+});
+
 
 router.post('/api/lunch/updateDetail2', function (req, res, next) {
     var id = req.body.id;

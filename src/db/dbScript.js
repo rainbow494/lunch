@@ -1,21 +1,24 @@
 /* jshint ignore:start */
 // Create Master Collection
 db.lunch.ensureIndex({name:1}, {unique:true});
-db.lunch.insert({name:'nick', account: 0});
-db.lunch.insert({name:'tony', account: 0});
-db.lunch.insert({name:'weipu', account: 0});
-db.lunch.insert({name:'paul', account: 0});
-db.lunch.insert({name:'ted', account: 0});
-db.lunch.insert({name:'leo', account: 0});
-// db.lunch.update({name:'yuki'},{$set: {account: 53}});
 
-db.lunch.update({name:'nick'},{$set: {mail: 'weihuan.wang@transfinder.com'}});
-db.lunch.update({name:'tony'},{$set: {mail: 'tony.chen@transfinder.com'}});
-db.lunch.update({name:'weipu'},{$set: {mail: 'weipu.zhao@transfinder.com'}});
-db.lunch.update({name:'paul'},{$set: {mail: 'rainbow494@qq.com'}});
+db.lunch.insert({ "name" : "nick", "account" : 255.5, "mail" : "weihuan.wang@transfinder.com" });
+db.lunch.insert({ "name" : "tony", "account" : 103.1, "mail" : "tony.chen@transfinder.com" });
+db.lunch.insert({ "name" : "weipu", "account" : -35, "mail" : "weipu.zhao@transfinder.com" });
+db.lunch.insert({ "name" : "paul", "account" : 965.7, "mail" : "rainbow494@qq.com" });
+db.lunch.insert({ "name" : "ted", "account" : 78.4, "mail" : "kai.li@transfinder.com" });
+db.lunch.insert({ "name" : "leo", "account" : 68, "mail" : "chenjie.deng@transfinder.com" });
+db.lunch.insert({ "name" : "jacky", "account" : 118.4, "mail" : "jiaqi.Cai@transfinder.com" });
+db.lunch.insert({ "name" : "will", "account" : 126.4, "mail" : "wei.xiao@transfinder.com" });
+db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfinder.com" });
 
-db.lunch.update({name:'ted'},{$set: {mail: 'kai.li@transfinder.com'}});
-db.lunch.update({name:'leo'},{$set: {mail: 'chenjie.deng@transfinder.com'}});
+
+db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com" });
+db.lunch.update({"name" : "yuki"},{$set:{"group":"delianac"}},{multi:true});
+// db.lunch.update({},{$set:{"group":"transfinder"}},{multi:true});
+// db.detail.update({},{$set:{"group":"transfinder"}},{multi:true});
+db.Account.update({'username':'tf_admin'},{$set:{"group":"transfinder", "role": "admin"}});
+db.Account.update({'username':'dl_admin'},{$set:{"group":"delianac", "role": "admin"}});
 
 // db.detail.remove({});
 // db.detail.insert(name:'nick', amount: -15, date:new Date('2015-12-24')});

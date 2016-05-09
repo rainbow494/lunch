@@ -2,169 +2,119 @@ define(['jquery'], function ($) {
     var api = {};
     var apiUrl = 'http://<aws.hostname>:<aws.webserver.port>/api/';
 
-    var getSummary = function () {
-        return $.ajax({
-            url : apiUrl + 'lunch/summary',
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        }).fail(function (err) {
+    function getRequestOption(url) {
+        return {
+                url : url,
+                beforeSend : function (xhr) {
+                    xhr.overrideMimeType('text/plain; charset=x-user-defined');
+                }
+        };
+    }
+
+    function getRequest(url) {
+        return $.ajax(
+            getRequestOption(url)
+        ).fail(function (err) {
             console.warn(err);
         });
-    };
+    }
 
-    var getDetailsByName = function (accountName) {
-        return $.ajax({
-            url : apiUrl + 'detail/queryDetailsByName?name=' + accountName,
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        }).fail(function (err) {
-            console.warn(err);
-        });
-    };
-
-    var getDetailsByNameAndDateRange = function (accountName, startDate, endDate) {
-        return $.ajax({
-            url : apiUrl + 'detail/queryDetailsByNameAndDate?name=' + accountName + '&startdate=' + startDate + '&enddate=' + endDate,
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        }).fail(function (err) {
-            console.warn(err);
-        });
-    };
-
-    var updateAccountByAmount = function (name, account) {
-        return $.ajax({
+    function postRequestOption(url, data) {
+        return {
             type : 'POST',
-            url : apiUrl + 'lunch/updateAccountByAmount',
-            data : {
-                name : name,
-                account : account
-            },
+            url : url,
+            data : data,
             beforeSend : function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-        })
+        };
+    }
+
+    function postRequest(url, data) {
+        return $.ajax(postRequestOption(url, data))
         .fail(function (err) {
             console.warn(err);
             return $.Deferred().reject(err);
         });
+    }
+
+    api.getSummary = function () {
+        return getRequest(apiUrl + 'lunch/summary2');
     };
 
-    var updateDetail = function (id, amount, date) {
-        return $.ajax({
-            type : 'POST',
-            url : apiUrl + 'lunch/updateDetail2',
-            data : {
+    api.getDetailsByName = function (accountName) {
+        return getRequest(apiUrl + 'detail/queryDetailsByName?name=' + accountName);
+    };
+
+    api.getDetailsByNameAndDateRange = function (accountName, startDate, endDate) {
+        return getRequest(apiUrl + 'detail/queryDetailsByNameAndDate?name=' + accountName +
+            'startdate=' + startDate + 'enddate=' + endDate);
+    };
+
+    api.updateAccountMail = function (id, mail) {
+        return postRequest(
+            apiUrl + 'lunch/updateAccountMail',
+            {
+                id : id,
+                mail : mail
+            }
+        );
+    };
+
+    api.updateAccountByAmount = function (name, account) {
+        return postRequest(
+            apiUrl + 'lunch/updateAccountByAmount',
+            {
+                name : name,
+                account : account
+            }
+        );
+    };
+
+    api.updateDetail = function (id, amount, date) {
+        return postRequest(
+            apiUrl + 'lunch/updateDetail2',
+            {
                 id : id,
                 amount : amount,
                 date : date
-            },
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-        })
-        .fail(function (err) {
-            console.warn(err);
-            return $.Deferred().reject(err);
-        });
+        );
     };
 
-    var insertDetail = function (name, date, amount) {
-        return $.ajax({
-            type : 'POST',
-            url : apiUrl + 'lunch/insertDetail2',
-            data : {
+    api.insertDetail = function (name, date, amount) {
+        return postRequest(
+            apiUrl + 'lunch/insertDetail2',
+            {
                 name : name,
                 date : date,
                 amount : amount
-            },
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-        })
-        .fail(function (err) {
-            console.warn(err);
-            return $.Deferred().reject(err);
-        });
+        );
     };
 
-    var getWeathersByDateRange = function (startDate, endDate) {
-        return $.ajax({
-            url : apiUrl + 'weather/queryWeathersByDate?startdate=' + startDate + '&enddate=' + endDate,
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        }).fail(function (err) {
-            console.warn(err);
-        });
+    api.insertDetail2 = function (name, date, amount) {
+        return api.insertDetail(name, date, amount);
     };
 
-    var insertDetail2 = function (name, date, amount) {
-        return $.ajax({
-            type : 'POST',
-            url : apiUrl + 'lunch/insertDetail2',
-            data : {
-                name : name,
-                date : date,
-                amount : amount
-            },
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        })
-        .fail(function (err) {
-            console.warn(err);
-            return $.Deferred().reject(err);
-        });
+    api.getWeathersByDateRange = function (startDate, endDate) {
+        return getRequest(
+            apiUrl + 'weather/queryWeathersByDate?startdate=' + startDate + '&enddate=' + endDate
+        );
     };
 
-    var insertDetails2 = function (details) {
-        return $.ajax({
-            type : 'POST',
-            url : apiUrl + 'lunch/insertDetails2',
-            data : {
+    api.insertDetails2 = function (details) {
+        return postRequest(
+            apiUrl + 'lunch/insertDetail2',
+            {
                 details : JSON.stringify(details)
-            },
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-        })
-        .fail(function (err) {
-            console.warn(err);
-            return $.Deferred().reject(err);
-        });
+        );
     };
 
-    var verifyUserLogin = function () {
-        return $.ajax({
-            type : 'Get',
-            url : apiUrl + 'verify',
-            beforeSend : function (xhr) {
-                xhr.overrideMimeType('text/plain; charset=x-user-defined');
-            }
-        })
-        .fail(function (err) {
-            console.warn(err);
-            return $.Deferred().reject(err);
-        });
+    api.verifyUserLogin = function () {
+        return getRequest(apiUrl + 'verify');
     };
 
-    api.getSummary = getSummary;
-    api.updateAccountByAmount = updateAccountByAmount;
-    api.getDetailsByName = getDetailsByName;
-    api.getDetailsByNameAndDateRange = getDetailsByNameAndDateRange;
-    api.updateDetail = updateDetail;
-    api.insertDetail = insertDetail;
-    api.getWeathersByDateRange = getWeathersByDateRange;
-
-
-    api.updateDetail2 = insertDetail2;
-    api.insertDetail2 = insertDetail2;
-    api.insertDetails2 = insertDetails2;
-
-    api.verifyUserLogin = verifyUserLogin;
     return api;
 });

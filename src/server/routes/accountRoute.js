@@ -17,7 +17,7 @@ var Account = require('../models/account');
 
 // how to use passportjs https://segmentfault.com/a/1190000002926232
 router.get('/register', function (req, res, next) {
-    Account.register(new Account({ username : 'tf_admin' }), 'jackjack', function(err, account) {
+    Account.register(new Account({ username : 'dl_admin' }), 'dl123', function(err, account) {
             if (err) {
                 console.log(JSON.stringify(err));
                 res.redirect('/');

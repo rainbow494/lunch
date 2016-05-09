@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="project/style/main.css" rel="stylesheet">
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<!--   <link rel="icon" href="favicon.ico" type="image/x-icon" /> -->
+  <title>Lunch Account</title>
+</head>
+<body class="holygrail">
+    <header data-bind="template: 'header'"></header>
+    <div class="holygrail-body">
+        <h3>Summary</h3>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Mail</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: obLunchAccounts">
+                            <tr>
+                                <td style="vertical-align:middle" data-bind="text: name"  class="text-capitalize"></td>
+                                <td>
+                                    <input type="email" data-bind="textInput:mail" class="form-control">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary disabled" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Verify</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Update</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer data-bind="template: 'footer'"></footer>
+    <script data-main="project/js/userManager" src="bower_components/requirejs/require.js" defer async="true"></script>
+</body>
+</html>

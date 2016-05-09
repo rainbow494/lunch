@@ -62,11 +62,44 @@ MongoExecutor2.prototype.updateDetail = function(_id, amount, date){
 	return self.DetailModel.update(filterClause, updateCluse).exec();
 };
 
-MongoExecutor2.prototype.updateLunch = function(name, amount, mail){
+MongoExecutor2.prototype.userManager = function(user){
+    var self = this;
+    var filterClause = {};
+
+    if (user.isAdmin())
+        filterClause.group = user.getGroup();
+    else
+        filterClause.name = user.username();
+
+    return self.findLunch(filterClause);
+};
+
+MongoExecutor2.prototype.findAll = function(user){
+    var self = this;
+    var filterClause = {};
+
+    filterClause.group = user.getGroup();
+    return self.findLunch(filterClause);
+};
+
+MongoExecutor2.prototype.findLunch = function(filterClause){
+    var self = this;
+    return self.LunchModel.find(filterClause).exec();
+};
+
+MongoExecutor2.prototype.updateAccountMail = function(user, _id, mail){
+    var self = this;
     var filterClause = {};
     if (_id) filterClause._id = _id;
 
-    return self.ArchModel.update(filterClause, updateCluse).exec();
+    var updateCluse = {$set: {mail:mail}};
+    return self.updateLunch(filterClause, updateCluse);
+};
+
+
+MongoExecutor2.prototype.updateLunch = function(filterClause, updateCluse){
+    var self = this;
+    return self.LunchModel.update(filterClause, updateCluse).exec();
 };
 
 MongoExecutor2.prototype._queryAndIncDetailSeq = function (db) {
