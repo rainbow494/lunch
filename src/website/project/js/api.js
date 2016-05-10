@@ -105,7 +105,7 @@ define(['jquery'], function ($) {
 
     api.insertDetails2 = function (details) {
         return postRequest(
-            apiUrl + 'lunch/insertDetail2',
+            apiUrl + 'lunch/insertDetails2',
             {
                 details : JSON.stringify(details)
             }
