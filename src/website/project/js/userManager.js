@@ -29,6 +29,16 @@ require(['common'], function () {
             };
         };
 
+        UserManagerViewModel.prototype.verifyMailClickGen = function(name){
+            return function(){
+                //http://lunch.zuoshachi.com:12333/api/sendReportImmediately?name=paul
+                api.sendTestMail(name)
+                .done(function() {
+                    console.log('Send Test Mail');
+                });
+            };
+        };
+
     // setTimeout(function() {
         var viewModel = new UserManagerViewModel();
         ko.applyBindings(viewModel);

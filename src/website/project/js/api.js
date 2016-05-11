@@ -1,6 +1,7 @@
 define(['jquery'], function ($) {
     var api = {};
     var apiUrl = 'http://<aws.hostname>:<aws.webserver.port>/api/';
+    var mailServerUrl = 'http://<aws.hostname>:<aws.mailserver.port>/api/';
 
     function getRequestOption(url) {
         return {
@@ -48,7 +49,7 @@ define(['jquery'], function ($) {
 
     api.getDetailsByNameAndDateRange = function (accountName, startDate, endDate) {
         return getRequest(apiUrl + 'detail/queryDetailsByNameAndDate?name=' + accountName +
-            'startdate=' + startDate + 'enddate=' + endDate);
+            '&startdate=' + startDate + '&enddate=' + endDate);
     };
 
     api.updateAccountMail = function (id, mail) {
@@ -114,6 +115,10 @@ define(['jquery'], function ($) {
 
     api.verifyUserLogin = function () {
         return getRequest(apiUrl + 'verify');
+    };
+
+    api.sendTestMail = function (name) {
+        return getRequest(mailServerUrl + 'sendReportImmediately?name=' + name);
     };
 
     return api;

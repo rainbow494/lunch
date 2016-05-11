@@ -24,7 +24,7 @@
                                 <th>Name</th>
                                 <th>Mail</th>
                                 <th></th>
-                                <th></th>
+                                <th>Test Saved Mail</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: obLunchAccounts">
@@ -34,10 +34,10 @@
                                     <input type="email" data-bind="textInput:mail" class="form-control">
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary disabled" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Verify</button>
+                                    <button class="btn btn-primary" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Update</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Update</button>
+                                    <button class="btn btn-primary disabled" data-bind="click: $parent.verifyMailClickGen($data.name, $data.mail)">Test</button>
                                 </td>
                             </tr>
                         </tbody>

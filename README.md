@@ -1,25 +1,39 @@
 # Transfinder Shanghai Team Lunch Project
 ----
 
+## This Week Planed Feature
+- 用户管理
+    - Lunch与Account集成为一张表
+    - 个人用户登录/查看
+
 ## Planed Feature
-
-- 各表新增数据包含公司名
-
 - 发送测试邮件
-- 修改密码
+    - 解决跨域问题(目前支持api测试)
+    - 立即发送报告
 
-- 点击人数 / 算出价格
+- 用户管理
+    - 修改密码
+    - 修改权限
+    - 增加新用户
 
-- 增加新用户
+- 邮件
+    - 可修改模板
 
-- 数据导出
-- 数据导入
+- 账目管理
+    - 点击人数 / 算出价格
+    - 数据备份
+    - 数据导入
+    - 数据库自动备份
 
-- 姓名下拉菜单
+- CI
+    - <aws.mailserver.port>无法通过gulp替换
+    - gulp无法监视sever下子目录内文件
 
-- 配置
-- 移动端
-- 自动部署？？？
+- 其它
+    - 利用github hook自动部署
+    - GIS
+    - 移动端
+    - 配置
 
 ## Feature
 - User Management

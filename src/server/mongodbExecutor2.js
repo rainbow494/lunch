@@ -1,3 +1,4 @@
+
 var mongoose = require('mongoose');
 var port = parseInt('<mongodb.port>');
 var db = mongoose.connect('<mongodb.hostname>', port, '<mongodb.dbname>');
@@ -26,15 +27,16 @@ MongoExecutor2.prototype.findDetails = function(name, startDate, endDate){
     return self.DetailModel.find(filterClause);
 };
 
-MongoExecutor2.prototype.insertDetail = function(name, date, amount){
+MongoExecutor2.prototype.insertDetail = function(detail){
     var self = this;
-    var detail = {
-        name: name,
-        date: new Date(date),
-        amount: amount
+    var detailEntity = {
+        name: detail.name,
+        date: new Date(detail.date),
+        amount: detail.amount,
+        group: detail.group
     };
 
-    return self.DetailModel.create(detail);
+    return self.DetailModel.create(detailEntity);
 };
 
 MongoExecutor2.prototype.insertDetails = function(details){
@@ -43,7 +45,8 @@ MongoExecutor2.prototype.insertDetails = function(details){
         return {
             name: detail.name,
             date: new Date(detail.date),
-            amount: detail.amount
+            amount: detail.amount,
+            group: detail.group
         };
     });
 
@@ -78,7 +81,11 @@ MongoExecutor2.prototype.findAll = function(user){
     var self = this;
     var filterClause = {};
 
-    filterClause.group = user.getGroup();
+    if (user.isAdmin())
+        filterClause.group = user.getGroup();
+    else
+        filterClause.name = user.username();
+        
     return self.findLunch(filterClause);
 };
 

@@ -3,8 +3,8 @@
     var mailHelper = require('./mailHelper.js').mailHelper();
 
     var app = express();
-    
-    app.get('/api/test/', function (req, res) {
+
+    app.get('/api/test', function (req, res) {
        res.send(' test success\n\r /api/sendReportImmediately');
     });
 

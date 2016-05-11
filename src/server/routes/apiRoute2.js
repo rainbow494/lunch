@@ -49,11 +49,15 @@ router.post('/api/lunch/updateDetail2', function (req, res, next) {
 });
 
 router.post('/api/lunch/insertDetail2', function (req, res, next) {
-    var name = req.body.name;
-    var date = req.body.date;
-    var amount = parseFloat(req.body.amount || 0);
 
-    dbHelper2.insertDetail(name, date, amount)
+    var detail = {
+        name : req.body.name,
+        date : req.body.date,
+        amount : parseFloat(req.body.amount || 0),
+        group: req.user.group
+    };
+
+    dbHelper2.insertDetail(detail)
     .then(function (result) {
         dbHelper.script.updateLunchAmount();
         res.json('insert detail sucess');
@@ -68,13 +72,16 @@ router.post('/api/lunch/insertDetails2', function (req, res, next) {
         return {
             name: detail.name,
             date: detail.date,
-            amount: parseFloat(detail.amount || 0)
+            amount: parseFloat(detail.amount || 0),
+            group: req.user.group
         };
     });
 
     dbHelper2.insertDetails(details)
     .then(function (result) {
-        dbHelper.script.updateLunchAmount();
+        return dbHelper.script.updateLunchAmount();
+    })
+    .then(function() {
         res.json('insert detail sucess');
     })
     .catch (next);

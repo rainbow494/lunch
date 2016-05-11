@@ -2,9 +2,10 @@
     var fs = require('fs');
     var Handlebars = require('handlebars');
     var juice = require('juice');
+    var path = require('path');
 
-    var mailTemplate = fs.readFileSync('weeklyReportTemplate.html').toString();
-    var mailStyle = fs.readFileSync('mailStyles.css').toString();
+    var mailTemplate = fs.readFileSync(path.resolve(__dirname, './weeklyReportTemplate.html')).toString();
+    var mailStyle = fs.readFileSync(path.resolve(__dirname, './mailStyles.css')).toString();
 
 	var defaultMailBodyData = {
 			'date' : '2015-01-01',
