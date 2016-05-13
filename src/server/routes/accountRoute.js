@@ -34,6 +34,21 @@ router.get('/register', function (req, res, next) {
 
 });
 
+router.get('/setPassword', function (req, res, next) {
+    Account.findByUsername('tf_admin').then(function(sanitizedUser){
+        if (sanitizedUser){
+            sanitizedUser.setPassword('1', function(){
+                sanitizedUser.save();
+                return res.status(200).json({msg: 'password reset successful'});
+            });
+        } else {
+            res.status(200).json({status: 0, msg: 'This user does not exist'});
+        }
+    },function(err){
+        console.log(err);
+    });
+});
+
 // router.post('/register', function(req, res) {
 //     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
 //         if (err) {

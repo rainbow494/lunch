@@ -7,10 +7,6 @@
     - 个人用户登录/查看
 
 ## Planed Feature
-- 发送测试邮件
-    - 解决跨域问题(目前支持api测试)
-    - 立即发送报告
-
 - 用户管理
     - 修改密码
     - 修改权限
@@ -26,7 +22,6 @@
     - 数据库自动备份
 
 - CI
-    - <aws.mailserver.port>无法通过gulp替换
     - gulp无法监视sever下子目录内文件
 
 - 其它
@@ -37,11 +32,15 @@
 
 ## Feature
 - User Management
-- Login / Logout
-- Input/Edit Lunch Account
-- Display Lunch Accounts' summary
-- Display Lunch Account's Detail by Grid & Chart (with daily temperature)
-- Send Weekly Report Each Friday Afternoon
+    - Login / Logout
+    - Reset mail
+    - Send Weekly Report Immediately
+- Lunch Account Management
+    - Input/Edit Lunch Account
+    - Display Lunch Accounts' summary
+    - Display Lunch Account's Detail by Grid & Chart (with daily temperature)
+- Schedule
+    - Send Weekly Report Each Friday Afternoon
 
 ## Quick Start
 - PreInstall

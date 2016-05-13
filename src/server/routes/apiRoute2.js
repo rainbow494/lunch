@@ -87,4 +87,16 @@ router.post('/api/lunch/insertDetails2', function (req, res, next) {
     .catch (next);
 });
 
+// Proxy Api
+var request = require('request');
+var mailServerUrl = 'http://<aws.hostname>:<aws.mailserver.port>/api/';
+router.get('/api/lunch/sendTestMail', function (req, res, next) {
+    var name = req.query.name;
+
+    console.log('sendTestMail' + name);
+
+    var url = mailServerUrl + "sendReportImmediately?name=" + name;
+    req.pipe(request(url)).pipe(res);
+});
+
 module.exports = router;

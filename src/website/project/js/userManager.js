@@ -29,7 +29,7 @@ require(['common'], function () {
             };
         };
 
-        UserManagerViewModel.prototype.verifyMailClickGen = function(name){
+        UserManagerViewModel.prototype.sendTestMailClickGen = function(name){
             return function(){
                 //http://lunch.zuoshachi.com:12333/api/sendReportImmediately?name=paul
                 api.sendTestMail(name)

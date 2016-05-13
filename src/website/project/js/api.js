@@ -1,7 +1,6 @@
 define(['jquery'], function ($) {
     var api = {};
     var apiUrl = 'http://<aws.hostname>:<aws.webserver.port>/api/';
-    var mailServerUrl = 'http://<aws.hostname>:<aws.mailserver.port>/api/';
 
     function getRequestOption(url) {
         return {
@@ -118,7 +117,7 @@ define(['jquery'], function ($) {
     };
 
     api.sendTestMail = function (name) {
-        return getRequest(mailServerUrl + 'sendReportImmediately?name=' + name);
+        return getRequest(apiUrl + 'lunch/sendTestMail?name=' + name);
     };
 
     return api;

@@ -9,7 +9,7 @@
 
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <!--   <link rel="icon" href="favicon.ico" type="image/x-icon" /> -->
-  <title>Lunch Account</title>
+  <title>Lunch</title>
 </head>
 <body class="holygrail">
     <header data-bind="template: 'header'"></header>
@@ -24,7 +24,7 @@
                                 <th>Name</th>
                                 <th>Mail</th>
                                 <th></th>
-                                <th>Test Saved Mail</th>
+                                <th>Weekly Report</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: obLunchAccounts">
@@ -37,7 +37,7 @@
                                     <button class="btn btn-primary" data-bind="click: $parent.updateLunchClickGen($data._id, $data.mail)">Update</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary disabled" data-bind="click: $parent.verifyMailClickGen($data.name, $data.mail)">Test</button>
+                                    <button class="btn btn-primary" data-bind="click: $parent.sendTestMailClickGen($data.name, $data.mail)">Send</button>
                                 </td>
                             </tr>
                         </tbody>
