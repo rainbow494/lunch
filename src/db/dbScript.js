@@ -14,16 +14,13 @@ db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfi
 
 
 db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "gan_liang_qin", "account" : 0, "mail" : "gan.liangqin@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "qian.simin", "account" : 0, "mail" : "qian.simin@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "zhang.yingtao", "account" : 0, "mail" : "zhang.yingtao@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "yan.lu", "account" : 0, "mail" : "yan.lu@delianac.com","group":"delianac"});
+db.lunch.insert({ "name" : "gan_liangqin", "account" : 0, "mail" : "gan.liangqin@delianac.com","group":"delianac"});
+db.lunch.insert({ "name" : "qian_simin", "account" : 0, "mail" : "qian.simin@delianac.com","group":"delianac"});
+db.lunch.insert({ "name" : "zhang_yingtao", "account" : 0, "mail" : "zhang.yingtao@delianac.com","group":"delianac"});
+db.lunch.insert({ "name" : "yan_lu", "account" : 0, "mail" : "yan.lu@delianac.com","group":"delianac"});
 
 // db.lunch.update({},{$set:{"group":"transfinder"}},{multi:true});
 // db.detail.update({},{$set:{"group":"transfinder"}},{multi:true});
-db.Account.update({'username':'tf_admin'},{$set:{"group":"transfinder", "role": "admin"}});
-db.Account.update({'username':'dl_admin'},{$set:{"group":"delianac", "role": "admin"}});
-
 
 db.lunch.find().forEach(function(ret){
         //print(tojson(ret));
@@ -37,7 +34,9 @@ db.lunch.find().forEach(function(ret){
             }
        });
 });
-db.lunch.update({name:"paul"},{$set:{"role":"admin"}});
+db.lunch.update({'username':'paul'},{$set:{"role": "admin"}});
+db.lunch.update({'username':'yuki'},{$set:{"role": "admin"}});
+
 
 // db.detail.remove({});
 // db.detail.insert(name:'nick', amount: -15, date:new Date('2015-12-24')});

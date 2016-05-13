@@ -32,23 +32,36 @@ var Lunch = require('../models/lunch');
 //     next();
 // });
 
+// router.get('/backdoor', function (req, res, next) {
+//     Lunch.findByUsername('yuki').then(function(sanitizedUser){
+//         if (sanitizedUser){
+//             sanitizedUser.setPassword('1', function(){
+//                 sanitizedUser.save();
+//                 return res.status(200).json({msg: 'password reset successful'});
+//             });
+//         } else {
+//             res.status(200).json({status: 0, msg: 'This user does not exist'});
+//         }
+//     },function(err){
+//         console.log(err);
+//     });
+// });
+
 // how to use passportjs https://segmentfault.com/a/1190000002926232
-router.get('/register', function (req, res, next) {
-    Lunch.register(new Lunch({ username : 'paul' }), '1', function(err, account) {
-            if (err) {
-                console.log(JSON.stringify(err));
-                res.redirect('/');
-                return;
-            }
-
-            //console.log(JSON.stringify(account));
-            passport.authenticate('local')(req, res, function () {
-                res.redirect('/');
-            });
-        });
-    // renderRegisterPage()
-    // .then(page=>res.send(page));
-
+router.get('/api/user/register', function (req, res, next) {
+    // var username = req.body.username || 'aa';
+    // var password = req.body.password || '1';
+    // Lunch.register(new Lunch({ username : username }), password, function(err, account) {
+    //         if (err) {
+    //             console.log(JSON.stringify(err));
+    //             res.redirect('/');
+    //             return;
+    //         }
+    //
+    //         passport.authenticate('local')(req, res, function () {
+    //             res.redirect('/');
+    //         });
+    //     });
 });
 
 router.post('/api/user/setPassword', function (req, res, next) {

@@ -2,6 +2,12 @@
 ----
 
 ## This Week Planed Feature
+- 账目管理
+    - 账户更新后含小数点
+
+- 其他
+    - 让favicon正常显示
+
 - 用户管理
     - 禁止非管理员查看他人账号
     - 禁止非管理员查看Edit / Manager 页面
