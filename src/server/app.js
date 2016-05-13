@@ -24,10 +24,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+var Lunch = require('./models/lunch');
+passport.use(new LocalStrategy(Lunch.authenticate()));
+passport.serializeUser(Lunch.serializeUser());
+passport.deserializeUser(Lunch.deserializeUser());
 
 /* login end -------------------------------------*/
 
@@ -37,7 +37,6 @@ var apiRoute2 = require('./routes/apiRoute2');
 var accountRoute = require('./routes/accountRoute');
 
 /* logic start */
-
 
 app.use(bodyParser.urlencoded({
         extended : false

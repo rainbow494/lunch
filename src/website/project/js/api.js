@@ -120,5 +120,15 @@ define(['jquery'], function ($) {
         return getRequest(apiUrl + 'lunch/sendTestMail?name=' + name);
     };
 
+    api.setPassword = function (username, password) {
+        return postRequest(
+            apiUrl + 'user/setPassword',
+            {
+                username : username,
+                password : password
+            }
+        );
+    };
+
     return api;
 });

@@ -12,7 +12,7 @@ router.get('/api/lunch/summary2', function (req, res, next) {
     .then(function (result) {
         res.json(result);
     })
-    .catch (next);
+    .catch(next);
 });
 
 router.get('/api/lunch/userManager', function (req, res, next) {
@@ -20,7 +20,7 @@ router.get('/api/lunch/userManager', function (req, res, next) {
     .then(function (result) {
         res.json(result);
     })
-    .catch (next);
+    .catch(next);
 });
 
 router.post('/api/lunch/updateAccountMail', function (req, res, next) {
@@ -31,7 +31,7 @@ router.post('/api/lunch/updateAccountMail', function (req, res, next) {
     .then(function (result) {
         res.json(result);
     })
-    .catch (next);
+    .catch(next);
 });
 
 
@@ -45,7 +45,7 @@ router.post('/api/lunch/updateDetail2', function (req, res, next) {
         dbHelper.script.updateLunchAmount();
         res.json('update detail sucess');
     })
-    .catch (next);
+    .catch(next);
 });
 
 router.post('/api/lunch/insertDetail2', function (req, res, next) {
@@ -62,7 +62,7 @@ router.post('/api/lunch/insertDetail2', function (req, res, next) {
         dbHelper.script.updateLunchAmount();
         res.json('insert detail sucess');
     })
-    .catch (next);
+    .catch(next);
 });
 
 router.post('/api/lunch/insertDetails2', function (req, res, next) {
@@ -84,7 +84,7 @@ router.post('/api/lunch/insertDetails2', function (req, res, next) {
     .then(function() {
         res.json('insert detail sucess');
     })
-    .catch (next);
+    .catch(next);
 });
 
 // Proxy Api

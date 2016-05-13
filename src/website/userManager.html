@@ -25,6 +25,8 @@
                                 <th>Mail</th>
                                 <th></th>
                                 <th>Weekly Report</th>
+                                <th>New Password</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: obLunchAccounts">
@@ -38,6 +40,12 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-primary" data-bind="click: $parent.sendTestMailClickGen($data.name, $data.mail)">Send</button>
+                                </td>
+                                <td>
+                                    <input type="text" data-bind="textInput:password" class="form-control">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" data-bind="click: $parent.setPasswordClickGen($data.username, $data.password)">Update</button>
                                 </td>
                             </tr>
                         </tbody>

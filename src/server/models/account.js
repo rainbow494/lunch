@@ -21,6 +21,6 @@ Account.methods.isAdmin = function() {
     return this.role === 'admin';
 };
 
-Account.plugin(passportLocalMongoose);
+// Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Account', Account);

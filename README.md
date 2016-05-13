@@ -3,12 +3,13 @@
 
 ## This Week Planed Feature
 - 用户管理
-    - Lunch与Account集成为一张表
-    - 个人用户登录/查看
+    - 禁止非管理员查看他人账号
+    - 禁止非管理员查看Edit / Manager 页面
 
 ## Planed Feature
 - 用户管理
-    - 修改密码
+    - 修改密码后登出
+    - 权限如何正确分组？？？
     - 修改权限
     - 增加新用户
 
@@ -33,7 +34,7 @@
 ## Feature
 - User Management
     - Login / Logout
-    - Reset mail
+    - Reset Mail / Password
     - Send Weekly Report Immediately
 - Lunch Account Management
     - Input/Edit Lunch Account

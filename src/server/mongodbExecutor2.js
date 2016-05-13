@@ -70,9 +70,9 @@ MongoExecutor2.prototype.userManager = function(user){
     var filterClause = {};
 
     if (user.isAdmin())
-        filterClause.group = user.getGroup();
+        filterClause.group = user.group;
     else
-        filterClause.name = user.username();
+        filterClause.name = user.username;
 
     return self.findLunch(filterClause);
 };
@@ -82,10 +82,10 @@ MongoExecutor2.prototype.findAll = function(user){
     var filterClause = {};
 
     if (user.isAdmin())
-        filterClause.group = user.getGroup();
+        filterClause.group = user.group;
     else
-        filterClause.name = user.username();
-        
+        filterClause.name = user.username;
+
     return self.findLunch(filterClause);
 };
 

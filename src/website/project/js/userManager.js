@@ -12,6 +12,9 @@ require(['common'], function () {
             api.getSummary()
             .done(function (data) {
                 var result = JSON.parse(data);
+                result.map(function(user) {
+                    user.password = '';
+                });
                 self.obLunchAccounts(result);
             });
 
@@ -35,6 +38,17 @@ require(['common'], function () {
                 api.sendTestMail(name)
                 .done(function() {
                     console.log('Send Test Mail');
+                });
+            };
+        };
+
+        UserManagerViewModel.prototype.setPasswordClickGen = function(username, password){
+            var self = this;
+            return function(){
+                api.setPassword(username, password)
+                .done(function() {
+                    //self.loadPage.bind(self)();
+                    // if updated current user, logout
                 });
             };
         };
