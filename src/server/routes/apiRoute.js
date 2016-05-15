@@ -8,12 +8,12 @@ var dbHelper = require('../mongodbExecutor.js').mongdbExecutor();
 
 var isAuthenticated = function (req,res,next) {
     if (req.isAuthenticated()) return next();
-    res.redirect(203, {'redirect page:': 'http://<aws.hostname>:<aws.webserver.port>/login'});
+    res.redirect(203, 'http://<aws.hostname>:<aws.webserver.port>/login');
 };
 
 var isAdmin = function (req,res,next) {
     if (req.isAuthenticated() && req.user.isAdmin()) return next();
-    res.redirect(203, {'redirect page:': 'http://<aws.hostname>:<aws.webserver.port>/login'});
+    res.redirect(203, 'http://<aws.hostname>:<aws.webserver.port>/login');
 };
 router.get('/api/lunch/*', isAuthenticated ,function(req, res, next){
     next();
