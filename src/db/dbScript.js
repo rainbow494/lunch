@@ -51,9 +51,23 @@ db.system.js.save(
         _id:"updateLunchAmount",
         value:function (name) {
             db.detail.aggregate([{$group:{_id: "$name",totalAmount: { $sum: "$amount" }}},{ $out : "tmp" }]);
+            
+            db.tmp.aggregate([{$project:{ _id:"$_id", 
+                 totalAmount: {
+                    $divide:[
+                    {
+                        $subtract:[
+                              {$multiply:['$totalAmount',100]},
+                              {$mod:[{$multiply:['$totalAmount',100]}, 1]}
+                        ]
+                    },
+                    100]
+                }
+            }},{ $out : "tmp2" }])
 
+            
             // Better solution : right join, without unmatched rows.
-            db.tmp.find().forEach(function(ret){
+            db.tmp2.find().forEach(function(ret){
                     //print(tojson(ret));
                    db.lunch.findAndModify({
                         query:{name:ret._id},
