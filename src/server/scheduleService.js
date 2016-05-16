@@ -3,7 +3,7 @@
         mailHelper = require('./mailHelper.js').mailHelper();
 
     var weeklyReportScheduleJob = new CronJob({
-        cronTime: '00 30 13 * * 5',
+        cronTime: '00 00 16 * * 5',
         onTick: function() {
             mailHelper.sendWeeklyReports();
         },
