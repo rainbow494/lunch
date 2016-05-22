@@ -7,6 +7,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var argv = require('yargs').argv;
 var secrets = require('./encrpty/secrets.json');
 var util = require('gulp-util');
+var copy = require('copy');
 
 var path = {
     server : './server',
@@ -92,11 +93,21 @@ gulp.task('website', function () {
     .pipe(gulp.dest(path.distPath + '/webSite'));
 });
 
+var Path = require('path');
+gulp.task('copy', function(cb) {
+    // setDebugEnv();
+    // copy(path.website + '/favicon.ico', path.distPath, cb);
+    var faviconPath = Path.resolve(path.website + '/favicon.ico');
+    console.log(faviconPath);
+    copy(faviconPath, path.distPath, cb);
+
+});
+
 gulp.task('default',
-    gulp.series('clean', 'server', 'website', 'less'));
+    gulp.series('clean', 'server', 'website', 'less', 'copy'));
 
 gulp.task('debug',
-    gulp.series('clean-debug', 'server', 'website', 'less'));
+    gulp.series('clean-debug', 'server', 'website', 'less', 'copy'));
 
 gulp.task('debug-watch', function () {
     setDebugEnv();

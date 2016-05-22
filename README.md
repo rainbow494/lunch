@@ -3,8 +3,7 @@
 
 ## This Week Planed Feature
 - Issue List
-    - https://github.com/rainbow494/lunch/issues/1
-	- https://github.com/rainbow494/lunch/issues/2
+    - https://github.com/rainbow494/lunch/issues/3
 
 - 账目管理
 	- 数据备份，下载
@@ -14,7 +13,7 @@
 	- 页面验证失败后未跳转到登录页面
     - 禁止非管理员查看他人账号
     - 禁止非管理员查看Edit / Manager 页面
-	
+
     - 修改密码后登出
     - 权限如何正确分组？？？
     - 修改权限
@@ -34,6 +33,8 @@
     - 数据库自动备份
 
 - CI
+    - 通过版本控制强制浏览器刷新favicon.ico的缓存
+    - 利用模板引入头部脚本
     - gulp无法监视sever下子目录内文件
 
 - 其它
@@ -48,7 +49,7 @@
 - 输入：地点，价格，天气，人数，人员，午休时间
 - 输出：餐厅列表
 
-- 象限： 
+- 象限：
 	- 距离 / 天气（晴 / 雨 / 气温）
 	- 用户打分（微信登陆）
 	- 大众点评打分
