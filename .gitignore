@@ -3,3 +3,8 @@
 /src/build_debug
 /src/build_product
 /src/encrpty/secrets.json
+/src/build-product.bat
+/src/debug-build.bat
+/src/debug-run.bat
+/src/debug-watch.bat
+/src/product-build.bat
