@@ -22,7 +22,7 @@ require(['common'], function () {
                     return {
                         name: item.name,
                         date: item.insertDate,
-                        amount: item.insertAmount
+                        amount: item.insertAmount * -1
                     };
                 });
 

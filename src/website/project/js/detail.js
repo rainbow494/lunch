@@ -97,8 +97,14 @@ require(['common'], function () {require(['util', 'api', 'knockout', '../project
     DetailViewModel.prototype.insertDetailClick = function()
     {
         var self = this;
-        api.insertDetail(self.obAccountName(), self.obInsertDate(), self.obInsertAmount())
-        .done(self.loadPage);
+        if (self.obInsertAmount()) {
+            api.insertDetail(
+                self.obAccountName(),
+                self.obInsertDate(),
+                self.obInsertAmount() // * -1
+            )
+            .done(self.loadPage);
+        }
     };
 
     DetailViewModel.prototype.loadPage = function () {

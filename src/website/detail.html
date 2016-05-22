@@ -41,7 +41,7 @@
                             <tbody data-bind="foreach: obLunchDetail">
                                 <tr>
                                     <td>
-                                        <em data-bind="text:$parent.formatDate(date)"></em> - 
+                                        <em data-bind="text:$parent.formatDate(date)"></em> -
                                         <small data-bind="text:$parent.convertToWeekDay(date)"></small>
                                     </td>
                                     <td data-bind="text:amount, css:{'text-danger': amount < 0,'text-success': amount >= 0} "></td>
@@ -57,4 +57,4 @@
     <footer data-bind="template: 'footer'"></footer>
     <script data-main="project/js/detail" src="bower_components/requirejs/require.js" defer async="true"></script>
 </body>
-</html>		
+</html>
