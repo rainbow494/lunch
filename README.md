@@ -64,6 +64,14 @@
 	- 价格
 	- 口味
 
+- 算法调优
+    - 上下文
+        TF/IDF算法（term frequency–inverse document frequency）
+        https://www.douban.com/note/324609335/
+    - 协同过滤
+      	- 大众点评，人去过哪些看关联餐厅？
+
+
 ## Feature
 - User Management
     - Login / Logout
