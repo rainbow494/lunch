@@ -95,19 +95,28 @@ gulp.task('website', function () {
 
 var Path = require('path');
 gulp.task('copy', function(cb) {
-    // setDebugEnv();
-    // copy(path.website + '/favicon.ico', path.distPath, cb);
     var faviconPath = Path.resolve(path.website + '/favicon.ico');
     console.log(faviconPath);
     copy(faviconPath, path.distPath, cb);
+});
 
+var staticHash = require('gulp-static-hash');
+gulp.task('static-hash-html', function () {
+        return gulp.src(['**/*.html', '!bower_components/**'], {
+            cwd : path.distPath + '/webSite'
+        })
+		.pipe(staticHash({
+            asset: 'static',
+            exts: ['js', 'css', 'png','ico']
+        }))
+		.pipe(gulp.dest(path.distPath + '/webSite'));
 });
 
 gulp.task('default',
-    gulp.series('clean', 'server', 'website', 'less', 'copy'));
+    gulp.series('clean', 'server', 'website', 'less', 'copy', 'static-hash-html'));
 
 gulp.task('debug',
-    gulp.series('clean-debug', 'server', 'website', 'less', 'copy'));
+    gulp.series('clean-debug', 'server', 'website', 'less', 'copy', 'static-hash-html'));
 
 gulp.task('debug-watch', function () {
     setDebugEnv();
