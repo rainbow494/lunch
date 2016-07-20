@@ -8,7 +8,7 @@
        res.send(' test success\n\r /api/sendReportImmediately');
     });
 
-    app.get('/api/sendReportImmediately:name?', function (req, res, next) {
+    app.get('/api/sendReportImmediately', function (req, res, next) {
         var accountName = req.query.name || 'paul'; // req.params.b for a/:b
 
         mailHelper.sendWeeklyReport(accountName).then(function () {

@@ -10,6 +10,7 @@ db.lunch.insert({ "name" : "ted", "account" : 78.4, "mail" : "kai.li@transfinder
 db.lunch.insert({ "name" : "leo", "account" : 68, "mail" : "chenjie.deng@transfinder.com","group":"transfinder" });
 db.lunch.insert({ "name" : "jacky", "account" : 118.4, "mail" : "jiaqi.Cai@transfinder.com","group":"transfinder" });
 db.lunch.insert({ "name" : "will", "account" : 126.4, "mail" : "wei.xiao@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "name" : "jeffrey", "account" : 0, "mail" : "jeffrey.chen@transfinder.com","group":"transfinder" });
 db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfinder.com","group":"transfinder" });
 
 
