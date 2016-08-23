@@ -8,3 +8,4 @@
 /src/debug-run.bat
 /src/debug-watch.bat
 /src/product-build.bat
+/npm-debug.log

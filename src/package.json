@@ -1,29 +1,29 @@
 {
-  "name": "lunch-glup",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp debug --debug true",
-    "watch": "gulp debug-watch",
-    "start": "nodemon --debug build_debug/server",
-    "build-product": "gulp default",
-    "lint": "gulp lint"
-  },
-  "author": "paul",
-  "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {
-    "copy": "^0.2.0",
-    "del": "^2.0.2",
-    "gulp": "gulpjs/gulp#4.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-less": "^3.0.5",
-    "gulp-replace": "^0.5.4",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-static-hash": "^0.1.4",
-    "gulp-util": "^3.0.7",
-    "jshint": "^2.8.0",
-    "yargs": "^3.31.0"
-  }
+    "name": "lunch-glup",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "gulp debug-watch",
+        "debug": "nodemon --debug build_debug/server",
+        "build-dev": "gulp debug --debug true",
+        "build-prod": "gulp default",
+        "lint": "gulp lint"
+    },
+    "author": "paul",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+        "copy": "^0.2.0",
+        "del": "^2.0.2",
+        "gulp": "gulpjs/gulp#4.0",
+        "gulp-jshint": "^2.0.0",
+        "gulp-less": "^3.0.5",
+        "gulp-replace": "^0.5.4",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-static-hash": "^0.1.4",
+        "gulp-util": "^3.0.7",
+        "jshint": "^2.8.0",
+        "yargs": "^3.31.0"
+    }
 }

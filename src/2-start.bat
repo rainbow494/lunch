@@ -1,10 +1,9 @@
 @echo
 onecho
-echo npm run build>debug-build.bat
+echo npm run build-dev>debug-build.bat
 echo npm run watch>debug-watch.bat
-echo npm run start>debug-run.bat
-echo npm run build-product>product-build.bat
-echo npm run build-product>build-product.bat
+echo npm run debug>debug-run.bat
+echo npm run build-prod>product-build.bat
 
 call build-debug.bat
 start "debug-watch.bat" debug-watch.bat
