@@ -2,24 +2,23 @@
 // Create Master Collection
 db.lunch.ensureIndex({name:1}, {unique:true});
 
-db.lunch.insert({ "name" : "nick", "account" : 255.5, "mail" : "weihuan.wang@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "tony", "account" : 103.1, "mail" : "tony.chen@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "weipu", "account" : -35, "mail" : "weipu.zhao@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "paul", "account" : 965.7, "mail" : "rainbow494@qq.com","group":"transfinder" });
-db.lunch.insert({ "name" : "ted", "account" : 78.4, "mail" : "kai.li@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "leo", "account" : 68, "mail" : "chenjie.deng@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "jacky", "account" : 118.4, "mail" : "jiaqi.Cai@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "will", "account" : 126.4, "mail" : "wei.xiao@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "jeffrey", "account" : 0, "mail" : "jeffrey.chen@transfinder.com","group":"transfinder" });
-db.lunch.insert({ "name" : "test_1", "account" : 0, "mail" : "paul.huang@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "admin" : "paul", "account" : 0, "mail" : "paul.huang@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "nick", "account" : 0, "mail" : "weihuan.wang@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "tony", "account" : 0, "mail" : "tony.chen@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "ted", "account" : 0, "mail" : "kai.li@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "leo", "account" : 0, "mail" : "chenjie.deng@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "jacky", "account" : 0, "mail" : "jiaqi.Cai@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "will", "account" : 0, "mail" : "wei.xiao@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "jeffrey", "account" : 0, "mail" : "jeffrey.chen@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "lichen", "account" : 0, "mail" : "chen.li@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "fred", "account" : 0, "mail" : "fred.xu@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "sara", "account" : 0, "mail" : "xu.chu@transfinder.com","group":"transfinder" });
+db.lunch.insert({ "role": "user", "name" : "sunny", "account" : 0, "mail" : "siyang.liao@transfinder.com","group":"transfinder" });
 
+// db.detail.remove({});
+// db.detail.insert({name:'nick', amount: -15, date:new Date('2018-01-01')});
 
-db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "gan_liangqin", "account" : 0, "mail" : "gan.liangqin@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "qian_simin", "account" : 0, "mail" : "qian.simin@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "zhang_yingtao", "account" : 0, "mail" : "zhang.yingtao@delianac.com","group":"delianac"});
-db.lunch.insert({ "name" : "yan_lu", "account" : 0, "mail" : "yan.lu@delianac.com","group":"delianac"});
-
+// db.lunch.insert({ "name" : "yuki", "account" : 0, "mail" : "wang.yuqi@delianac.com","group":"delianac"});
 // db.lunch.update({},{$set:{"group":"transfinder"}},{multi:true});
 // db.detail.update({},{$set:{"group":"transfinder"}},{multi:true});
 
@@ -38,10 +37,6 @@ db.lunch.find().forEach(function(ret){
 db.lunch.update({'username':'paul'},{$set:{"role": "admin"}});
 db.lunch.update({'username':'yuki'},{$set:{"role": "admin"}});
 
-
-// db.detail.remove({});
-// db.detail.insert(name:'nick', amount: -15, date:new Date('2015-12-24')});
-// db.detail.insert(name:'nick', amount: -12, date:new Date('2015-12-26')});
 
 db.weather.insert({date:new Date('2016-02-11'), high:18, low:14, 'text':'rainy'});
 db.weather.insert({date:new Date('2016-02-12'), high:20, low:14, 'text':'cloudy'});
@@ -79,7 +74,8 @@ db.system.js.save(
     }
 );
 
-db.loadServerScripts();
+db.loadServerScripts(); // call this before load custom function
+updateLunchAmount();
 
 // Upgrade Detail Collection
 // db.detail.find().forEach(function(doc){

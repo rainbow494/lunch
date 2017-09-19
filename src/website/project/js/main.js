@@ -7,9 +7,6 @@ require(['common'], function () {
             this.obUser = ko.observable('');
         }
 
-        // IndexViewModel.prototype = new BaseViewModel();
-        // IndexViewModel.prototype.constructor = IndexViewModel;
-
         IndexViewModel.prototype.loadPage = function () {
             var self = this;
             api.getSummary()

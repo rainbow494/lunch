@@ -5,8 +5,7 @@ require(
         require([
             'util',
             'api',
-            'knockout'//,
-            //'jquery'
+            'knockout'
         ],
     function (
         util,
